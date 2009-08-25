@@ -1,0 +1,977 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<style type="text/css">
+body {
+	margin: 0px;font-size: 5px "" ;text-decoration: none;}
+.size10{   
+  align:center;
+}
+.size11{   
+  WIDTH: 20px; 
+  HEIGHT:32px; 
+  text-align:center;
+}
+.size12{ 
+  WIDTH: 50px; 
+  HEIGHT:20px; 
+  text-align:center;
+  border:none;
+  background-color:transparent;
+}
+
+</style>
+<script type="text/javascript" src="images/utils.js" /></script>
+<script type="text/JavaScript">
+var f,content;
+var   fso,   f1,   ts,   s;   
+var path=window.document.location.href;
+var fffend = path.indexOf("count");
+var diskpath = path.substring(8,fffend);
+var filepath=diskpath+"统计3.htm";
+var liantiaochaT=0;
+var liantiaochaT1=0;
+var liantiaochaT2=0;
+var sanliantiaoT=0;
+var sanliantiaoT1=0;
+var sanliantiaoT2=0;
+var shuyingkouT=0;
+var shuyingkouT1=0;
+var shuyingkouT2=0;
+var shuyingkouHT=0;
+var shuyingkouRT=0;
+var shuyingqianT=0;
+var shuyingqianT1=0;
+var shuyingqianT2=0;
+var shuyingqianHT=0;
+var shuyingqianRT=0;
+var zhuangchouT=0;
+var zhuangchouT1=0;
+var zhuangchouT2=0;
+var lirunT=0;
+var lirunT1=0;
+var lirunT2=0;
+var zonglirunT=0;
+var zonglirunT1=0;
+var zonglirunT2=0;
+var mayongT=0;
+var mayongT1=0;
+var mayongT2=0;
+var flag=0;
+var keyFlag=0;
+var mapred ;
+var mapblack;
+function test()
+{       
+        //alert();
+        
+        var   ForReading   =   1;   
+        fso   =   new   ActiveXObject("Scripting.FileSystemObject");   
+        //var f1 = fso.GetFile("c:\\AutonomyHTTPFetch1.cfg");
+        //alert(filepath);
+        f=fso.OpenTextFile(filepath,ForReading,false,-1); 
+        content = f.ReadAll();
+        //alert("全文 "+content);
+        //var start = content.indexOf("id=liantiaocha");
+        //var end =content.indexOf("id=sanliantiao");
+        //var res = content.substring(start,end);
+        //alert(res);
+        //start = res.indexOf("value=");
+        //end = res.indexOf("></TD>");
+        //res = res.substring(start+6,end);
+        //alert(res);
+        var startKey ="id=liantiaocha onclick=editText(this) value=";
+        var endKey ="<TD><INPUT class=size14 id=sanliantiao onclick=editText(this)";
+        //alert(startKey);
+        //alert(endKey);
+        var liantiaocha1 =getWord(content,startKey,endKey);
+        //alert(liantiaocha1);
+        startKey ="id=liantiaocha2 onclick=editText(this) value=";
+        endKey ="<TD><INPUT class=size14 id=sanliantiao2 onclick=editText(this)";
+        var liantiaocha2 = getWord(content,startKey,endKey);
+        
+        startKey ="id=sanliantiao onclick=editText(this) value=";
+        endKey ="name=shuyingkou";
+        var sanliantiao1 = getWord(content,startKey,endKey);
+        
+        startKey ="id=sanliantiao2 onclick=editText(this) value=";
+        endKey ="name=shuyingkou2";
+        var sanliantiao2 = getWord(content,startKey,endKey);
+        
+        startKey ="id=sanliantiao onclick=editText(this)";
+        endKey ="name=shuyingkou";
+        var shuyingkou1 = getWord2(content,startKey,endKey);
+        
+        startKey ="id=sanliantiao2 onclick=editText(this)";
+        endKey ="name=shuyingkou2";
+        var shuyingkou2 = getWord2(content,startKey,endKey);
+        
+        startKey ="name=shuyingkou";
+        endKey ="name=shuyingqian";
+        var shuyingqian = getWord2(content,startKey,endKey);
+        
+        startKey ="name=shuyingkou2";
+        endKey ="name=shuyingqian2";
+        var shuyingqian2 = getWord2(content,startKey,endKey);
+        
+        startKey ="name=shuyingqian";
+        endKey ="name=zhuangchou";
+        var zhuangchou = getWord2(content,startKey,endKey);
+        
+        startKey ="name=shuyingqian2";
+        endKey ="name=zhuangchou2";
+        var zhuangchou2 = getWord2(content,startKey,endKey);
+        
+        startKey ="name=zhuangchou";
+        endKey ="name=lirun";
+        var lirun = getWord2(content,startKey,endKey);
+        
+        startKey ="name=zhuangchou2";
+        endKey ="name=lirun2";
+        var lirun2 = getWord2(content,startKey,endKey);
+        
+        alert("连跳： "+liantiaocha1+"  "+liantiaocha2);
+        alert("三连跳： "+sanliantiao1+"  "+sanliantiao2);
+        alert("输赢口： "+shuyingkou1+"  "+shuyingkou2);
+        alert("输赢钱： "+shuyingqian+"  "+shuyingqian2);
+        alert("庄抽水： "+zhuangchou+"  "+zhuangchou2);
+        alert("利润： "+lirun+"  "+lirun2);
+        content=editStrByKey2(content,startKey,endKey,"5");
+        saveFiles();
+ }
+ function checkFile(){
+        var from = document.getElementById('from').value;
+        var to = document.getElementById('to').value;
+        //alert(total);
+        var   ForReading   =   1;   
+        fso   =   new   ActiveXObject("Scripting.FileSystemObject"); 
+        var endTo = yunsuan(to,"+",1);
+        //alert(end+" "+to);
+        for(var i = from;i<endTo;i++){
+        var fname = "统计"+i+".htm";
+        filepath=diskpath+fname;
+        //alert(filepath);
+        if(!fso.fileexists(filepath)){
+        alert(fname+" 不存在!");
+        break;
+        }
+        if(i==to){
+        alert("检查完成！文件完整");
+        }
+        }
+        
+ }
+ function init(){
+ liantiaochaT=0;
+ liantiaochaT1=0;
+ liantiaochaT2=0;
+ sanliantiaoT=0;
+ sanliantiaoT1=0;
+ sanliantiaoT2=0;
+ shuyingkouT=0;
+ shuyingkouT1=0;
+ shuyingkouT2=0;
+ shuyingkouHT=0;
+ shuyingkouRT=0;
+ shuyingqianT=0;
+ shuyingqianT1=0;
+ shuyingqianT2=0;
+ shuyingkouHT=0;
+ shuyingkouRT=0;
+ zhuangchouT=0;
+ zhuangchouT1=0;
+ zhuangchouT2=0;
+ lirunT=0;
+ lirunT1=0;
+ lirunT2=0;
+ zonglirunT=0;
+ zonglirunT1=0;
+ zonglirunT2=0;
+ mayongT=0;
+ mayongT1=0;
+ mayongT2=0;
+ flag=0;
+ keyFlag=0;
+ mapred = new Map();
+ mapblack = new Map();
+ }
+ function count(){
+        init();
+        var today = new Date();
+        if(Date.parse(8+"/"+23+"/"+2109)<Date.parse((today.getMonth()+1)+"/"+today.getDate()+"/"+today.getYear())){
+        alert("超出使用日期！");
+        } 
+        else{
+         var from = document.getElementById('from').value;
+        var to = document.getElementById('to').value;
+        var endTo = yunsuan(to,"+",1);
+        
+        var   ForReading   =   1;   
+        fso   =   new   ActiveXObject("Scripting.FileSystemObject"); 
+        var i = from;  
+        while(i<endTo){
+        if(i!=to){
+        window.setTimeout("computer("+i+")",100);
+        }
+        else{
+        window.setTimeout("computer("+i+")",100);
+        window.setTimeout("finish()",100)
+       }
+        i++;
+       }
+        //while(i<endTo){
+        //if(keyFlag==0){
+        //computer(i);
+        //i++;
+        //keyFlag=1;
+        //}
+        //}
+        }
+        //addTable(1,2,3,4,5,6,7);
+       
+ }
+function finish(){
+document.getElementById('status').value="完成！"
+}
+function nextStep(){
+keyFlag=0;
+}
+function computer(i){
+        var fname = "统计"+i+".htm";
+        filepath=diskpath+fname;
+        //alert(filepath);
+        //alert(fso.fileexists(filepath));
+        if(fso.fileexists(filepath)){//存在的话就进行统计
+        document.getElementById('status').value="正在处理...第"+i+"个文件";
+        var   ForReading   =   1; 
+        f=fso.OpenTextFile(filepath,ForReading,false,-1); 
+        content = f.ReadAll();
+        var startKey ="id=liantiaocha";
+        var endKey ="id=sanliantiao";
+        //alert(startKey);
+        //alert(endKey);
+        var liantiaocha1 =getWord(content,startKey,endKey);
+        liantiaochaT=yunsuan(liantiaochaT,"+",liantiaocha1);
+        //liantiaochaT=FormatAfterDotNumber(liantiaochaT,0);
+        //alert("连跳： "+liantiaocha1);
+        eStartKey="class=size25";
+        var eEndKey="name=liantiaochaT";
+        content=editStrByKey2(content,eStartKey,eEndKey,liantiaochaT);
+        
+        //上表码佣
+        startKey ="name=shuyingqian";
+        endKey ="name=mayong";
+        var mayong1 = getWord2(content,startKey,endKey);
+       // alert("码佣： "+mayongT+" "+mayong1);
+        mayong1=mayong1.replace("万","");
+        mayongT=yunsuan(mayongT,"+",mayong1);
+        mayongT=FormatAfterDotNumber(mayongT,2);
+        //sanliantiaoT=FormatAfterDotNumber(sanliantiaoT,0);
+        //alert("码佣： "+mayongT);
+        eStartKey="name=shuyingqianT";
+        eEndKey="name=mayongT";
+        content=editStrByKey3(content,eStartKey,eEndKey,mayongT+"万");
+        
+        
+        startKey ="id=sanliantiao";
+        endKey ="name=shuyingkou";
+        var sanliantiao1 = getWord(content,startKey,endKey);
+        sanliantiaoT=yunsuan(sanliantiaoT,"+",sanliantiao1);
+        //sanliantiaoT=FormatAfterDotNumber(sanliantiaoT,0);
+        //alert("三连跳： "+sanliantiao1);
+        eStartKey="name=liantiaochaT";
+        eEndKey="name=sanliantiaoT";
+        content=editStrByKey3(content,eStartKey,eEndKey,sanliantiaoT);
+        
+        startKey ="id=sanliantiao";
+        endKey ="name=shuyingkou";
+        var shuyingkou1 = getWord2(content,startKey,endKey);
+        shuyingkouT=yunsuan(shuyingkouT,"+",shuyingkou1);
+        //shuyingkouT=FormatAfterDotNumber(shuyingkouT,0);
+        eStartKey="name=sanliantiaoT";
+        eEndKey="name=shuyingkouT";
+        content=editStrByKey2(content,eStartKey,eEndKey,shuyingkouT);
+        
+        startKey ="id=sanliantiao";
+        endKey ="name=loseP";
+        var shuyingkouH1 = getWord2(content,startKey,endKey);
+        shuyingkouHT=yunsuan(shuyingkouHT,"+",shuyingkouH1);
+        //shuyingkouT=FormatAfterDotNumber(shuyingkouT,0);
+        eStartKey="name=sanliantiaoT";
+        eEndKey="name=shuyingkouHT";
+        content=editStrByKey3(content,eStartKey,eEndKey,shuyingkouHT);
+        
+        startKey ="id=sanliantiao";
+        endKey ="name=winP";
+        var shuyingkouR1 = getWord2(content,startKey,endKey);
+        shuyingkouRT=yunsuan(shuyingkouRT,"+",shuyingkouR1);
+        //shuyingkouT=FormatAfterDotNumber(shuyingkouT,0);
+        eStartKey="name=sanliantiaoT";
+        eEndKey="name=shuyingkouRT";
+        content=editStrByKey3(content,eStartKey,eEndKey,shuyingkouRT);
+        
+        //上表输赢钱
+        startKey ="id=shuqian";
+        endKey ="id=yingqian";
+        var shuyingqianH1 = getWord(content,startKey,endKey);
+        shuyingqianH1=shuyingqianH1.replace("万","");
+        shuyingqianHT=yunsuan(shuyingqianHT,"+",shuyingqianH1);
+        shuyingqianHT=FormatAfterDotNumber(shuyingqianHT,2);
+        eStartKey="name=mayong";
+        eEndKey="name=shuqianT";
+        content=editStrByKey3(content,eStartKey,eEndKey,shuyingqianHT+"万");
+        
+        startKey ="id=yingqian";
+        endKey ="name=shuyingqian";
+        var shuyingqianR1 = getWord(content,startKey,endKey);
+        //alert(shuyingqianR1);
+        shuyingqianR1=shuyingqianR1.replace("万","");
+        shuyingqianRT=yunsuan(shuyingqianRT,"+",shuyingqianR1);
+        shuyingqianRT=FormatAfterDotNumber(shuyingqianRT,2);
+        eStartKey="name=shuqianT";
+        eEndKey="name=yingqianT";
+        content=editStrByKey3(content,eStartKey,eEndKey,shuyingqianRT+"万");
+        
+        startKey ="id=yingqian";
+        endKey ="name=shuyingqian";
+        var shuyingqian1 = getWord2(content,startKey,endKey);
+        shuyingqian1=shuyingqian1.replace("万","");
+        shuyingqianT=yunsuan(shuyingqianT,"+",shuyingqian1);
+        shuyingqianT=FormatAfterDotNumber(shuyingqianT,2);
+        eStartKey="name=yingqianT";
+        eEndKey="name=shuyingqianT";
+        content=editStrByKey2(content,eStartKey,eEndKey,shuyingqianT+"万");
+        
+        startKey ="name=shuyingqian";
+        endKey ="name=zhuangchou";
+        var zhuangchou1 = getWord2(content,startKey,endKey);
+        zhuangchou1=zhuangchou1.replace("万","");
+        zhuangchouT=yunsuan(zhuangchouT,"+",zhuangchou1);
+        zhuangchouT=FormatAfterDotNumber(zhuangchouT,2);
+        eStartKey="name=shuyingqianT";
+        eEndKey="name=zhuangchouT";
+        content=editStrByKey3(content,eStartKey,eEndKey,zhuangchouT+"万");
+        
+        startKey ="name=zhuangchou";
+        endKey ="name=lirun";
+        var lirun1 = getWord2(content,startKey,endKey);
+        lirun1=lirun1.replace("万","");
+        lirunT=yunsuan(lirunT,"+",lirun1);
+        lirunT=FormatAfterDotNumber(lirunT,2);
+        eStartKey="name=zhuangchouT";
+        eEndKey="name=lirunT";
+        content=editStrByKey2(content,eStartKey,eEndKey,lirunT+"万");
+        //上表总利
+        startKey ="id=zonglirun";
+        endKey ="name=liantiaochaT";
+        var zonglirun1 = getWord(content,startKey,endKey);
+        zonglirun1=zonglirun1.replace("万","");
+        zonglirunT=yunsuan(zonglirunT,"+",zonglirun1);
+        zonglirunT=FormatAfterDotNumber(zonglirunT,2);
+        //alert("总利："+zonglirun1);
+        eStartKey="name=lirunT";
+        eEndKey="name=zonglirunT";
+        content=editStrByKey2(content,eStartKey,eEndKey,zonglirunT+"万");
+        
+        //统计完上表生成表格
+        var j = 2*i-1;
+        addTable(j,liantiaochaT,sanliantiaoT,shuyingkouT,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
+        
+        
+        //alert(liantiaocha1);
+        startKey ="id=liantiaocha2";
+        endKey ="id=sanliantiao2";
+        var liantiaocha2 = getWord(content,startKey,endKey);
+        liantiaochaT=yunsuan(liantiaochaT,"+",liantiaocha2);
+        //alert(liantiaocha2+" "+liantiaochaT);
+        //liantiaochaT=FormatAfterDotNumber(liantiaochaT,2);
+        eStartKey="class=size26";
+        eEndKey="name=liantiaochaT2";
+        content=editStrByKey2(content,eStartKey,eEndKey,liantiaochaT);
+        
+        //下表码佣
+        startKey ="name=shuyingqian2";
+        endKey ="name=mayong2";
+        var mayong2 = getWord2(content,startKey,endKey);
+        mayong2=mayong2.replace("万","");
+        mayongT=yunsuan(mayongT,"+",mayong2);
+        mayongT=FormatAfterDotNumber(mayongT,2);
+        //sanliantiaoT=FormatAfterDotNumber(sanliantiaoT,0);
+        //alert("三连跳： "+sanliantiao1);
+        eStartKey="name=shuyingqianT2";
+        eEndKey="name=mayongT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,mayongT+"万");
+        
+        startKey ="id=sanliantiao2";
+        endKey ="name=shuyingkou2";
+        var sanliantiao2 = getWord(content,startKey,endKey);
+        sanliantiaoT=yunsuan(sanliantiaoT,"+",sanliantiao2);
+        //sanliantiaoT=FormatAfterDotNumber(sanliantiaoT,2);
+        eStartKey="name=liantiaochaT2";
+        eEndKey="name=sanliantiaoT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,sanliantiaoT);
+        
+        
+        
+        startKey ="id=sanliantiao2";
+        endKey ="name=shuyingkou2";
+        var shuyingkou2 = getWord2(content,startKey,endKey);
+        shuyingkouT=yunsuan(shuyingkouT,"+",shuyingkou2);
+        //shuyingkouT=FormatAfterDotNumber(shuyingkouT,2);
+        eStartKey="name=sanliantiaoT2";
+        eEndKey="name=shuyingkouT2";
+        content=editStrByKey2(content,eStartKey,eEndKey,shuyingkouT);
+        
+        startKey ="id=sanliantiao2";
+        endKey ="name=loseP2";
+        var shuyingkouH2 = getWord2(content,startKey,endKey);
+        shuyingkouHT=yunsuan(shuyingkouHT,"+",shuyingkouH2);
+        //shuyingkouT=FormatAfterDotNumber(shuyingkouT,0);
+        eStartKey="name=sanliantiaoT2";
+        eEndKey="name=shuyingkouHT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,shuyingkouHT);
+        
+        startKey ="id=sanliantiao2";
+        endKey ="name=winP2";
+        var shuyingkouR2 = getWord2(content,startKey,endKey);
+        shuyingkouRT=yunsuan(shuyingkouRT,"+",shuyingkouR2);
+        //shuyingkouT=FormatAfterDotNumber(shuyingkouT,0);
+        eStartKey="name=sanliantiaoT2";
+        eEndKey="name=shuyingkouRT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,shuyingkouRT);
+        
+        
+        
+        //下表输赢钱
+        startKey ="id=shuqian2";
+        endKey ="id=yingqian2";
+        var shuyingqianH2 = getWord(content,startKey,endKey);
+        shuyingqianH2=shuyingqianH2.replace("万","");
+        shuyingqianHT=yunsuan(shuyingqianHT,"+",shuyingqianH2);
+        shuyingqianHT=FormatAfterDotNumber(shuyingqianHT,2);
+        eStartKey="name=mayong2";
+        eEndKey="name=shuqianT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,shuyingqianHT+"万");
+        
+        startKey ="id=yingqian2";
+        endKey ="name=shuyingqian2";
+        var shuyingqianR2 = getWord(content,startKey,endKey);
+        shuyingqianR2=shuyingqianR2.replace("万","");
+        shuyingqianRT=yunsuan(shuyingqianRT,"+",shuyingqianR2);
+        shuyingqianRT=FormatAfterDotNumber(shuyingqianRT,2);
+        eStartKey="name=shuqianT2";
+        eEndKey="name=yingqianT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,shuyingqianRT+"万");
+        
+        startKey ="id=yingqian2";
+        endKey ="name=shuyingqian2";
+        var shuyingqian2 = getWord2(content,startKey,endKey);
+        //alert(shuyingqian2);
+        shuyingqian2=shuyingqian2.replace("万","");
+        shuyingqianT=yunsuan(shuyingqianT,"+",shuyingqian2);
+        shuyingqianT=FormatAfterDotNumber(shuyingqianT,2);
+        eStartKey="name=yingqianT2";
+        eEndKey="name=shuyingqianT2";
+        content=editStrByKey2(content,eStartKey,eEndKey,shuyingqianT+"万");
+        
+        startKey ="name=shuyingqian2";
+        endKey ="name=zhuangchou2";
+        var zhuangchou2 = getWord2(content,startKey,endKey);
+        zhuangchou2=zhuangchou2.replace("万","");
+        zhuangchouT=yunsuan(zhuangchouT,"+",zhuangchou2);
+        zhuangchouT=FormatAfterDotNumber(zhuangchouT,2);
+        eStartKey="name=shuyingqianT2";
+        eEndKey="name=zhuangchouT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,zhuangchouT+"万");
+        
+        startKey ="name=zhuangchou2";
+        endKey ="name=lirun2";
+        var lirun2 = getWord2(content,startKey,endKey);
+        lirun2=lirun2.replace("万","");
+        lirunT=yunsuan(lirunT,"+",lirun2);
+        lirunT=FormatAfterDotNumber(lirunT,2);
+        eStartKey="name=zhuangchouT2";
+        eEndKey="name=lirunT2";
+        content=editStrByKey2(content,eStartKey,eEndKey,lirunT+"万");
+        
+        
+        //下表总利
+        startKey ="id=zonglirun2";
+        endKey ="name=liantiaochaT2";
+        var zonglirun2 = getWord(content,startKey,endKey);
+        zonglirun2=zonglirun2.replace("万","");
+        zonglirunT=yunsuan(zonglirunT,"+",zonglirun2);
+        zonglirunT=FormatAfterDotNumber(zonglirunT,2);
+        eStartKey="name=lirunT2";
+        eEndKey="name=zonglirunT2";
+        content=editStrByKey2(content,eStartKey,eEndKey,zonglirunT+"万");
+        //下表圈圈信息
+        startKey ="class=size27";
+        endKey ="name=quanT";
+        var quanT = getWord2(content,startKey,endKey);
+        //alert(quanT);
+        countQuan(quanT);
+        //alert("连跳： "+liantiaocha1+"  "+liantiaocha2);
+        //alert("三连跳： "+sanliantiao1+"  "+sanliantiao2);
+        //alert("输赢口： "+shuyingkou1+"  "+shuyingkou2);
+        //alert("输赢钱： "+shuyingqian1+"  "+shuyingqian2);
+        //alert("庄抽水： "+zhuangchou1+"  "+zhuangchou2);
+        //alert("利润： "+lirun1+"  "+lirun2);
+        addTable(i*2,liantiaochaT,sanliantiaoT,shuyingkouT,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
+        var checkP=yunsuan(lirunT,"+",zhuangchouT);
+        checkP=FormatAfterDotNumber(checkP,2);
+        if(checkP!=shuyingqianT){
+        if(flag==0){
+        alert(checkP+" "+shuyingqianT+"第"+i+"个文件数据不对，请检查！");
+        flag=1;
+        }
+        
+        }
+        saveFiles();
+        
+        }
+        else{
+        alert(fname+" 不存在!");
+        //break;
+        }
+        addTextbox();
+        //window.setTimeout("nextStep()",100)
+}
+function countQuan(inputString){
+var temp = new Array(); 
+temp =inputString.split("#"); 
+//alert(temp[0]+"  "+temp[1]);
+var redT = new Array();
+redT = temp[0].split(";");
+var blackT = new Array();
+blackT = temp[1].split(";");
+//计算红色
+for(var i=0;i<redT.length-1;i++){
+var tt = new Array();
+tt = redT[i].split(",");
+var total = mapred.get(tt[0]);
+if(total==null){
+mapred.put(tt[0],tt[1]);
+}
+else{
+total=yunsuan(total,"+",tt[1]);
+mapred.put(tt[0],total);
+}
+//alert("红表 "+mapred.size());
+}
+//计算黑色
+for(var i=0;i<blackT.length-1;i++){
+var tt = new Array();
+tt = blackT[i].split(",");
+var total = mapblack.get(tt[0]);
+if(total==null){
+mapblack.put(tt[0],tt[1]);
+}
+else{
+total=yunsuan(total,"+",tt[1]);
+mapblack.put(tt[0],total);
+}
+}
+//alert(mapblack.size());
+}
+function addTextbox(){
+var redArr = new Array();
+redArr=mapred.getKeys();
+redArr.sort();//
+var redRes="";
+for(var i=0;i<mapred.size();i++){
+//var haha="<br />"; 
+redRes =redRes+"连续 "+redArr[i]+" 局共出现："+mapred.get(redArr[i])+"次 "+"\r\n"; 
+}
+var blackArr = new Array();
+blackArr=mapblack.getKeys();
+blackArr.sort();//
+var blackRes="";
+for(var i=0;i<mapblack.size();i++){
+blackRes =blackRes+"连续 "+blackArr[i]+" 局共出现："+mapblack.get(blackArr[i])+" 次 \r\n";
+}
+//alert(redRes);
+//alert(blackRes);
+//alert(document.getElementById("hongquan").innerHTML);
+document.getElementById("hongquan").value = redRes;
+document.getElementById("heiquan").value = blackRes;
+//alert(document.getElementById("heiquan").innerHTML)
+
+}
+function addTable(jushu,liantiaocha,sanliantiao,shuyingkou,shuyingqian,zhuangchou,lirun){
+//var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+jushu+"\""+">";
+//alert(text);
+var table = document.getElementById("tb1");
+table.setAttribute("border","1");
+var headerrow = table.insertRow(); 
+headerrow.className="size11";
+var cellLeg=7;//每行的格数
+for (var j=0;j<cellLeg;j++){
+var cell = headerrow.insertCell();
+cell.setAttribute("width","5");
+cell.className="size10";
+if(j==0){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+jushu +"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+if(j==1){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+liantiaocha+"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+
+if(j==2){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+sanliantiao +"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+if(j==3){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+shuyingkou+"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+if(j==4){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+shuyingqian+"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+if(j==5){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+zhuangchou +"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+if(j==6){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+lirun +"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+}
+}
+ //输入整片内容str,根据开头关键字startKey，和结尾的关键字endKey，用word替换其中间的内容
+function editStrByKey(str,startKey,endKey,word){
+var strLeg =str.length;
+var startKeyLeg = startKey.length;
+var start = str.indexOf(startKey);
+var strT = "";
+if(start!=-1){
+strT=str.substring(start,strLeg);
+}
+var end = strT.indexOf(endKey);
+//alert("end "+end);
+end = start+end;
+var tempStart =  str.substring(0,start+startKeyLeg);
+//////alert(tempStart);
+var tempEnd = str.substring(end,strLeg);
+//////alert(tempEnd);
+//根据此应用的特殊情况做出调整
+var tp = str.substring(start+startKeyLeg,end);
+var end2 = tp.indexOf("></TD>");
+tp = tp.substring(end2,tp.length);
+tempStart=tempStart.concat(word+" ");
+tempStart=tempStart.concat(tp);
+tempStart=tempStart.concat(tempEnd);
+return tempStart;
+}
+//第二种修改内容
+function editStrByKey2(str,startKey,endKey,word){
+var strLeg =str.length;
+var startKeyLeg = startKey.length;
+var start = str.indexOf(startKey);
+var strT = "";
+if(start!=-1){
+strT=str.substring(start,strLeg);
+}
+var end = strT.indexOf(endKey);
+//alert("end "+end);
+end = start+end;
+var tempStart =  str.substring(0,start+startKeyLeg);
+//////alert(tempStart);
+var tempEnd = str.substring(end,strLeg);
+//////alert(tempEnd);
+//根据此应用的特殊情况做出调整
+var tp = str.substring(start+startKeyLeg,end);
+//先判断是否为正数
+if(word.toString().indexOf("-")!=0){
+if(tp.lastIndexOf("style=\"COLOR: black")!=-1){
+//为正数，原来为黑色的style
+        var add1 = tp.lastIndexOf("black");
+        var tpF = tp.substring(0,add1);
+        var tpE = tp.substring(add1+5,tp.length);
+        var newW ="red";
+        tp = tpF.concat(newW);
+        tp =tp.concat(tpE);
+}
+//为正数，原来为红色style
+else if(tp.lastIndexOf("style=\"COLOR: red")!=-1){
+//什么都不做
+}
+else{
+//为整数，原来没有style这一项
+var add1 = tp.lastIndexOf("onclick=");
+var tpF = tp.substring(0,add1);
+var tpE = tp.substring(add1,tp.length);
+var newW = "style="+"\"COLOR: red\"";
+//var newW = "";
+tp = tpF.concat(newW);
+tp =tp.concat(tpE);
+}
+}
+else{
+if(tp.lastIndexOf("style=\"COLOR: black")!=-1){
+     //alert("为负数，原来为黑色的style");
+//为负数，原来为黑色的style
+//什么都不做
+}
+//为负数，原来为红色style
+else if(tp.lastIndexOf("style=\"COLOR: red")!=-1){
+        //alert("为负数，原来为红色style");
+        var add1 = tp.lastIndexOf("red");
+        add1=yunsuan(add1,"+",3);
+        var tpF = tp.substring(0,add1);
+        var tpE = tp.substring(add1,tp.length);
+        var newW ="black";
+        tp = tpF.concat(newW);
+        tp =tp.concat(tpE);
+}
+else{
+  //alert("为负数，原来没有style这一项");
+//为负数，原来没有style这一项
+   var add1 = tp.lastIndexOf("onclick=");
+   var tpF = tp.substring(0,add1);
+   var tpE = tp.substring(add1,tp.length);
+   var newW = "style="+"\"COLOR: black\"";
+//var newW = "";
+    tp = tpF.concat(newW);
+    tp =tp.concat(tpE);
+}
+}
+
+var end2 =tp.lastIndexOf("value=")+6;
+tp = tp.substring(0,end2);
+tempStart=tempStart.concat(tp);
+tempStart=tempStart.concat(word+" ");
+tempStart=tempStart.concat(tempEnd);
+return tempStart;
+}
+//不需要改变颜色
+function editStrByKey3(str,startKey,endKey,word){
+var strLeg =str.length;
+var startKeyLeg = startKey.length;
+var start = str.indexOf(startKey);
+var strT = "";
+if(start!=-1){
+strT=str.substring(start,strLeg);
+}
+var end = strT.indexOf(endKey);
+//alert("end "+end);
+end = start+end;
+var tempStart =  str.substring(0,start+startKeyLeg);
+//////alert(tempStart);
+var tempEnd = str.substring(end,strLeg);
+//////alert(tempEnd);
+//根据此应用的特殊情况做出调整
+var tp = str.substring(start+startKeyLeg,end);
+var end2 =tp.lastIndexOf("value=")+6;
+tp = tp.substring(0,end2);
+tempStart=tempStart.concat(tp);
+tempStart=tempStart.concat(word+" ");
+tempStart=tempStart.concat(tempEnd);
+return tempStart;
+}
+//输入整片内容str,根据开头关键字startKey，和结尾的关键字endKey，返回需要取的值
+function getWord(str,startKey,endKey){
+var strLeg =str.length;
+var startKeyLeg = startKey.length;
+var start = str.indexOf(startKey);
+var strT = "";
+if(start!=-1){
+strT=str.substring(start,strLeg);
+}
+var end = strT.indexOf(endKey);
+//alert(end);
+end = start+end;
+//alert(start+" "+end);
+var temp = null;
+if(start!=-1&&end!=-1){
+temp =  str.substring(start+startKeyLeg,end);
+}
+//根据此应用的特殊情况做出调整
+end = temp.indexOf("></TD>");
+start = temp.indexOf("value=")+6;
+temp= temp.substring(start,end);
+return temp;
+}
+//输入整片内容str,根据开头关键字startKey，和结尾的关键字endKey，返回需要取的值
+function getWord2(str,startKey,endKey){
+var strLeg =str.length;
+var startKeyLeg = startKey.length;
+var start = str.indexOf(startKey);
+var strT = "";
+if(start!=-1){
+strT=str.substring(start,strLeg);
+}
+var end = strT.indexOf(endKey);
+//alert(end);
+end = start+end;
+//alert(start+" "+end);
+var temp = null;
+if(start!=-1&&end!=-1){
+temp =  str.substring(start+startKeyLeg,end);
+}
+//根据此应用的特殊情况做出调整
+end = temp.lastIndexOf("value=")+6;
+temp= temp.substring(end,temp.length);
+return temp;
+}
+//保存文件
+function saveFiles(){
+f.Close();
+f2 = fso.GetFile(filepath);
+f2.Delete(); 
+var tf = fso.CreateTextFile(filepath, true,true); 
+tf.Write (content); 
+tf.Close();
+//alert(content);
+}
+function yunsuan(a, how, b) {// 正确浮点运算
+    
+	if (a.toString().indexOf(".") < 0 && b.toString().indexOf(".") < 0) {// 没小数
+		//alert(a + how + b);
+        return eval(a + how + b);
+	}
+	// 至少一个有小数
+	var alen = a.toString().split(".");
+	if (alen.length == 1) {// 没有小数
+		alen = 0;
+	} else {
+		alen = alen[1].length;
+	}
+	var blen = b.toString().split(".");
+	if (blen.length == 1) {
+		blen = 0;
+	} else {
+		blen = blen[1].length;
+	}
+	if (blen > alen)
+		alen = blen;
+	blen = "1";
+	for (; alen > 0; alen--) {// 创建一个相应的倍数
+		blen = blen + "0";
+	}
+	switch (how) {
+		case "+" :
+			return (a * blen + b * blen) / blen;
+			break;
+		case "-" :
+			return (a * blen - b * blen) / blen;
+			break;
+		case "*" :
+			return ((a * blen) * (b * blen)) / (blen * blen);
+			break;
+		default :
+			alert("你要求的\t" + how + "\t运算未完成!");
+			return eval(a + how + b);
+	}
+}
+function FormatAfterDotNumber(ValueString, nAfterDotNum) {
+	var ValueString, nAfterDotNum;
+	var resultStr, nTen;
+	ValueString = "" + ValueString + "";
+	strLen = ValueString.length;
+	dotPos = ValueString.indexOf(".", 0);//
+	if (dotPos == -1) {// 判断有没有小数点
+		resultStr = ValueString + ".";
+		for (i = 0; i < nAfterDotNum; i++) {
+			resultStr = resultStr + "0";// 没有小数点的话直接补零
+		}
+		return resultStr;
+	} else {
+		if ((strLen - dotPos - 1) >= nAfterDotNum) {
+			nAfter = dotPos + nAfterDotNum + 1;
+			nTen = 1;
+			for (j = 0; j < nAfterDotNum; j++) {
+				nTen = nTen * 10;
+			}
+			resultStr = Math.round(parseFloat(ValueString) * nTen) / nTen;
+			return resultStr;
+		} else {
+			resultStr = ValueString;
+			for (i = 0; i < (nAfterDotNum - strLen + dotPos + 1); i++) {
+				resultStr = resultStr + "0";
+			}
+			return resultStr;
+		}
+	}
+}
+
+</script>
+</head>
+<body onload="">
+<table id="al">
+<TABLE width=800 height="40" border=0 cellSpacing=0  class="tdstyle">
+<tr>
+<td align="left">统计从：</td>
+<td align="left"><input type="text"  size="20" value="" id = "from">局 到 </td>
+<td align="left"><input type="text"  size="20" value="" id = "to">局</td>
+</tr>
+<tr>
+<td>
+<input type="button" name="win" value="检查" onclick="checkFile()">
+</td>
+<td>
+<input type="button" name="win" value="统计" onclick="count()">
+</td>
+</tr>
+<tr>
+<td align="left">状态：<input type="text"  size="20" value="" id = "status"></td>
+</tr>
+</table>
+<table  width=800  border=1 cellSpacing=0>
+<tr>
+<td>
+红圈
+</td>
+<td>
+黑圈
+</td>
+<td>
+<tr>
+<td style="word-wrap:break-word;">
+<textarea id="hongquan" rows="20" cols="40">
+</textarea>
+</td>
+<td>
+<textarea id="heiquan" rows="20" cols="40">
+</textarea>
+</td>
+<td>
+</table>
+<table id="tb1"  width=800  border=1 cellSpacing=0>
+<tr>
+<td>
+局数
+</td>
+<td>
+连跳差
+</td>
+<td>
+三连跳
+</td>
+<td>
+输赢口
+</td>
+<td>
+输赢钱
+</td>
+<td>
+庄抽水
+</td>
+<td>
+净利
+</td>
+<tr>
+</table>
+</table>
+</body>
