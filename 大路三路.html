@@ -1,0 +1,365 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<STYLE type=text/css>
+body {
+	margin: 0px;font-size: 5px "宋体" ;text-decoration: none;
+	}
+.size10{   
+  align:center;
+}
+.size11{   
+  WIDTH: 20px; 
+  HEIGHT:32px; 
+  text-align:center;
+}
+.size12{ 
+  WIDTH: 32px; 
+  HEIGHT:20px; 
+  text-align:center;
+  border:none;
+  background-color:transparent;
+}
+.size13{  
+  WIDTH: 22px; 
+  HEIGHT:20px; 
+  color:red
+}
+.size14{   
+  WIDTH: 38px; 
+  HEIGHT:20px; 
+  color:black;
+  font-size:12;
+}
+.size15{  
+  WIDTH: 403px; 
+  HEIGHT:18px; 
+  color:black;
+}
+.size16{  
+  WIDTH: 120px; 
+  HEIGHT:20px; 
+  color:black;
+}
+.size17{
+  WIDTH: 700px; 
+  HEIGHT:30px; 
+  color:black;
+  font-size:25;
+  font-weight: bold;
+}
+.size18{ 
+  WIDTH: 60px; 
+  HEIGHT:20px; 
+  color:black;
+  font-size:12;
+}
+.size19{  
+  WIDTH: 22px; 
+  HEIGHT:20px; 
+  color:black;
+}
+.size20{  
+  WIDTH: 200px; 
+  HEIGHT:20px; 
+  color:black;
+  align:left;
+}
+.size21{  
+  WIDTH: 38px; 
+  HEIGHT:20px; 
+  color:black;
+}
+.size22{  
+  WIDTH: 38px; 
+  HEIGHT:20px; 
+  color:red;
+}
+.size23{ 
+  WIDTH: 60px; 
+  HEIGHT:20px; 
+  color:red;
+  font-size:12;
+}
+.size24{
+  WIDTH: 403px; 
+  HEIGHT:18px; 
+  color:black;;
+  font-color:black;
+}
+.size25{   
+  WIDTH: 38px; 
+  HEIGHT:20px; 
+  color:black;
+  font-size:12;
+}
+.size26{   
+  WIDTH: 38px; 
+  HEIGHT:20px; 
+  color:black;
+  font-size:12;
+}
+.size27{ 
+  WIDTH: 60px; 
+  HEIGHT:20px; 
+  color:black;
+  font-size:12;
+}
+td {
+ background-repeat: no-repeat;
+ background-position: center;
+}
+
+</STYLE>
+<script type="text/javascript" src="images/utils.js" /></script>
+
+<script type="text/javascript" src="images/baijiale.js" /></script>
+<SCRIPT type=text/JavaScript>
+var c_r = -1,c_c = 3,sanlu_limit = 0;
+var sanlu_flag = true;
+var current_table,tid,wTable;
+function updateAxis(flag) {
+      if (sanlu_flag == flag){
+		if (c_r<=4) {
+			c_r++;
+		} else {
+			sanlu_limit++;
+			c_c++;
+		}
+	  } else {
+	    sanlu_flag = flag;
+		c_r = 0;
+		c_c = c_c - sanlu_limit + 1;
+		sanlu_limit = 0;
+	  }
+	  if (sanlu_flag == true){
+	  				wTable.rows[c_r].cells[c_c].background = "images/red.gif";
+	  } else {
+	  				wTable.rows[c_r].cells[c_c].background = "images/black.gif";
+	  }
+}
+function Sanlu(text) {
+var dalu_row,dalu_column,sanlu_row,sanlu_column;
+current_table = text.parentNode.parentNode.parentNode.parentNode;
+tid = current_table.id;
+dalu_column = text.parentNode.cellIndex;  //拿到列号
+dalu_row = text.parentNode.parentNode.rowIndex; //拿到行号
+	if (dalu_column == 3 && dalu_row==0){
+		return;
+	}
+	if  (dalu_column >= 3) {
+		tid=tid.substr(0,2)+(parseInt(tid.substr(2,1))+2); //拿到表格id+2对应下面表
+		wTable = document.getElementById(tid);  //对应三路的表格
+
+		sanlu_column = dalu_column -3;  //计算前面三位置的情况
+		if (current_table.rows[dalu_row].cells[sanlu_column].background!="") {
+			//alert(dalu_row +":"+sanlu_column +":Black");
+			if (dalu_row == 0){
+				updateAxis(false);
+			} else {
+				updateAxis(true);
+			}
+		} else {
+		    updateAxis(false);
+		}
+		//if (current_table.rows[dalu_row].cells[sanlu_column].background=="images/red.gif") {
+		//alert(dalu_row +":"+sanlu_column +":Red");
+		
+		//}
+	}
+}
+</SCRIPT>
+</head>
+<body>
+<table id="al">
+<TABLE width=550 height="40" border=0 cellSpacing=0  class="tdstyle">
+<tr>
+<td>
+<input type="button" name="win" value=" 写数 "onclick="setOk()">
+</td>
+<td>
+<input type="button" name="win" value="赢（红笔）"onclick="setWin()">
+</td>
+<td >
+<input type="button" name="win" value="输（黑笔）"onclick="setLose()">
+</td>
+<td >
+<input type="button" name="white" value="空（白笔）"onclick="setWhite()">
+</td>
+<td>
+<input type="button" name="win" value=" 画图 "onclick="setnOk()">
+</td>
+<td>
+<input type="button" name="win" value="庄家"onclick="setBanker()">
+</td>
+<td>
+<input type="button" name="win" value="闲家"onclick="setPlayer()">
+</td>
+<td>
+<input type="button" name="win" value=" 删除 "onclick="setDelete()">
+</td>
+<td>
+<input type="button" name="draw" value="生成表格"onclick="init()">
+</td>
+<td>
+<input type="button" name="win" value="统计"onclick="count()">
+</td>
+<td>
+<input type="button" name="win" value="保存"onclick="Save()">
+</td>
+</tr>
+</TABLE>
+<table width=700  border=0 cellSpacing=0 >
+<tr>
+<td><input  type="text" class="size17" color="black" onClick="editText(this)"></td>
+</tr>
+</table>
+<table border=0 cellSpacing=0 >
+<tr>
+<td><input  type="text" class="size15" onClick="editText(this)"></td>
+<td><p style="font-size:12px">输赢钱：</p></td>
+<td><input  type="text"   id="shuqian"  class="size18" onClick="editText(this)"></td>
+<td><input  type="text"   id="yingqian"  class="size23" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingqian"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">码佣：</p></td>
+<td><input  type="text"   name="mayong"  class="size23" onClick="editText(this)"></td>
+</tr>
+<tr>
+<td><input  type="text" class="size24" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="shuqianT"  class="size18" onClick="editText(this)"></td>
+<td><input  type="text"   name="yingqianT"  class="size23" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingqianT"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="mayongT"  class="size23" onClick="editText(this)"></td>
+</tr>
+</table>
+<table>
+<tr>
+<td><p style="font-size:12px">连跳差：</p></td>
+<td><input  type="text"   id="dong"  class="size19" color="black" onClick="editText(this)"></td>
+<td><input  type="text"   id="more"  class="size13" color="red" onClick="editText(this)"></td>
+<td><input  type="text"   id="liantiaocha"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">三  跳 ：</p></td>
+<td><input  type="text"   id="sanliantiao"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">输赢口：</p></td>
+<td><input  type="text"   name="loseP"  class="size21" onClick="editText(this)"></td>
+<td><input  type="text"   name="winP"  class="size22" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingkou"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">庄抽水：</p></td>
+<td><input  type="text"   name="zhuangchou"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">净利：</p></td>
+<td><input  type="text"   name="lirun"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">总利：</p></td>
+<td><input  type="text"   id="zonglirun"  class="size18" onClick="editText(this)"></td>
+</tr>
+<tr>
+<td><p style="font-size:12px">累计：</p></td>
+<td></td>
+<td></td>
+<td><input  type="text"   name="liantiaochaT"  class="size25" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="sanliantiaoT"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="shuyingkouHT"  class="size21" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingkouRT"  class="size22" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingkouT"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="zhuangchouT"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="lirunT"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="zonglirunT"  class="size18" onClick="editText(this)"></td>
+</tr>
+</table>
+<table width="100%"  border=0 cellSpacing=0  id="tb1">
+</table>
+<table width="100%"  height="5" border=0 cellSpacing=0 >
+<tr><td></td></tr>
+<tr><td></td></tr>
+</table>
+<table width="100%"  border=0 cellSpacing=0  id="tb2">
+</table>
+<table width="100%"  height="10"  border=0 cellSpacing=0 >
+<tr><td></td></tr>
+<tr><td></td></tr>
+<table width="100%"  border=0 cellSpacing=0>
+<tr>
+</tr>
+</table>
+<tr>
+<td><input  type="hidden" id="quanT1"  class="size18" onClick="editText(this)"></td>
+</tr>
+</table>
+<table border=0 cellSpacing=0 >
+<tr>
+<td><input  type="text" class="size15"  onClick="editText(this)"></td>
+<td><p style="font-size:12px">输赢钱：</p></td>
+<td><input  type="text"   id="shuqian2"  class="size18" onClick="editText(this)"></td>
+<td><input  type="text"   id="yingqian2"  class="size23" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingqian2"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">码佣：</p></td>
+<td><input  type="text"   name="mayong2"  class="size23" onClick="editText(this)"></td>
+</tr>
+<tr>
+<td><input  type="text" class="size24" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="shuqianT2"  class="size18" onClick="editText(this)"></td>
+<td><input  type="text"   name="yingqianT2"  class="size23" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingqianT2"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="mayongT2"  class="size23" onClick="editText(this)"></td>
+</tr>
+</table>
+<table>
+<tr>
+<td><p style="font-size:12px">连跳差：</p></td>
+<td><input  type="text"   id="dong2"  class="size19" color="black" onClick="editText(this)"></td>
+<td><input  type="text"   id="more2"  class="size13" color="red" onClick="editText(this)"></td>
+<td><input  type="text"   id="liantiaocha2"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">三  跳 ：</p></td>
+<td><input  type="text"   id="sanliantiao2"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">输赢口：</p></td>
+<td><input  type="text"   name="loseP2"  class="size21" onClick="editText(this)"></td>
+<td><input  type="text"   name="winP2"  class="size22" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingkou2"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">庄抽水：</p></td>
+<td><input  type="text"   name="zhuangchou2"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">净利：</p></td>
+<td><input  type="text"   name="lirun2"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">总利：</p></td>
+<td><input  type="text"   id="zonglirun2"  class="size18" onClick="editText(this)"></td>
+</tr>
+<tr>
+<td><p style="font-size:12px">累计：</p></td>
+<td></td>
+<td></td>
+<td><input  type="text"   name="liantiaochaT2"  class="size26" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="sanliantiaoT2"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="shuyingkouHT2"  class="size21" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingkouRT2"  class="size22" onClick="editText(this)"></td>
+<td><input  type="text"   name="shuyingkouT2"  class="size14" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="zhuangchouT2"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="lirunT2"  class="size18" onClick="editText(this)"></td>
+<td><p style="font-size:12px">累计：</p></td>
+<td><input  type="text"   name="zonglirunT2"  class="size18" onClick="editText(this)"></td>
+</tr>
+</table>
+<table width="100%"  border=0 cellSpacing=0  id="tb3">
+</table>
+<table width="100%"  height="15"  border=0 cellSpacing=0 >
+<tr><td></td></tr>
+<tr><td></td></tr>
+</table>
+<table width="100%"  border=0 cellSpacing=0  id="tb4">
+</table>
+<tr>
+<td><input  type="hidden" name="quanT"  class="size27" onClick="editText(this)"></td>
+</tr>
+</table>
+</body>
