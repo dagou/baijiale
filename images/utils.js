@@ -1,9 +1,9 @@
-/**************************************************************
-*	Ä£ÄâJavaÖĞµÄArrayList
+ï»¿/**************************************************************
+*	æ¨¡æ‹ŸJavaä¸­çš„ArrayList
 **************************************************************/
 
 /**
- * Title:Á´±í
+ * Title:é“¾è¡¨
  * Description:
  * Created on 2007-12-27
  * @author ghostone
@@ -19,12 +19,12 @@ function List(){
 	this.array = new Array();
 	this.position = 0;
 
-	//Ìí¼ÓÒ»¸öÔªËØ
+	//æ·»åŠ ä¸€ä¸ªå…ƒç´ 
 	this.add = function(obj){
 			this.array[this.length]=obj;
 			this.length++;
 		}
-	//É¾³ıÒ»¸öÔªËØ
+	//åˆ é™¤ä¸€ä¸ªå…ƒç´ 
 	this.remove = function(position){
 			if(position < this.length && position >= 0 && this.length>0){
 				for(var i=position;i<this.length-1;i++){
@@ -33,17 +33,17 @@ function List(){
 				this.length--;
 			}
 		}
-	//»ñÈ¡Ò»¸öÔªËØ
+	//è·å–ä¸€ä¸ªå…ƒç´ 
 	this.get = function(position){
 			if(position < this.length && position >= 0 && this.length>0){
 				return this.array[position];
 			}
 	}
-	//É¾³ıËùÓĞÔªËØ
+	//åˆ é™¤æ‰€æœ‰å…ƒç´ 
 	this.removeAll = function(){
 			this.length=0;
 		}
-	//»ñÈ¡ÔªËØÊı×é
+	//è·å–å…ƒç´ æ•°ç»„
 	this.toArray = function(){
 			var arr = new Array();
 			for(var i=0;i<this.length;i++){
@@ -51,7 +51,7 @@ function List(){
 			}
 			return arr;
 		}
-	//»ñÈ¡ÔªËØ¸öÊı
+	//è·å–å…ƒç´ ä¸ªæ•°
 	this.size = function(){
 			return this.length;
 		}
@@ -60,11 +60,11 @@ function List(){
 
 
 /**************************************************************
-*	Ä£ÄâJavaÖĞµÄMap
+*	æ¨¡æ‹ŸJavaä¸­çš„Map
 **************************************************************/
 
 /**
- * Title:MapÖĞµÄÔªËØ
+ * Title:Mapä¸­çš„å…ƒç´ 
  * Description:
  * Created on 2007-12-27
  * @author ghostone
@@ -94,7 +94,7 @@ function Map(){
 
 	this.list = new List();
 
-	//·ÅÖÃÔªËØ
+	//æ”¾ç½®å…ƒç´ 
 	this.put = function(key,value){
 			for(var i=0;i<this.list.size();i++){
 				if(this.list.get(i).key==key){
@@ -107,7 +107,7 @@ function Map(){
 			element.value=value;
 			this.list.add(element);
 		}
-	//»ñÈ¡ÔªËØ
+	//è·å–å…ƒç´ 
 	this.get = function(key){
 			for(var i=0;i<this.list.size();i++){
 				if(this.list.get(i).key==key){
@@ -116,11 +116,11 @@ function Map(){
 			}
 			return null;
 		}
-	//»ñÈ¡ÔªËØ¸öÊı
+	//è·å–å…ƒç´ ä¸ªæ•°
 	this.size = function(){
 			return this.list.size();
 		}
-	//»ñÈ¡ËùÓĞµÄKEY
+	//è·å–æ‰€æœ‰çš„KEY
 	this.getKeys = function(){
 			var arr = new Array();
 			for(var i=0;i<this.list.size();i++){
