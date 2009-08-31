@@ -13,8 +13,8 @@
  * Description:
  * Finished on 
  */
-var c_r = -1,c_c = 3,sanlu_limit = 0;
-var sanlu_flag = true;
+var c_r = 0,c_c = -1,sanlu_limit = 0;
+var sanlu_flag,sanlu_count;
 var current_table,tid,wTable; 
 var winFlag=1;//输赢的标记，1为胜局，此时输入为红字
 var bFlag=1;//庄闲标记，1为庄家，此时用红圈
@@ -872,6 +872,10 @@ function Save(){
 }
 
 function updateAxis(flag) {
+	if (sanlu_flag == null) {
+		sanlu_flage = flag;
+		sanlu_count = 1;
+	}
       if (sanlu_flag == flag){
 		if (c_r<=4) {
 			c_r++;
@@ -903,17 +907,37 @@ dalu_row = text.parentNode.parentNode.rowIndex; //拿到行号
 	if  (dalu_column >= 3) {
 		tid=tid.substr(0,2)+(parseInt(tid.substr(2,1))+2); //拿到表格id+2对应下面表
 		wTable = document.getElementById(tid);  //对应三路的表格
-
 		sanlu_column = dalu_column -3;  //计算前面三位置的情况
-		if (current_table.rows[dalu_row].cells[sanlu_column].background!="") {
-			//alert(dalu_row +":"+sanlu_column +":Black");
-			if (dalu_row == 0){
-				updateAxis(false);
-			} else {
-				updateAxis(true);
+		if (dalu_row ==0) {
+		  var i,tempC;
+			for (i = 0; i<5 ; i++) {
+				if (current_table.rows[i].cells[dalu_column-1].background!="") {
+				} else { 
+					break
+				}
 			}
+			if (current_table.rows[i].cells[sanlu_column-1].background!="") { // 有对
+				updateAxis(false);  //有对是红，跳了是蓝
+			} else {
+				if (sanlu_count == 2) {   //无对第二个是红，跳了是蓝
+					updateAxis(false); //black\
+				} else {
+					updateAxis(true); //red  无对其他情况是蓝，跳了是红
+				}
+			}
+			sanlu_count = 1;
 		} else {
-		    updateAxis(false);
+			if (current_table.rows[dalu_row].cells[sanlu_column].background!="") {
+			//alert(dalu_row +":"+sanlu_column +":Black");
+				updateAxis(true); //red
+			} else {
+				if (sanlu_count == 2) {
+					updateAxis(true); //red
+				} else {				
+					updateAxis(false); //black
+					sanlu_count++;
+				}
+			}
 		}
 		//if (current_table.rows[dalu_row].cells[sanlu_column].background=="images/red.gif") {
 		//alert(dalu_row +":"+sanlu_column +":Red");
