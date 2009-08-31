@@ -13,7 +13,9 @@
  * Description:
  * Finished on 
  */
- 
+var c_r = -1,c_c = 3,sanlu_limit = 0;
+var sanlu_flag = true;
+var current_table,tid,wTable; 
 var winFlag=1;//输赢的标记，1为胜局，此时输入为红字
 var bFlag=1;//庄闲标记，1为庄家，此时用红圈
 var rowLeg =6;//此表共有15行;
@@ -869,3 +871,53 @@ function Save(){
     winSave.close();   
 }
 
+function updateAxis(flag) {
+      if (sanlu_flag == flag){
+		if (c_r<=4) {
+			c_r++;
+		} else {
+			sanlu_limit++;
+			c_c++;
+		}
+	  } else {
+	    sanlu_flag = flag;
+		c_r = 0;
+		c_c = c_c - sanlu_limit + 1;
+		sanlu_limit = 0;
+	  }
+	  if (sanlu_flag == true){
+	  				wTable.rows[c_r].cells[c_c].background = "images/red.gif";
+	  } else {
+	  				wTable.rows[c_r].cells[c_c].background = "images/black.gif";
+	  }
+}
+function Sanlu(text) {
+var dalu_row,dalu_column,sanlu_row,sanlu_column;
+current_table = text.parentNode.parentNode.parentNode.parentNode;
+tid = current_table.id;
+dalu_column = text.parentNode.cellIndex;  //拿到列号
+dalu_row = text.parentNode.parentNode.rowIndex; //拿到行号
+	if (dalu_column == 3 && dalu_row==0){
+		return;
+	}
+	if  (dalu_column >= 3) {
+		tid=tid.substr(0,2)+(parseInt(tid.substr(2,1))+2); //拿到表格id+2对应下面表
+		wTable = document.getElementById(tid);  //对应三路的表格
+
+		sanlu_column = dalu_column -3;  //计算前面三位置的情况
+		if (current_table.rows[dalu_row].cells[sanlu_column].background!="") {
+			//alert(dalu_row +":"+sanlu_column +":Black");
+			if (dalu_row == 0){
+				updateAxis(false);
+			} else {
+				updateAxis(true);
+			}
+		} else {
+		    updateAxis(false);
+		}
+		//if (current_table.rows[dalu_row].cells[sanlu_column].background=="images/red.gif") {
+		//alert(dalu_row +":"+sanlu_column +":Red");
+		
+		//}
+	}
+}
