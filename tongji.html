@@ -549,6 +549,10 @@ document.getElementById('liantiaochaT').style.color="black";
 document.getElementById('liantiaochaT').value=liantiaochaT;
 document.getElementById('sanliantiao').value=checkliantiao();
 document.getElementById('sanliantiaoT').value=checkliantiao();
+document.getElementById('silianlian').value=checksilian();
+document.getElementById('silianlianT').value=document.getElementById('silianlian').value;
+document.getElementById('siweilian').value=checksiwei();
+document.getElementById('siweilianT').value=document.getElementById('siweilian').value;
 var shuyingkouT=yunsuan(wincount,"-",losecount);
 document.getElementById('loseP').value=losecount;
 document.getElementById('winP').value=wincount;
@@ -728,7 +732,78 @@ mapred = new Map();
 mapblack = new Map();
 checkQuan("tb1","tb2","tb3","tb4");
 }
-
+function checksilian() {
+   var total = 0,i;
+   var tb1 = document.getElementById('tb1');
+   var tb2 = document.getElementById('tb2');
+   row = tb1.rows;
+   for (i=0;i<cellLeg;i++) {
+      if (row[3].cells[i].firstChild.value!=""){
+	     if (row[4].cells[i].firstChild.value==""){
+			total =yunsuan(total,"+",1);
+		 }
+	  }
+   }
+   row = tb2.rows;
+   for (i=0;i<cellLeg;i++) {
+      if (row[3].cells[i].firstChild.value!=""){
+	     if (row[4].cells[i].firstChild.value==""){
+			total =yunsuan(total,"+",1);
+		 }
+	  }
+   }
+   return total;
+}
+function checksiwei() {
+	var total = 0,i;
+    var tb1 = document.getElementById('tb1');
+    var tb2 = document.getElementById('tb2');
+    row = tb1.rows;
+	for (i=0;i<cellLeg;i++) {
+      if (row[0].cells[i].firstChild.value==""){
+	   if (i==0) {
+	     return 0;
+	   }
+	   if (row[3].cells[i-1].firstChild.value!=""){
+	     if (row[4].cells[i-1].firstChild.value==""){
+			document.getElementById('silianlian').value--;
+			document.getElementById('silianlianT').value--;
+			return 1;
+		 }
+		}
+	  }
+   }
+   row = tb2.rows;
+   for (i=0;i<cellLeg;i++) {
+		if (row[0].cells[i].firstChild.value==""){
+			if (i==0) {
+				if (tb1.rows[3].cells[cellLeg-1].firstChild.value!=""){
+					if (tb1.rows[4].cells[cellLeg-1].firstChild.value==""){
+						document.getElementById('silianlian').value--;
+						document.getElementById('silianlianT').value--;
+						return 1;
+					}
+				}
+			} else {
+				if (row[3].cells[i-1].firstChild.value!=""){
+					if (row[4].cells[i-1].firstChild.value==""){
+						document.getElementById('silianlian').value--;
+						document.getElementById('silianlianT').value--;
+						return 1;
+					}
+				}
+			}
+		}
+   }
+   if (row[3].cells[cellLeg-1].firstChild.value!=""){
+		if (row[4].cells[cellLeg-1].firstChild.value==""){
+			document.getElementById('silianlian').value--;
+			document.getElementById('silianlianT').value--;
+			return 1;
+		}
+	}
+   return total;
+}
 function checkliantiao(){
    var total = 0;
    var tb1 = document.getElementById('tb1');
@@ -1029,9 +1104,9 @@ function Save(){
 	<td width="22"><input  type="text"   id="more"  class="size13" color="red" onClick="editText(this)"></td>
 	<td width="70"><input  type="text"   id="liantiaocha"  class="size19" onClick="editText(this)"></td>
 	<td width="40"><p style="font-size:12px;color:red">四连：</p></td>
-	<td width="50"><input  type="text"   id="siliantiao"  class="size22" onclick="editText(this)" /></td>
+	<td width="50"><input  type="text"   id="silianlian"  class="size22" onclick="editText(this)" /></td>
 	<td width="60"><p style="font-size:12px;color:red">四尾连：</p></td>
-	<td width="30"><input  type="text"   id="siweitiao"  class="size22" onclick="editText(this)" /></td>
+	<td width="30"><input  type="text"   id="siweilian"  class="size22" onclick="editText(this)" /></td>
 	<td width="40"><p style="font-size:12px">三跳：</p></td>
 	<td width="50"><input  type="text"   id="sanliantiao"  class="size22" onClick="editText(this)"></td>
 	<td width="60"><p style="font-size:12px">三尾跳：</p></td>
@@ -1120,9 +1195,9 @@ function Save(){
 	<td width="22"><input  type="text"   id="more2"  class="size13" color="red" onClick="editText(this)"></td>
 	<td width="70"><input  type="text"   id="liantiaocha2"  class="size18" onClick="editText(this)"></td>
 	<td width="40"><p style="font-size:12px;color:red">四连：</p></td>
-	<td width="50"><input  type="text"   id="siliantiao2"  class="size22" onclick="editText(this)" /></td>
+	<td width="50"><input  type="text"   id="silianlian2"  class="size22" onclick="editText(this)" /></td>
 	<td width="60"><p style="font-size:12px;color:red">四尾连：</p></td>
-	<td width="30"><input  type="text"   id="siweitiao2"  class="size22" onclick="editText(this)" /></td>
+	<td width="30"><input  type="text"   id="siweilian2"  class="size22" onclick="editText(this)" /></td>
 	<td width="40"><p style="font-size:12px">三跳：</p></td>
 	<td width="50"><input  type="text"   id="sanliantiao2"  class="size22" onClick="editText(this)"></td>
 	<td width="60"><p style="font-size:12px">三尾跳：</p></td>
