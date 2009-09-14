@@ -547,12 +547,12 @@ document.getElementById('liantiaocha').style.color="black";
 document.getElementById('liantiaochaT').style.color="black";
 }
 document.getElementById('liantiaochaT').value=liantiaochaT;
-document.getElementById('sanliantiao').value=checkliantiao();
-document.getElementById('sanliantiaoT').value=document.getElementById('sanliantiao').value;
-document.getElementById('silianlian').value=checksilian();
-document.getElementById('silianlianT').value=document.getElementById('silianlian').value;
-document.getElementById('siweilian').value=checksiwei();
-document.getElementById('siweilianT').value=document.getElementById('siweilian').value;
+document.getElementById('sanliantiao').value = checkliantiao(1);
+document.getElementById('sanliantiaoT').value = document.getElementById('sanliantiao').value;
+document.getElementById('silianlian').value = checksilian(1);
+document.getElementById('silianlianT').value = document.getElementById('silianlian').value;
+document.getElementById('siweilian').value = checksiwei(1);
+document.getElementById('siweilianT').value = document.getElementById('siweilian').value;
 var shuyingkouT=yunsuan(wincount,"-",losecount);
 document.getElementById('loseP').value=losecount;
 document.getElementById('winP').value=wincount;
@@ -645,8 +645,12 @@ document.getElementById('liantiaocha2').style.color="black";
 document.getElementById('liantiaochaT2').style.color="black";
 }
 document.getElementById('liantiaochaT2').value=liantiaochaT2;
-//document.getElementById('sanliantiao2').value=checkliantiao2();
-//document.getElementById('sanliantiaoT2').value=checkliantiao2();
+document.getElementById('sanliantiao2').value = checkliantiao(2);
+document.getElementById('sanliantiaoT2').value = document.getElementById('sanliantiao2').value;
+document.getElementById('silianlian2').value = checksilian(2);
+document.getElementById('silianlianT2').value = document.getElementById('silianlian2').value;
+document.getElementById('siweilian2').value = checksiwei(2);
+document.getElementById('siweilianT2').value = document.getElementById('siweilian2').value;
 var shuyingkouT2=yunsuan(wincount2,"-",losecount2);
 document.getElementById('loseP2').value=losecount2;
 document.getElementById('winP2').value=wincount2;
@@ -732,10 +736,15 @@ mapred = new Map();
 mapblack = new Map();
 checkQuan("tb1","tb2","tb3","tb4");
 }
-function checksilian() {
+function checksilian(flag) {
    var total = 0,i;
-   var tb1 = document.getElementById('tb1');
-   var tb2 = document.getElementById('tb2');
+   if (flag == 1 ) {
+     var tb1 = document.getElementById('tb1');
+     var tb2 = document.getElementById('tb2');
+   } else {
+     var tb1 = document.getElementById('tb3');
+     var tb2 = document.getElementById('tb4');
+   }
    row = tb1.rows;
    for (i=0;i<cellLeg;i++) {
       if (row[3].cells[i].firstChild.parentElement.background!=""){
@@ -754,10 +763,15 @@ function checksilian() {
    }
    return total;
 }
-function checksiwei() {
-	var total = 0,i;
-    var tb1 = document.getElementById('tb1');
-    var tb2 = document.getElementById('tb2');
+function checksiwei(flag) {
+   var total = 0,i;
+   if (flag == 1 ) {
+     var tb1 = document.getElementById('tb1');
+     var tb2 = document.getElementById('tb2');
+   } else {
+     var tb1 = document.getElementById('tb3');
+     var tb2 = document.getElementById('tb4');
+   }
     row = tb1.rows;
 	for (i=0;i<cellLeg;i++) {
       if (row[0].cells[i].firstChild.parentElement.background==""){
@@ -804,11 +818,16 @@ function checksiwei() {
 	}
    return total;
 }
-function checkliantiao(){
+function checkliantiao(flag){
   var total = 0,i;
   var sanlian_count=0;
-  var tb1 = document.getElementById('tb1');
-  var tb2 = document.getElementById('tb2');
+   if (flag == 1 ) {
+     var tb1 = document.getElementById('tb1');
+     var tb2 = document.getElementById('tb2');
+   } else {
+     var tb1 = document.getElementById('tb3');
+     var tb2 = document.getElementById('tb4');
+   }
   row = tb1.rows;
   for (i=0;i<cellLeg;i++) {
     if (row[0].cells[i].firstChild.parentElement.background!=""){
