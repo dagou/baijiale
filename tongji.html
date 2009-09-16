@@ -547,12 +547,13 @@ document.getElementById('liantiaocha').style.color="black";
 document.getElementById('liantiaochaT').style.color="black";
 }
 document.getElementById('liantiaochaT').value=liantiaochaT;
+document.getElementById('sanweitiao').value=0;
 document.getElementById('sanliantiao').value = checkliantiao(1);
-document.getElementById('sanliantiaoT').value = document.getElementById('sanliantiao').value;
+document.getElementById('sanliantiaoT').value = 0;
 document.getElementById('silianlian').value = checksilian(1);
-document.getElementById('silianlianT').value = document.getElementById('silianlian').value;
+document.getElementById('silianlianT').value = 0;
 document.getElementById('siweilian').value = checksiwei(1);
-document.getElementById('siweilianT').value = document.getElementById('siweilian').value;
+document.getElementById('siweilianT').value = 0;
 var shuyingkouT=yunsuan(wincount,"-",losecount);
 document.getElementById('loseP').value=losecount;
 document.getElementById('winP').value=wincount;
@@ -645,12 +646,13 @@ document.getElementById('liantiaocha2').style.color="black";
 document.getElementById('liantiaochaT2').style.color="black";
 }
 document.getElementById('liantiaochaT2').value=liantiaochaT2;
+document.getElementById('sanweitiao2').value = 0;
 document.getElementById('sanliantiao2').value = checkliantiao(2);
-document.getElementById('sanliantiaoT2').value = document.getElementById('sanliantiao2').value;
+document.getElementById('sanliantiaoT2').value = 0;
 document.getElementById('silianlian2').value = checksilian(2);
-document.getElementById('silianlianT2').value = document.getElementById('silianlian2').value;
+document.getElementById('silianlianT2').value = 0;
 document.getElementById('siweilian2').value = checksiwei(2);
-document.getElementById('siweilianT2').value = document.getElementById('siweilian2').value;
+document.getElementById('siweilianT2').value = 0;
 var shuyingkouT2=yunsuan(wincount2,"-",losecount2);
 document.getElementById('loseP2').value=losecount2;
 document.getElementById('winP2').value=wincount2;
@@ -843,9 +845,8 @@ function checkliantiao(flag){
 	  }
     } else {
 	  if (sanlian_count==3) {
-        document.getElementById('sanweitiao').value = 1;
-        document.getElementById('sanweitiaoT').value = 1;
-      }	
+        sanweitiao(flag);
+	  }
     }
   }
   row = tb2.rows;
@@ -863,14 +864,19 @@ function checkliantiao(flag){
 	  }
     } else {
 	  if (sanlian_count==3) {
-        document.getElementById('sanweitiao').value = 1;
-        document.getElementById('sanweitiaoT').value = 1;
-      }
+        sanweitiao(flag);
+      } 
 	}
   }
   return total;
 }
-
+function sanweitiao(flag) {
+  if (flag == 1){
+     document.getElementById('sanweitiao').value = 1;
+  } else {
+     document.getElementById('sanweitiao2').value = 1;
+  }
+}
 function checkQuan(tb1Name,tb2Name,tb3Name,tb4Name){
 var tb1 = document.getElementById(tb1Name);
 var tb2 = document.getElementById(tb2Name);
