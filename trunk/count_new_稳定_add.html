@@ -36,6 +36,15 @@ var liantiaochaT2=0;
 var sanliantiaoT=0;
 var sanliantiaoT1=0;
 var sanliantiaoT2=0;
+var sanweitiaoT=0;
+var sanweitiaoT1=0;
+var sanweitiaoT2=0;
+var silianlianT=0;
+var silianlianT1=0;
+var silianlianT2=0;
+var siweilianT=0;
+var siweilianT1=0;
+var siweilianT2=0;
 var shuyingkouT=0;
 var shuyingkouT1=0;
 var shuyingkouT2=0;
@@ -169,6 +178,15 @@ function test()
  sanliantiaoT=0;
  sanliantiaoT1=0;
  sanliantiaoT2=0;
+ sanweitiaoT=0;
+ sanweitiaoT1=0;
+ sanweitiaoT2=0;
+ silianlianT=0;
+ silianlianT1=0;
+ silianlianT2=0;
+ siweilianT=0;
+ siweilianT1=0;
+ siweilianT2=0;
  shuyingkouT=0;
  shuyingkouT1=0;
  shuyingkouT2=0;
@@ -273,17 +291,43 @@ function computer(i){
         eEndKey="name=mayongT";
         content=editStrByKey3(content,eStartKey,eEndKey,mayongT+"万");
         
+        //四连连
+        startKey ="id=silianlian";
+        endKey ="id=siweilian";
+        var silianlian1 = getWord(content,startKey,endKey);
+        silianlianT=yunsuan(silianlianT,"+",silianlian1);
+        eStartKey="name=liantiaochaT";
+        eEndKey="name=silianlianT";
+        content=editStrByKey3(content,eStartKey,eEndKey,silianlianT);
+		
+		//四尾联
+		startKey ="id=siweilian";
+        endKey ="id=sanliantiao";
+        var siweilian1 = getWord(content,startKey,endKey);
+        siweilianT=yunsuan(siweilianT,"+",siweilian1);
+        eStartKey="name=silianlianT";
+        eEndKey="name=siweilianT";
+        content=editStrByKey3(content,eStartKey,eEndKey,siweilianT);
         
-        startKey ="id=sanliantiao";
-        endKey ="name=shuyingkou";
+		//三连跳
+		startKey ="id=sanliantiao";
+        endKey ="id=sanweitiao";
         var sanliantiao1 = getWord(content,startKey,endKey);
         sanliantiaoT=yunsuan(sanliantiaoT,"+",sanliantiao1);
-        //sanliantiaoT=FormatAfterDotNumber(sanliantiaoT,0);
-        //alert("三连跳： "+sanliantiao1);
-        eStartKey="name=liantiaochaT";
+        eStartKey="name=siweilianT";
         eEndKey="name=sanliantiaoT";
         content=editStrByKey3(content,eStartKey,eEndKey,sanliantiaoT);
-        
+		
+		//三尾连
+		startKey ="id=sanweitiao";
+        endKey ="name=loseP";
+        var sanweitiao1 = getWord(content,startKey,endKey);
+        sanweitiaoT=yunsuan(sanweitiaoT,"+",sanweitiao1);
+        eStartKey="name=sanliantiaoT";
+        eEndKey="name=sanweitiaoT";
+        content=editStrByKey3(content,eStartKey,eEndKey,sanweitiaoT);
+		
+		
         startKey ="id=sanliantiao";
         endKey ="name=shuyingkou";
         var shuyingkou1 = getWord2(content,startKey,endKey);
@@ -376,7 +420,7 @@ function computer(i){
         
         //统计完上表生成表格
         var j = 2*i-1;
-        addTable(j,liantiaochaT,sanliantiaoT,shuyingkouT,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
+        addTable(j,liantiaochaT,sanliantiaoT,sanweitiaoT,silianlianT,siweilianT,shuyingkouT,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
         
         
         //alert(liantiaocha1);
@@ -403,15 +447,42 @@ function computer(i){
         eEndKey="name=mayongT2";
         content=editStrByKey3(content,eStartKey,eEndKey,mayongT+"万");
         
-        startKey ="id=sanliantiao2";
-        endKey ="name=shuyingkou2";
+		//四连连
+        startKey ="id=silianlian2";
+        endKey ="id=siweilian2";
+        var silianlian2 = getWord(content,startKey,endKey);
+        silianlianT=yunsuan(silianlianT,"+",silianlian2);
+        eStartKey="name=liantiaochaT2";
+        eEndKey="name=silianlianT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,silianlianT);
+		
+		//四尾联
+		startKey ="id=siweilian2";
+        endKey ="id=sanliantiao2";
+        var siweilian2 = getWord(content,startKey,endKey);
+        siweilianT=yunsuan(siweilianT,"+",siweilian2);
+        eStartKey="name=silianlianT2";
+        eEndKey="name=siweilianT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,siweilianT);
+        
+		//三连跳
+		startKey ="id=sanliantiao2";
+        endKey ="id=sanweitiao2";
         var sanliantiao2 = getWord(content,startKey,endKey);
         sanliantiaoT=yunsuan(sanliantiaoT,"+",sanliantiao2);
-        //sanliantiaoT=FormatAfterDotNumber(sanliantiaoT,2);
-        eStartKey="name=liantiaochaT2";
+        eStartKey="name=siweilianT2";
         eEndKey="name=sanliantiaoT2";
         content=editStrByKey3(content,eStartKey,eEndKey,sanliantiaoT);
-        
+		
+		//三尾连
+		startKey ="id=sanweitiao2";
+        endKey ="name=loseP2";
+        var sanweitiao2 = getWord(content,startKey,endKey);
+        sanweitiaoT=yunsuan(sanweitiaoT,"+",sanweitiao2);
+        eStartKey="name=sanliantiaoT2";
+        eEndKey="name=sanweitiaoT2";
+        content=editStrByKey3(content,eStartKey,eEndKey,sanweitiaoT);
+		
         
         
         startKey ="id=sanliantiao2";
@@ -518,7 +589,7 @@ function computer(i){
         //alert("输赢钱： "+shuyingqian1+"  "+shuyingqian2);
         //alert("庄抽水： "+zhuangchou1+"  "+zhuangchou2);
         //alert("利润： "+lirun1+"  "+lirun2);
-        addTable(i*2,liantiaochaT,sanliantiaoT,shuyingkouT,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
+        addTable(i*2,liantiaochaT,sanliantiaoT,sanweitiaoT,silianlianT,siweilianT,shuyingkouT,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
         var checkP=yunsuan(lirunT,"+",zhuangchouT);
         checkP=FormatAfterDotNumber(checkP,2);
         if(checkP!=shuyingqianT){
@@ -599,14 +670,14 @@ document.getElementById("heiquan").value = blackRes;
 //alert(document.getElementById("heiquan").innerHTML)
 
 }
-function addTable(jushu,liantiaocha,sanliantiao,shuyingkou,shuyingqian,zhuangchou,lirun){
+function addTable(jushu,liantiaocha,sanliantiao,sanweitiao,silianlian,siweilian,shuyingkou,shuyingqian,zhuangchou,lirun){
 //var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+jushu+"\""+">";
 //alert(text);
 var table = document.getElementById("tb1");
 table.setAttribute("border","1");
 var headerrow = table.insertRow(); 
 headerrow.className="size11";
-var cellLeg=7;//每行的格数
+var cellLeg=10;//每行的格数
 for (var j=0;j<cellLeg;j++){
 var cell = headerrow.insertCell();
 cell.setAttribute("width","5");
@@ -628,21 +699,36 @@ var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+sanl
 cell.innerHTML=text;
 }
 if(j==3){
-var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+shuyingkou+"\""+">";
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+sanweitiao +"\""+">";
 //alert(text);
 cell.innerHTML=text;
 }
 if(j==4){
-var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+shuyingqian+"\""+">";
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+silianlian +"\""+">";
 //alert(text);
 cell.innerHTML=text;
 }
 if(j==5){
-var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+zhuangchou +"\""+">";
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+siweilian +"\""+">";
 //alert(text);
 cell.innerHTML=text;
 }
 if(j==6){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+shuyingkou+"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+if(j==7){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+shuyingqian+"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+if(j==8){
+var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+zhuangchou +"\""+">";
+//alert(text);
+cell.innerHTML=text;
+}
+if(j==9){
 var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+lirun +"\""+">";
 //alert(text);
 cell.innerHTML=text;
@@ -939,11 +1025,11 @@ function FormatAfterDotNumber(ValueString, nAfterDotNum) {
 <td>
 <tr>
 <td style="word-wrap:break-word;">
-<textarea id="hongquan" rows="20" cols="40">
+<textarea id="hongquan" rows="20" cols="50">
 </textarea>
 </td>
 <td>
-<textarea id="heiquan" rows="20" cols="40">
+<textarea id="heiquan" rows="20" cols="50">
 </textarea>
 </td>
 <td>
@@ -958,6 +1044,15 @@ function FormatAfterDotNumber(ValueString, nAfterDotNum) {
 </td>
 <td>
 三连跳
+</td>
+<td>
+三尾跳
+</td>
+<td>
+四连连
+</td>
+<td>
+四尾连
 </td>
 <td>
 输赢口
