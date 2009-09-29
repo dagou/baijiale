@@ -358,7 +358,7 @@ function computer(i){
         //上表输赢钱
         startKey ="id=shuqian";
         endKey ="id=yingqian";
-        var shuyingqianH1 = getWord(content,startKey,endKey);
+        var shuyingqianH1 = getWord4(content,startKey,endKey);
         shuyingqianH1=shuyingqianH1.replace("万","");
         shuyingqianHT=yunsuan(shuyingqianHT,"+",shuyingqianH1);
         shuyingqianHT=FormatAfterDotNumber(shuyingqianHT,2);
@@ -368,7 +368,7 @@ function computer(i){
         
         startKey ="id=yingqian";
         endKey ="name=shuyingqian";
-        var shuyingqianR1 = getWord(content,startKey,endKey);
+        var shuyingqianR1 = getWord4(content,startKey,endKey);
         //alert(shuyingqianR1);
         shuyingqianR1=shuyingqianR1.replace("万","");
         shuyingqianRT=yunsuan(shuyingqianRT,"+",shuyingqianR1);
@@ -515,9 +515,9 @@ function computer(i){
         
         
         //下表输赢钱
-        startKey ="id=shuqian2";
-        endKey ="id=yingqian2";
-        var shuyingqianH2 = getWord(content,startKey,endKey);
+        startKey ="id=yingqian2";
+        endKey ="id=shuqian2";
+        var shuyingqianH2 = getWord4(content,startKey,endKey);
         shuyingqianH2=shuyingqianH2.replace("万","");
         shuyingqianHT=yunsuan(shuyingqianHT,"+",shuyingqianH2);
         shuyingqianHT=FormatAfterDotNumber(shuyingqianHT,2);
@@ -527,7 +527,7 @@ function computer(i){
         
         startKey ="id=yingqian2";
         endKey ="name=shuyingqian2";
-        var shuyingqianR2 = getWord(content,startKey,endKey);
+        var shuyingqianR2 = getWord2(content,startKey,endKey);
         shuyingqianR2=shuyingqianR2.replace("万","");
         shuyingqianRT=yunsuan(shuyingqianRT,"+",shuyingqianR2);
         shuyingqianRT=FormatAfterDotNumber(shuyingqianRT,2);
@@ -569,7 +569,7 @@ function computer(i){
         
         //下表总利
         startKey ="id=zonglirun2";
-        endKey ="name=liantiaochaT2";
+        endKey ="name=shuqianT2";
         var zonglirun2 = getWord(content,startKey,endKey);
         zonglirun2=zonglirun2.replace("万","");
         zonglirunT=yunsuan(zonglirunT,"+",zonglirun2);
@@ -874,7 +874,9 @@ var start = str.indexOf(startKey);
 var strT = "";
 if(start!=-1){
 strT=str.substring(start,strLeg);
+
 }
+
 var end = strT.indexOf(endKey);
 //alert(end);
 end = start+end;
@@ -889,6 +891,33 @@ start = temp.indexOf("value=")+6;
 temp= temp.substring(start,end);
 return temp;
 }
+
+
+
+
+function getWord4(str,startKey,endKey){
+var strLeg =str.length;
+var startKeyLeg = startKey.length;
+var start = str.indexOf(startKey);
+var strT = "";
+if(start!=-1){
+strT=str.substring(start,strLeg);
+}
+var end = strT.indexOf(endKey);
+//alert(end);
+end = start+end;
+//alert(start+" "+end);
+var temp = null;
+if(start!=-1&&end!=-1){
+temp =  str.substring(start+startKeyLeg,end);
+}
+//根据此应用的特殊情况做出调整
+end = temp.indexOf("name=text></TD>");
+start = temp.indexOf("value=")+6;
+temp= temp.substring(start,end);
+return temp;
+}
+
 //输入整片内容str,根据开头关键字startKey，和结尾的关键字endKey，返回需要取的值
 function getWord2(str,startKey,endKey){
 var strLeg =str.length;
@@ -994,7 +1023,7 @@ function FormatAfterDotNumber(ValueString, nAfterDotNum) {
 
 </script>
 </head>
-<body onload="">
+<body onLoad="">
 <table id="al">
 <TABLE width=800 height="40" border=0 cellSpacing=0  class="tdstyle">
 <tr>
@@ -1004,10 +1033,10 @@ function FormatAfterDotNumber(ValueString, nAfterDotNum) {
 </tr>
 <tr>
 <td>
-<input type="button" name="win" value="检查" onclick="checkFile()">
+<input type="button" name="win" value="检查" onClick="checkFile()">
 </td>
 <td>
-<input type="button" name="win" value="统计" onclick="count()">
+<input type="button" name="win" value="统计" onClick="count()">
 </td>
 </tr>
 <tr>
