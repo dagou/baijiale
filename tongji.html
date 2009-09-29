@@ -533,9 +533,11 @@ morecount2 = yunsuan(morecount2,"+",1);
 }
 //计算上表
 dongcount=yunsuan(dongcount,"-",1);
+/*
 var liantiaochaT=yunsuan(morecount,"-",dongcount);
 document.getElementById('dong').value=dongcount;
 document.getElementById('more').value=morecount;
+
 document.getElementById('liantiaocha').value=liantiaochaT;
 //alert(liantiaochaT +" "+liantiaochaT.toString().indexOf("-"));
 if(liantiaochaT.toString().indexOf("-")!=0){
@@ -554,6 +556,7 @@ document.getElementById('silianlian').value = checksilian(1);
 document.getElementById('silianlianT').value = 0;
 document.getElementById('siweilian').value = checksiwei(1);
 document.getElementById('siweilianT').value = 0;
+
 var shuyingkouT=yunsuan(wincount,"-",losecount);
 document.getElementById('loseP').value=losecount;
 document.getElementById('winP').value=wincount;
@@ -564,12 +567,14 @@ document.getElementById('shuyingkou').value=shuyingkouT;
 if(shuyingkouT.toString().indexOf("-")!=0){
 document.getElementById('shuyingkou').style.color="red";
 document.getElementById('shuyingkouT').style.color="red";
-}
-else{
+
+} else{
 document.getElementById('shuyingkou').style.color="black";
 document.getElementById('shuyingkouT').style.color="black";
 }
+
 document.getElementById('shuyingkouT').value=shuyingkouT;
+*/
 var shuyingqianT=yunsuan(wintotal,"-",losetotal);
 shuyingqianT=FormatAfterDotNumber(shuyingqianT,2);
 wintotal=FormatAfterDotNumber(wintotal,2);
@@ -632,6 +637,7 @@ document.getElementById('zonglirun').style.color="black";
 }
 //计算下表
 dongcount2=yunsuan(dongcount2,"-",1);
+/*
 var liantiaochaT2=yunsuan(morecount2,"-",dongcount2);
 document.getElementById('dong2').value=dongcount2;
 document.getElementById('more2').value=morecount2;
@@ -653,6 +659,7 @@ document.getElementById('silianlian2').value = checksilian(2);
 document.getElementById('silianlianT2').value = 0;
 document.getElementById('siweilian2').value = checksiwei(2);
 document.getElementById('siweilianT2').value = 0;
+
 var shuyingkouT2=yunsuan(wincount2,"-",losecount2);
 document.getElementById('loseP2').value=losecount2;
 document.getElementById('winP2').value=wincount2;
@@ -662,12 +669,15 @@ document.getElementById('shuyingkou2').value=shuyingkouT2;
 if(shuyingkouT2.toString().indexOf("-")!=0){
 document.getElementById('shuyingkou2').style.color="red";
 document.getElementById('shuyingkouT2').style.color="red";
+
 }
 else{
 document.getElementById('shuyingkou2').style.color="black";
 document.getElementById('shuyingkouT2').style.color="black";
 }
+
 document.getElementById('shuyingkouT2').value=shuyingkouT2;
+*/
 var shuyingqianT2=yunsuan(wintotal2,"-",losetotal2);
 shuyingqianT2=FormatAfterDotNumber(shuyingqianT2,2);
 wintotal2=FormatAfterDotNumber(wintotal2,2);
@@ -1050,50 +1060,12 @@ function Save(){
 		<td><input  type="text" class="size15" onClick="editText(this)"></td>
 	</tr>
 </table>
-<table width="770">
-<tr>
-	<td width="55" height="23"><p style="font-size:12px">连跳差：</p></td>
-	<td width="22"><input  type="text"   id="dong"  class="size19" color="black" onClick="editText(this)"></td>
-	<td width="22"><input  type="text"   id="more"  class="size13" color="red" onClick="editText(this)"></td>
-	<td width="70"><input  type="text"   id="liantiaocha"  class="size19" onClick="editText(this)"></td>
-	<td width="40"><p style="font-size:12px;color:red">四连：</p></td>
-	<td width="50"><input  type="text"   id="silianlian"  class="size22" onclick="editText(this)" /></td>
-	<td width="60"><p style="font-size:12px;color:red">四尾连：</p></td>
-	<td width="30"><input  type="text"   id="siweilian"  class="size22" onclick="editText(this)" /></td>
-	<td width="40"><p style="font-size:12px">三跳：</p></td>
-	<td width="50"><input  type="text"   id="sanliantiao"  class="size22" onClick="editText(this)"></td>
-	<td width="60"><p style="font-size:12px">三尾跳：</p></td>
-	<td width="30"><input  type="text"   id="sanweitiao"  class="size22" onClick="editText(this)"></td>
-	<td width="67"><p style="font-size:12px">输赢口：</p></td>
-	<td width="38"><input  type="text"   name="loseP"  class="size21" onClick="editText(this)"></td>
-	<td width="38"><input  type="text"   name="winP"  class="size22" onClick="editText(this)"></td>
-	<td width="59"><input  type="text"   name="shuyingkou"  class="size14" onClick="editText(this)"></td>
-</tr>
-<tr>
-<td height="22"><p style="font-size:12px">累计：</p></td>
-	<td></td>
-	<td></td>
-	<td><input  type="text"   name="liantiaochaT"  class="size19" onClick="editText(this)"></td>
-	<td><p style="font-size:12px;color:red">累计：</p></td>
-	<td><input  type="text"   name="silianlianT"  class="size22" onclick="editText(this)" /></td>
-	<td><p style="font-size:12px;color:red">累计：</p></td>
-	<td><input  type="text"   name="siweilianT"  class="size22" onclick="editText(this)" /></td>
-	<td><p style="font-size:12px">累计：</p></td>
-	<td><input  type="text"   name="sanliantiaoT"  class="size22" onClick="editText(this)"></td>
-	<td><p style="font-size:12px">累计：</p></td>
-	<td><input  type="text"   name="sanweitiaoT"  class="size22" onClick="editText(this)"></td>
-	<td><p style="font-size:12px">累计：</p></td>
-	<td><input  type="text"   name="shuyingkouHT"  class="size21" onClick="editText(this)"></td>
-	<td><input  type="text"   name="shuyingkouRT"  class="size22" onClick="editText(this)"></td>
-	<td><input  type="text"   name="shuyingkouT"  class="size14" onClick="editText(this)"></td>
-</tr>
-</table>
 <table border="0" cellspacing="0" >
   <tr>
     <td width="50"><p style="font-size:12px">输：</p></td>
-	<td width="40"><input name="text"  type="text"  class="size28"   id="yingqian" onclick="editText(this)" /></td>
+	<td width="40"><input name="text"  type="text"  class="size27"   id="shuqian" onclick="editText(this)" /></td>
     <td width="30"><p style="font-size:12px;color:red">赢：</p></td>
-    <td width="40"><input name="text"  type="text"  class="size27"   id="shuqian" onclick="editText(this)" /></td>
+    <td width="40"><input name="text"  type="text"  class="size28"   id="yingqian" onclick="editText(this)" /></td>
     <td width="30"><p style="font-size:12px">钱：</p></td>
 	<td width="40"><input  type="text"   name="shuyingqian"  class="size27" onclick="editText(this)" /></td>
     <td width="60"><p style="font-size:12px">庄抽水：</p></td>
@@ -1107,9 +1079,9 @@ function Save(){
   </tr>
   <tr>
     <td><p style="font-size:12px">累计：</p></td>
-    <td><input  type="text"   name="shuqianT"  class="size28" onclick="editText(this)" /></td>
+    <td><input  type="text"   name="shuqianT"  class="size27" onclick="editText(this)" /></td>
 	<td></td>
-    <td><input  type="text"   name="yingqianT"  class="size27" onclick="editText(this)" /></td>
+    <td><input  type="text"   name="yingqianT"  class="size28" onclick="editText(this)" /></td>
 	<td></td>
     <td><input  type="text"   name="shuyingqianT"  class="size27" onclick="editText(this)" /></td>
     <td><p style="font-size:12px">累计：</p></td>
@@ -1141,50 +1113,21 @@ function Save(){
 <td><input  type="hidden" id="quanT1"  class="size18" onClick="editText(this)"></td>
 </tr>
 </table>
-<table width="770">
-<tr>
-	<td width="55" height="23"><p style="font-size:12px">连跳差：</p></td>
-	<td width="22"><input  type="text"   id="dong2"  class="size19" color="black" onClick="editText(this)"></td>
-	<td width="22"><input  type="text"   id="more2"  class="size13" color="red" onClick="editText(this)"></td>
-	<td width="70"><input  type="text"   id="liantiaocha2"  class="size18" onClick="editText(this)"></td>
-	<td width="40"><p style="font-size:12px;color:red">四连：</p></td>
-	<td width="50"><input  type="text"   id="silianlian2"  class="size22" onclick="editText(this)" /></td>
-	<td width="60"><p style="font-size:12px;color:red">四尾连：</p></td>
-	<td width="30"><input  type="text"   id="siweilian2"  class="size22" onclick="editText(this)" /></td>
-	<td width="40"><p style="font-size:12px">三跳：</p></td>
-	<td width="50"><input  type="text"   id="sanliantiao2"  class="size22" onClick="editText(this)"></td>
-	<td width="60"><p style="font-size:12px">三尾跳：</p></td>
-	<td width="30"><input  type="text"   id="sanweitiao2"  class="size22" onClick="editText(this)"></td>
-	<td width="67"><p style="font-size:12px">输赢口：</p></td>
-	<td width="38"><input  type="text"   name="loseP2"  class="size21" onClick="editText(this)"></td>
-	<td width="38"><input  type="text"   name="winP2"  class="size22" onClick="editText(this)"></td>
-	<td width="59"><input  type="text"   name="shuyingkou2"  class="size14" onClick="editText(this)"></td>
-</tr>
-<tr>
-<td height="22"><p style="font-size:12px">累计：</p></td>
-	<td></td>
-	<td></td>
-	<td><input  type="text"   name="liantiaochaT2"  class="size18" onClick="editText(this)"></td>
-	<td><p style="font-size:12px;color:red">累计：</p></td>
-	<td><input  type="text"   name="silianlianT2"  class="size22" onclick="editText(this)" /></td>
-	<td><p style="font-size:12px;color:red">累计：</p></td>
-	<td><input  type="text"   name="siweilianT2"  class="size22" onclick="editText(this)" /></td>
-	<td><p style="font-size:12px">累计：</p></td>
-	<td><input  type="text"   name="sanliantiaoT2"  class="size22" onClick="editText(this)"></td>
-	<td><p style="font-size:12px">累计：</p></td>
-	<td><input  type="text"   name="sanweitiaoT2"  class="size22" onClick="editText(this)"></td>
-	<td><p style="font-size:12px">累计：</p></td>
-	<td><input  type="text"   name="shuyingkouHT2"  class="size21" onClick="editText(this)"></td>
-	<td><input  type="text"   name="shuyingkouRT2"  class="size22" onClick="editText(this)"></td>
-	<td><input  type="text"   name="shuyingkouT2"  class="size14" onClick="editText(this)"></td>
-</tr>
+<table width=700  border=0 cellSpacing=0 >
+	<tr>
+		<td rowspan="2"><input  type="text" class="size17" color="black" onClick="editText(this)"></td>
+		<td><input  type="text" class="size15" onClick="editText(this)"></td>
+	</tr>
+	<tr>
+		<td><input  type="text" class="size15" onClick="editText(this)"></td>
+	</tr>
 </table>
 <table border="0" cellspacing="0" >
   <tr>
     <td width="50"><p style="font-size:12px">输：</p></td>
-	<td width="40"><input name="text"  type="text"  class="size28"   id="yingqian2" onclick="editText(this)" /></td>
+	<td width="40"><input name="text"  type="text"  class="size27"   id="shuqian2" onclick="editText(this)" /></td>
     <td width="30"><p style="font-size:12px;color:red">赢：</p></td>
-    <td width="40"><input name="text"  type="text"  class="size27"   id="shuqian2" onclick="editText(this)" /></td>
+    <td width="40"><input name="text"  type="text"  class="size28"   id="yingqian2" onclick="editText(this)" /></td>
     <td width="30"><p style="font-size:12px">钱：</p></td>
 	<td width="40"><input  type="text"   name="shuyingqian2"  class="size27" onclick="editText(this)" /></td>
     <td width="60"><p style="font-size:12px">庄抽水：</p></td>
@@ -1198,9 +1141,9 @@ function Save(){
   </tr>
   <tr>
     <td><p style="font-size:12px">累计：</p></td>
-    <td><input  type="text"   name="shuqianT2"  class="size28" onclick="editText(this)" /></td>
+    <td><input  type="text"   name="shuqianT2"  class="size27" onclick="editText(this)" /></td>
 	<td></td>
-    <td><input  type="text"   name="yingqianT2"  class="size27" onclick="editText(this)" /></td>
+    <td><input  type="text"   name="yingqianT2"  class="size28" onclick="editText(this)" /></td>
 	<td></td>
     <td><input  type="text"   name="shuyingqianT2"  class="size27" onclick="editText(this)" /></td>
     <td><p style="font-size:12px">累计：</p></td>
