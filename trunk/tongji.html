@@ -120,6 +120,7 @@ td {
 
 </STYLE>
 <script type="text/javascript" src="images/utils.js" /></script>
+<script type="text/javascript" src="images/export.js" /></script>
 <SCRIPT type=text/JavaScript>
 var winFlag=1;//输赢的标记，1为胜局，此时输入为红字
 var bFlag=1;//庄闲标记，1为庄家，此时用红圈
@@ -1017,37 +1018,43 @@ function Save(){
 <TABLE width=550 height="40" border=0 cellSpacing=0  class="tdstyle">
 <tr>
 <td>
-<input type="button" name="win" value=" 写数 "onclick="setOk()">
+<input type="button" name="win" value="写数" onclick="setOk()">
 </td>
 <td>
-<input type="button" name="win" value="赢（红笔）"onclick="setWin()">
+<input type="button" name="win" value="赢（红笔）" onclick="setWin()">
 </td>
 <td >
-<input type="button" name="win" value="输（黑笔）"onclick="setLose()">
+<input type="button" name="win" value="输（黑笔）" onclick="setLose()">
 </td>
 <td >
-<input type="button" name="white" value="空（白笔）"onclick="setWhite()">
+<input type="button" name="white" value="空（白笔）" onclick="setWhite()">
 </td>
 <td>
-<input type="button" name="win" value=" 画图 "onclick="setnOk()">
+<input type="button" name="win" value="画图" onclick="setnOk()">
 </td>
 <td>
-<input type="button" name="win" value="庄家"onclick="setBanker()">
+<input type="button" name="win" value=" 庄家 " onclick="setBanker()">
 </td>
 <td>
-<input type="button" name="win" value="闲家"onclick="setPlayer()">
+<input type="button" name="win" value=" 闲家 " onclick="setPlayer()">
 </td>
 <td>
-<input type="button" name="win" value=" 删除 "onclick="setDelete()">
+<input type="button" name="win" value="删除" onclick="setDelete()">
 </td>
 <td>
-<input type="button" name="draw" value="生成表格"onclick="init()">
+<input type="button" name="draw" value="生成表格" onclick="init()">
 </td>
 <td>
-<input type="button" name="win" value="统计"onclick="count()">
+<input type="button" name="win" value="统计" onclick="count()">
 </td>
 <td>
-<input type="button" name="win" value="保存"onclick="Save()">
+<input type="button" name="win" value="保存" onclick="Save()">
+</td>
+<td>
+<input type="button" name="export" value="导出" onclick="exportx()">
+</td>
+<td>
+<input type="button" name="import" value="导入" onclick="importx()">
 </td>
 </tr>
 </TABLE>
