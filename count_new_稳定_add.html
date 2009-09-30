@@ -269,13 +269,13 @@ function computer(i){
         var endKey ="id=sanliantiao";
         //alert(startKey);
         //alert(endKey);
-        var liantiaocha1 =getWord(content,startKey,endKey);
-        liantiaochaT=yunsuan(liantiaochaT,"+",liantiaocha1);
+    //    var liantiaocha1 =getWord(content,startKey,endKey);
+    //    liantiaochaT=yunsuan(liantiaochaT,"+",liantiaocha1);
         //liantiaochaT=FormatAfterDotNumber(liantiaochaT,0);
         //alert("连跳： "+liantiaocha1);
-        eStartKey="class=size25";
-        var eEndKey="name=liantiaochaT";
-        content=editStrByKey2(content,eStartKey,eEndKey,liantiaochaT);
+       // eStartKey="class=size25";
+       // var eEndKey="name=liantiaochaT";
+       // content=editStrByKey2(content,eStartKey,eEndKey,liantiaochaT);
         
         //上表码佣
         startKey ="name=shuyingqian";
@@ -290,7 +290,7 @@ function computer(i){
         eStartKey="name=shuyingqianT";
         eEndKey="name=mayongT";
         content=editStrByKey3(content,eStartKey,eEndKey,mayongT+"万");
-        
+/**********************************************************
         //四连连
         startKey ="id=silianlian";
         endKey ="id=siweilian";
@@ -336,7 +336,7 @@ function computer(i){
         eStartKey="name=sanliantiaoT";
         eEndKey="name=shuyingkouT";
         content=editStrByKey2(content,eStartKey,eEndKey,shuyingkouT);
-        
+
         startKey ="id=sanliantiao";
         endKey ="name=loseP";
         var shuyingkouH1 = getWord2(content,startKey,endKey);
@@ -354,7 +354,7 @@ function computer(i){
         eStartKey="name=sanliantiaoT";
         eEndKey="name=shuyingkouRT";
         content=editStrByKey3(content,eStartKey,eEndKey,shuyingkouRT);
-        
+ **************************************************************/      
         //上表输赢钱
         startKey ="id=shuqian";
         endKey ="id=yingqian";
@@ -408,7 +408,7 @@ function computer(i){
         content=editStrByKey2(content,eStartKey,eEndKey,lirunT+"万");
         //上表总利
         startKey ="id=zonglirun";
-        endKey ="name=liantiaochaT";
+        endKey ="name=shuqianT";
         var zonglirun1 = getWord(content,startKey,endKey);
         zonglirun1=zonglirun1.replace("万","");
         zonglirunT=yunsuan(zonglirunT,"+",zonglirun1);
@@ -420,9 +420,9 @@ function computer(i){
         
         //统计完上表生成表格
         var j = 2*i-1;
-        addTable(j,liantiaochaT,sanliantiaoT,sanweitiaoT,silianlianT,siweilianT,shuyingkouT,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
+        addTable(j,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
         
-        
+        /*******************
         //alert(liantiaocha1);
         startKey ="id=liantiaocha2";
         endKey ="id=sanliantiao2";
@@ -433,7 +433,7 @@ function computer(i){
         eStartKey="class=size26";
         eEndKey="name=liantiaochaT2";
         content=editStrByKey2(content,eStartKey,eEndKey,liantiaochaT);
-        
+        *********************/
         //下表码佣
         startKey ="name=shuyingqian2";
         endKey ="name=mayong2";
@@ -446,7 +446,7 @@ function computer(i){
         eStartKey="name=shuyingqianT2";
         eEndKey="name=mayongT2";
         content=editStrByKey3(content,eStartKey,eEndKey,mayongT+"万");
-        
+/**************************************************************     
 		//四连连
         startKey ="id=silianlian2";
         endKey ="id=siweilian2";
@@ -493,7 +493,7 @@ function computer(i){
         eStartKey="name=sanliantiaoT2";
         eEndKey="name=shuyingkouT2";
         content=editStrByKey2(content,eStartKey,eEndKey,shuyingkouT);
-        
+
         startKey ="id=sanliantiao2";
         endKey ="name=loseP2";
         var shuyingkouH2 = getWord2(content,startKey,endKey);
@@ -511,12 +511,12 @@ function computer(i){
         eStartKey="name=sanliantiaoT2";
         eEndKey="name=shuyingkouRT2";
         content=editStrByKey3(content,eStartKey,eEndKey,shuyingkouRT);
-        
+           **************************************************************/     
         
         
         //下表输赢钱
-        startKey ="id=yingqian2";
-        endKey ="id=shuqian2";
+        startKey ="id=shuqian2";
+        endKey ="id=yingqian2";
         var shuyingqianH2 = getWord4(content,startKey,endKey);
         shuyingqianH2=shuyingqianH2.replace("万","");
         shuyingqianHT=yunsuan(shuyingqianHT,"+",shuyingqianH2);
@@ -527,7 +527,7 @@ function computer(i){
         
         startKey ="id=yingqian2";
         endKey ="name=shuyingqian2";
-        var shuyingqianR2 = getWord2(content,startKey,endKey);
+        var shuyingqianR2 = getWord4(content,startKey,endKey);
         shuyingqianR2=shuyingqianR2.replace("万","");
         shuyingqianRT=yunsuan(shuyingqianRT,"+",shuyingqianR2);
         shuyingqianRT=FormatAfterDotNumber(shuyingqianRT,2);
@@ -589,7 +589,7 @@ function computer(i){
         //alert("输赢钱： "+shuyingqian1+"  "+shuyingqian2);
         //alert("庄抽水： "+zhuangchou1+"  "+zhuangchou2);
         //alert("利润： "+lirun1+"  "+lirun2);
-        addTable(i*2,liantiaochaT,sanliantiaoT,sanweitiaoT,silianlianT,siweilianT,shuyingkouT,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
+        addTable(i*2,shuyingqianT+"万",zhuangchouT+"万",lirunT+"万");
         var checkP=yunsuan(lirunT,"+",zhuangchouT);
         checkP=FormatAfterDotNumber(checkP,2);
         if(checkP!=shuyingqianT){
@@ -687,6 +687,7 @@ var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+jush
 //alert(text);
 cell.innerHTML=text;
 }
+/****************************
 if(j==1){
 var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+liantiaocha+"\""+">";
 //alert(text);
@@ -718,17 +719,18 @@ var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+shuy
 //alert(text);
 cell.innerHTML=text;
 }
-if(j==7){
+**********/
+if(j==1){
 var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+shuyingqian+"\""+">";
 //alert(text);
 cell.innerHTML=text;
 }
-if(j==8){
+if(j==2){
 var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+zhuangchou +"\""+">";
 //alert(text);
 cell.innerHTML=text;
 }
-if(j==9){
+if(j==3){
 var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+lirun +"\""+">";
 //alert(text);
 cell.innerHTML=text;
@@ -1068,6 +1070,7 @@ function FormatAfterDotNumber(ValueString, nAfterDotNum) {
 <td>
 局数
 </td>
+<!-- 
 <td>
 连跳差
 </td>
@@ -1083,6 +1086,7 @@ function FormatAfterDotNumber(ValueString, nAfterDotNum) {
 <td>
 四尾连
 </td>
+-->
 <td>
 输赢口
 </td>
