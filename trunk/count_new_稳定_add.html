@@ -670,14 +670,14 @@ document.getElementById("heiquan").value = blackRes;
 //alert(document.getElementById("heiquan").innerHTML)
 
 }
-function addTable(jushu,liantiaocha,sanliantiao,sanweitiao,silianlian,siweilian,shuyingkou,shuyingqian,zhuangchou,lirun){
+function addTable(jushu,shuyingqian,zhuangchou,lirun){
 //var text = "<input  type=\""+"text\""+" class=\""+"size12\""+" value="+"\""+jushu+"\""+">";
 //alert(text);
 var table = document.getElementById("tb1");
 table.setAttribute("border","1");
 var headerrow = table.insertRow(); 
 headerrow.className="size11";
-var cellLeg=10;//每行的格数
+var cellLeg=4;//每行的格数
 for (var j=0;j<cellLeg;j++){
 var cell = headerrow.insertCell();
 cell.setAttribute("width","5");
@@ -1065,8 +1065,8 @@ function FormatAfterDotNumber(ValueString, nAfterDotNum) {
 </td>
 <td>
 </table>
-<table id="tb1"  width=800  border=1 cellSpacing=0>
-<tr>
+<table id="tb1"  width=850  border=1 cellSpacing=0 >
+<tr align=center>
 <td>
 局数
 </td>
@@ -1086,10 +1086,10 @@ function FormatAfterDotNumber(ValueString, nAfterDotNum) {
 <td>
 四尾连
 </td>
--->
 <td>
 输赢口
 </td>
+-->
 <td>
 输赢钱
 </td>
