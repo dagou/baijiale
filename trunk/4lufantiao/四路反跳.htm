@@ -1,0 +1,366 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>百家乐</title>
+<style type="text/css">
+.top{
+	width:100%;
+	height:30px;
+	background-color:white;
+	font-size:15;
+	padding:2 0 5 200;
+	margin:0 0 0 0;
+	color:black;
+}
+.topxia{
+	width:100%;
+	height:30px;
+	background-color:white;
+	font-size:15;
+	padding:0 0 5 58;
+	margin:0 0 0 0;
+	color:black;
+}
+.topxia2{
+	width:100%;
+	height:30px;
+	background-color:white;
+	font-size:15;
+	padding:0 0 0 25;
+	margin:0 0 0 0;
+	color:black;
+}
+.zhu{
+	width:100%;
+	height:30px;
+	background-color:white;
+	font-size:3;
+	padding:5 0 0 10;
+	margin:0 0 0 0;
+	color:black;
+}
+.zhu input{
+	width:30px;
+	border:none;
+	text-align:center;
+}
+input{
+	width:40px;
+}
+td{
+	width:30px;
+}
+tr{
+	height:24px;
+}
+button{
+	background-color:#B9B9FF;
+	width:50px;
+	height:22px;
+	color:white;
+}
+</style>
+<script type="text/javascript">
+function document.oncontextmenu(){ //屏蔽系统右键功能 
+  return false; 
+}
+
+function rclick(e){
+  var targ;
+  if (!e) var e = window.event;
+  if (e.target) targ = e.target;
+  else if (e.srcElement) targ = e.srcElement;
+  if (targ.nodeType == 3) // defeat Safari bug
+    targ = targ.parentNode;
+  //alert("You clicked on a " + targ.tagName + " element.")
+  var rowObj = targ.parentNode;
+  if (targ.tagName=="TD" && rowObj.rowIndex<=4 && rowObj.rowIndex>=1) {	//限制点击元素区域
+  if(event.button == 1){//左键
+    targ.background="images\\red.png";
+  }else if(event.button == 2){ //点击鼠标右键
+    targ.background="images\\black.png";
+  }else if(event.button == 4){ //中间按键
+    targ.background="";
+  }
+  }
+}
+function init(){
+  addLastRow();
+}
+function addLastRow(){
+  var tableObj=document.getElementById("table1");   //找到相应表
+  var rowObj=document.getElementById("xiazhu1");   //找到相应行
+  var i,newCol;
+  if (rowObj.cells.length==1) {     //确定下注行没有设置
+    for (i=1;i<tableObj.rows[0].cells.length;i++) {
+      newCol=rowObj.insertCell(rowObj.cells.length);
+	  newCol.innerHTML='<input type=text />';
+    }
+  }
+}
+</script>
+</head>
+
+<body onmousedown="rclick(event)" onload="init()">
+
+	<div class=top >
+		<input type=text style="width:400px;height:30px" />
+	</div>
+	<div class=topxia>
+		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input type=text />&emsp;纯利:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+	</div>
+	<div class=topxia2>
+		<font color=red>赢口</font>:<input type=text />&emsp;输口:<input type=text />&emsp;差:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+		&emsp;&emsp;<font color=red>赢</font>:<input type=text />&emsp;输:<input type=text />&emsp;&emsp;差:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+	</div>
+	<div class=zhu>
+		<table id="table1" cellspacing="0"   cellpadding="0"   border="1 black">
+			<tr align=center>
+				<td style="width:40px">&nbsp;</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
+				<td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td>
+				<td>24</td><td>25</td><td>26</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px" ><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">一路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">三路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr id="xiazhu1" align=center>
+				<td style="width:40px"><strong>下注</strong></td>
+			</tr>
+		</table>
+		<br />
+		
+		
+		
+		<table cellspacing="0"   cellpadding="0"   border="1 black">
+			<tr align=center>
+				<td style="width:40px">&nbsp;</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td>32</td><td>33</td><td>34</td><td>35</td>
+				<td>36</td><td>37</td><td>38</td><td>39</td><td>40</td><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td>
+				<td>46</td><td>47</td><td>48</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">一路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">三路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><strong>下注</strong></td><td><input type=text /></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+		</table>
+		<br />
+		
+		
+		
+		
+		
+		<table cellspacing="0"   cellpadding="0"   border="1 black">
+			<tr align=center>
+				<td style="width:40px">&nbsp;</td><td>49</td><td>50</td><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td><td>56</td><td>57</td>
+				<td>58</td><td>59</td><td>60</td><td>61</td><td>62</td><td>63</td><td>64</td><td>65</td><td>66</td><td>67</td>
+				<td>68</td><td>69</td><td>70</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">一路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">三路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><strong>下注</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+		</table>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class=top >
+		<input type=text style="width:400px;height:30px" />
+	</div>
+	<div class=topxia>
+		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input type=text />&emsp;纯利:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+	</div>
+	<div class=topxia2>
+		<font color=red>赢口</font>:<input type=text />&emsp;输口:<input type=text />&emsp;差:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+		&emsp;&emsp;<font color=red>赢</font>:<input type=text />&emsp;输:<input type=text />&emsp;&emsp;差:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+	</div>
+	<div class=zhu>
+		<table cellspacing="0"   cellpadding="0"   border="1 black">
+			<tr align=center>
+				<td style="width:40px">&nbsp;</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
+				<td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td>
+				<td>24</td><td>25</td><td>26</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px" ><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">一路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">三路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><strong>下注</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+		</table>
+		<br />
+		
+		
+		
+		<table cellspacing="0"   cellpadding="0"   border="1 black">
+			<tr align=center>
+				<td style="width:40px">&nbsp;</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td>32</td><td>33</td><td>34</td><td>35</td>
+				<td>36</td><td>37</td><td>38</td><td>39</td><td>40</td><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td>
+				<td>46</td><td>47</td><td>48</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">一路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">三路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><strong>下注</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+		</table>
+		<br />
+		
+		
+		
+		
+		
+		<table cellspacing="0"   cellpadding="0"   border="1 black">
+			<tr align=center>
+				<td style="width:40px">&nbsp;</td><td>49</td><td>50</td><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td><td>56</td><td>57</td>
+				<td>58</td><td>59</td><td>60</td><td>61</td><td>62</td><td>63</td><td>64</td><td>65</td><td>66</td><td>67</td>
+				<td>68</td><td>69</td><td>70</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">一路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px">三路</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr align=center>
+				<td style="width:40px"><strong>下注</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+		</table>
+	</div>
+	
+	
+	
+	
+	
+</body>
+</html>
