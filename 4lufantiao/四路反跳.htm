@@ -54,64 +54,197 @@ tr{
 	height:24px;
 }
 button{
-	background-color:#B9B9FF;
+	margin:3 0 3 35;
 	width:50px;
-	height:22px;
-	color:white;
+	height:24px;
+}
+.penblack{
+	width:20px;
+	height:14px;
+	border-style:double;
+	border-color:black;
+	border-width:4px;
+	margin:6 10 6 30;
+}
+.penred{
+	width:20px;
+	height:14px;
+	border-style:double;
+	border-color:red;
+	border-width:4px;
+	margin:6 10 6 30;	
+}
+.fontblack{
+	color:black;
+	align:center;
+	width:35px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*透明背景*/
+}
+.fontred{
+	color:red;
+	align:center;
+	width:35px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*透明背景*/
 }
 </style>
 <script type="text/javascript">
+var pencolor;
 function document.oncontextmenu(){ //屏蔽系统右键功能 
   return false; 
 }
 
 function rclick(e){
-  var targ;
-  if (!e) var e = window.event;
-  if (e.target) targ = e.target;
-  else if (e.srcElement) targ = e.srcElement;
-  if (targ.nodeType == 3) // defeat Safari bug
-    targ = targ.parentNode;
+  var targ = findTarget(e);
   //alert("You clicked on a " + targ.tagName + " element.")
   var rowObj = targ.parentNode;
   if (targ.tagName=="TD" && rowObj.rowIndex<=4 && rowObj.rowIndex>=1) {	//限制点击元素区域
-  if(event.button == 1){//左键
-    targ.background="images\\red.png";
-  }else if(event.button == 2){ //点击鼠标右键
-    targ.background="images\\black.png";
-  }else if(event.button == 4){ //中间按键
-    targ.background="";
+    if(event.button == 1){//左键
+      targ.background="images\\red.png";
+    }else if(event.button == 2){ //点击鼠标右键
+      targ.background="images\\black.png";
+    }else if(event.button == 4){ //中间按键
+      targ.background="";
+    }
+  } else if (targ.tagName=="INPUT" && rowObj.parentNode.rowIndex==5) { //押注行处理
+    if (pencolor==1||pencolor==""||pencolor==null) {
+      targ.className="fontblack";
+    } else if (pencolor==2) {
+      targ.className="fontred";
+    }	
   }
+}
+function findTarget(e) {
+  var targ;
+  if (!e) {
+    var e = window.event;
+  }
+  if (e.target) {
+    targ = e.target;
+  } else if (e.srcElement) {
+    targ = e.srcElement;
+  }
+  if (targ.nodeType == 3) {// defeat Safari bug
+    targ = targ.parentNode;
+  }
+  return targ;
+}
+
+function changeColor(e){//设置字体颜色
+  if(event.keyCode==16){//设置画笔颜色
+    if(pencolor==1){
+      pencolor=2;
+	  document.getElementById("changecolor").className="penred";
+    }else{
+      pencolor=1;
+      document.getElementById("changecolor").className="penblack";
+    }
   }
 }
 function init(){
   addLastRow();
 }
 function addLastRow(){
-  var tableObj=document.getElementById("table1");   //找到相应表
-  var rowObj=document.getElementById("xiazhu1");   //找到相应行
-  var i,newCol;
-  if (rowObj.cells.length==1) {     //确定下注行没有设置
-    for (i=1;i<tableObj.rows[0].cells.length;i++) {
-      newCol=rowObj.insertCell(rowObj.cells.length);
-	  newCol.innerHTML='<input type=text />';
+  var i,j,rowObj,newCol,tableObj;
+  for (j=1;j<=6;j++){
+    tableObj=document.getElementById("table"+j);    //找到相应表
+    rowObj =tableObj.rows[5];   //找到相应行
+    if (rowObj.cells.length==1) {     //确定下注行没有设置
+      for (i=1;i<tableObj.rows[0].cells.length;i++) {
+        newCol=rowObj.insertCell(rowObj.cells.length);
+	    newCol.innerHTML="<input class='fontblack' type=text/>";
+      }
     }
   }
 }
+function sum() {
+  var i,j,tableObj,rowObj,cellObj,inputObj;
+  var winTime=0,lostTime=0,winBet=0,lostBet=0;
+  for (j=1;j<=3;j++){
+    tableObj=document.getElementById("table"+j);    //找到相应表
+    rowObj =tableObj.rows[5];   //找到相应行
+    for (i=1;i<tableObj.rows[0].cells.length;i++) {
+	  cellObj=rowObj.cells[i];
+	  inputObj=cellObj.firstChild;
+	  if (inputObj.value != "") {
+	    if (inputObj.className=="fontred") {
+          winTime++;
+          winBet+=parseInt(inputObj.value);
+		} else if (inputObj.className=="fontblack") {
+          lostTime++;
+		  lostBet+=parseInt(inputObj.value);
+		}
+	  }
+    }
+  }
+  document.getElementById("winTime1").value=winTime;
+  document.getElementById("lostTime1").value=lostTime;
+  document.getElementById("winBet1").value=winBet;
+  document.getElementById("lostBet1").value=lostBet;
+  if (winTime>lostTime) {
+    document.getElementById("TimeDiff1").style.color = "red";
+    document.getElementById("TimeDiff1").value=winTime-lostTime;
+  } else if (winTime<=lostTime) {
+    document.getElementById("TimeDiff1").style.color = "black";
+    document.getElementById("TimeDiff1").value=lostTime-winTime;
+  }
+  if (winBet>lostBet) {
+    document.getElementById("betDiff1").style.color = "red";
+	document.getElementById("betDiff1").style.color = "red";
+    document.getElementById("betDiff1").value=winBet-lostBet;
+	document.getElementById("percent1").value=(winBet-lostBet)*0.025;
+	document.getElementById("benefit1").value=(winBet-lostBet)*0.975;
+  } else if (winBet<=lostBet) {
+    document.getElementById("betDiff1").style.color = "black";
+	document.getElementById("betDiff1").style.color = "black";
+    document.getElementById("betDiff1").value=lostBet-winBet;
+	document.getElementById("percent1").value=(lostBet-winBet)*0.025;
+	document.getElementById("benefit1").value=(lostBet-winBet)*0.975;
+  }
+  
+  winTime=0,lostTime=0,winBet=0,lostBet=0;
+  for (j=4;j<=6;j++){
+    tableObj=document.getElementById("table"+j);    //找到相应表
+    rowObj =tableObj.rows[5];   //找到相应行
+    for (i=1;i<tableObj.rows[0].cells.length;i++) {
+	  cellObj=rowObj.cells[i];
+	  inputObj=cellObj.firstChild;
+	  if (inputObj.value != null) {
+	    if (inputObj.style.color == "red") {
+          winTime++;
+          winBet+=inputObj.value;
+		} else if (inputObj.style.color =="black") {
+          lostTime++;
+		  lostBet+=inputObj.value;
+		}
+	  }
+    }
+  }
+  document.getElementById("winTime2").value=winTime;
+  document.getElementById("lostTime2").value=lostTime;
+  document.getElementById("winBet2").value=winBet;
+  document.getElementById("lostBet2").value=lostBet;
+}
+
 </script>
 </head>
 
-<body onmousedown="rclick(event)" onload="init()">
+<body onmousedown="rclick(event)" onkeydown="changeColor(event)" onload="init()">
 
 	<div class=top >
-		<input type=text style="width:400px;height:30px" />
+		<input type=text style="width:400px;height:30px" /><button type="button" onclick="sum()">统计</button>
 	</div>
 	<div class=topxia>
-		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input type=text />&emsp;纯利:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input id="percent1" type=text />&emsp;纯利:<input id="benefit1" type=text />&emsp;累计:<input id="benefitSum1" type=text style="width:50px"/>
 	</div>
 	<div class=topxia2>
-		<font color=red>赢口</font>:<input type=text />&emsp;输口:<input type=text />&emsp;差:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
-		&emsp;&emsp;<font color=red>赢</font>:<input type=text />&emsp;输:<input type=text />&emsp;&emsp;差:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+		<font color=red>赢口</font>:<input id="winTime1" type=text />&emsp;输口:<input id="lostTime1" type=text />&emsp;差:<input id="TimeDiff1" type=text />&emsp;累计:<input id="winLostSum1" type=text style="width:50px"/>
+		&emsp;&emsp;<font color=red>赢</font>:<input id="winBet1" type=text />&emsp;输:<input id="lostBet1" type=text />&emsp;&emsp;差:<input id="betDiff1" type=text />&emsp;累计:<input id="BetSum1" type=text style="width:50px"/>
 	</div>
 	<div class=zhu>
 		<table id="table1" cellspacing="0"   cellpadding="0"   border="1 black">
@@ -140,7 +273,7 @@ function addLastRow(){
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
-			<tr id="xiazhu1" align=center>
+			<tr align=center>
 				<td style="width:40px"><strong>下注</strong></td>
 			</tr>
 		</table>
@@ -148,7 +281,7 @@ function addLastRow(){
 		
 		
 		
-		<table cellspacing="0"   cellpadding="0"   border="1 black">
+		<table id="table2" cellspacing="0"   cellpadding="0"   border="1 black">
 			<tr align=center>
 				<td style="width:40px">&nbsp;</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td>32</td><td>33</td><td>34</td><td>35</td>
 				<td>36</td><td>37</td><td>38</td><td>39</td><td>40</td><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td>
@@ -175,9 +308,7 @@ function addLastRow(){
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><strong>下注</strong></td><td><input type=text /></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><strong>下注</strong></td>
 			</tr>
 		</table>
 		<br />
@@ -186,7 +317,7 @@ function addLastRow(){
 		
 		
 		
-		<table cellspacing="0"   cellpadding="0"   border="1 black">
+		<table id="table3" cellspacing="0"   cellpadding="0"   border="1 black">
 			<tr align=center>
 				<td style="width:40px">&nbsp;</td><td>49</td><td>50</td><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td><td>56</td><td>57</td>
 				<td>58</td><td>59</td><td>60</td><td>61</td><td>62</td><td>63</td><td>64</td><td>65</td><td>66</td><td>67</td>
@@ -213,44 +344,23 @@ function addLastRow(){
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><strong>下注</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><strong>下注</strong></td>
 			</tr>
 		</table>
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	<div class=top >
-		<input type=text style="width:400px;height:30px" />
+		<input type=text style="width:400px;height:30px" /><input id="changecolor" class="penblack" type="text" disabled=disabled />
 	</div>
 	<div class=topxia>
-		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input type=text />&emsp;纯利:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input id="percent2" type=text />&emsp;纯利:<input id="benefit2" type=text />&emsp;累计:<input id="benefitSum2" type=text style="width:50px"/>
 	</div>
 	<div class=topxia2>
-		<font color=red>赢口</font>:<input type=text />&emsp;输口:<input type=text />&emsp;差:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
-		&emsp;&emsp;<font color=red>赢</font>:<input type=text />&emsp;输:<input type=text />&emsp;&emsp;差:<input type=text />&emsp;累计:<input type=text style="width:50px"/>
+		<font color=red>赢口</font>:<input id="winTime2" type=text />&emsp;输口:<input id="lostTime2" type=text />&emsp;差:<input id="TimeDiff2" type=text />&emsp;累计:<input id="winLostSum2" type=text style="width:50px"/>
+		&emsp;&emsp;<font color=red>赢</font>:<input id="winBet2" type=text />&emsp;输:<input id="lostBet2" type=text />&emsp;&emsp;差:<input id="betDiff2" type=text />&emsp;累计:<input id="BetSum2" type=text style="width:50px"/>
 	</div>
 	<div class=zhu>
-		<table cellspacing="0"   cellpadding="0"   border="1 black">
+		<table id="table4" cellspacing="0"   cellpadding="0"   border="1 black">
 			<tr align=center>
 				<td style="width:40px">&nbsp;</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
 				<td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td>
@@ -277,16 +387,14 @@ function addLastRow(){
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><strong>下注</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><strong>下注</strong></td>
 			</tr>
 		</table>
 		<br />
 		
 		
 		
-		<table cellspacing="0"   cellpadding="0"   border="1 black">
+		<table id="table5" cellspacing="0"   cellpadding="0"   border="1 black">
 			<tr align=center>
 				<td style="width:40px">&nbsp;</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td>32</td><td>33</td><td>34</td><td>35</td>
 				<td>36</td><td>37</td><td>38</td><td>39</td><td>40</td><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td>
@@ -313,18 +421,12 @@ function addLastRow(){
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><strong>下注</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><strong>下注</strong></td>
 			</tr>
 		</table>
 		<br />
-		
-		
-		
-		
-		
-		<table cellspacing="0"   cellpadding="0"   border="1 black">
+
+		<table id="table6" cellspacing="0"   cellpadding="0"   border="1 black">
 			<tr align=center>
 				<td style="width:40px">&nbsp;</td><td>49</td><td>50</td><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td><td>56</td><td>57</td>
 				<td>58</td><td>59</td><td>60</td><td>61</td><td>62</td><td>63</td><td>64</td><td>65</td><td>66</td><td>67</td>
@@ -351,9 +453,7 @@ function addLastRow(){
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><strong>下注</strong></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
-				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><strong>下注</strong></td>
 			</tr>
 		</table>
 	</div>
