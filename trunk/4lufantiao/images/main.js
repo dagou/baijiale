@@ -113,14 +113,14 @@ function sum() {
 	document.getElementById("benefit2").style.color = "red";
     document.getElementById("betDiff1").value=winBet-lostBet;
 	document.getElementById("percent1").value=winBet*0.025;
-	document.getElementById("benefit1").value=winBet*0.975;
+	document.getElementById("benefit1").value=winBet-lostBet-winBet*0.025;
   } else if (winBet<=lostBet) {
     document.getElementById("betDiff1").style.color = "black";
 	document.getElementById("betDiff1Text").style.color = "black";
 	document.getElementById("benefit2").style.color = "black";
     document.getElementById("betDiff1").value=lostBet-winBet;
 	document.getElementById("percent1").value=winBet*0.025;
-	document.getElementById("benefit1").value=winBet*1.025;
+	document.getElementById("benefit1").value=lostBet-winBet+winBet*0.025;
   }
   
   winTime=0.0,lostTime=0.0,winBet=0.0,lostBet=0.0;
@@ -160,14 +160,14 @@ function sum() {
 	document.getElementById("benefit2").style.color = "red";
     document.getElementById("betDiff2").value=winBet-lostBet;
 	document.getElementById("percent2").value=winBet*0.025;
-	document.getElementById("benefit2").value=winBet*0.975;
+	document.getElementById("benefit2").value=winBet-lostBet-winBet*0.025;
   } else if (winBet<=lostBet) {
     document.getElementById("betDiff2").style.color = "black";
 	document.getElementById("betDiff2Text").style.color = "black";
 	document.getElementById("benefit2").style.color = "black";
     document.getElementById("betDiff2").value=lostBet-winBet;
 	document.getElementById("percent2").value=winBet*0.025;
-	document.getElementById("benefit2").value=winBet*1.025;
+	document.getElementById("benefit2").value=lostBet-winBet+winBet*0.025;
   }
 }
 function save(){    
