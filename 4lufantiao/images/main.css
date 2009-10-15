@@ -5,9 +5,16 @@ h2 {
 	height:30px;
 	background-color:white;
 	font-size:15;
-	padding:2 0 5 200;
+	padding:2 0 5 150;
 	margin:0 0 0 0;
 	color:black;
+}
+.topTitle{
+    font-size:26px;
+	font-weight:bold;
+	text-align:center;
+	width:400px;
+	height:30px;
 }
 .topxia{
 	width:100%;
