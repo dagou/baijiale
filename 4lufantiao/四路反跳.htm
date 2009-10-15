@@ -3,6 +3,8 @@
 <head>
 <title>百家乐</title>
 <style type="text/css">
+h2 {
+}
 .top{
 	width:100%;
 	height:30px;
@@ -20,6 +22,12 @@
 	padding:0 0 5 58;
 	margin:0 0 0 0;
 	color:black;
+}
+.titleRed{
+    color:red;
+}
+.titleBlack{
+    color:black;
 }
 .topxia2{
 	width:100%;
@@ -47,6 +55,24 @@
 input{
 	width:40px;
 }
+.tdimgred{
+	width:30px;
+	align:center;
+	margin:0 auto;
+	background-image:url(images\red.png);
+	background-position: center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
+.tdimgblack{
+    width:30px;
+	align:center;
+	margin:0 auto;
+	background-image:url(images\black.png);
+	background-position: center center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
 td{
 	width:30px;
 }
@@ -54,7 +80,7 @@ tr{
 	height:24px;
 }
 button{
-	margin:3 0 3 35;
+	margin:3 0 3 5;
 	width:50px;
 	height:24px;
 }
@@ -105,9 +131,9 @@ function rclick(e){
   var rowObj = targ.parentNode;
   if (targ.tagName=="TD" && rowObj.rowIndex<=4 && rowObj.rowIndex>=1) {	//限制点击元素区域
     if(event.button == 1){//左键
-      targ.background="images\\red.png";
+     targ.className="tdimgred"
     }else if(event.button == 2){ //点击鼠标右键
-      targ.background="images\\black.png";
+     targ.className="tdimgblack"
     }else if(event.button == 4){ //中间按键
       targ.background="";
     }
@@ -145,6 +171,13 @@ function changeColor(e){//设置字体颜色
       document.getElementById("changecolor").className="penblack";
     }
   }
+  if(event.keyCode==27){//删除记录
+    var targ = findTarget(e);
+	var rowObj = targ.parentNode;
+	if (targ.tagName=="TD" && rowObj.rowIndex<=4 && rowObj.rowIndex>=1) {	//限制点击元素区域
+        targ.className="";
+	}
+  }
 }
 function init(){
   addLastRow();
@@ -164,7 +197,7 @@ function addLastRow(){
 }
 function sum() {
   var i,j,tableObj,rowObj,cellObj,inputObj;
-  var winTime=0,lostTime=0,winBet=0,lostBet=0;
+  var winTime=0.0,lostTime=0.0,winBet=0.0,lostBet=0.0;
   for (j=1;j<=3;j++){
     tableObj=document.getElementById("table"+j);    //找到相应表
     rowObj =tableObj.rows[5];   //找到相应行
@@ -174,10 +207,10 @@ function sum() {
 	  if (inputObj.value != "") {
 	    if (inputObj.className=="fontred") {
           winTime++;
-          winBet+=parseInt(inputObj.value);
+          winBet+=parseFloat(inputObj.value);
 		} else if (inputObj.className=="fontblack") {
           lostTime++;
-		  lostBet+=parseInt(inputObj.value);
+		  lostBet+=parseFloat(inputObj.value);
 		}
 	  }
     }
@@ -187,40 +220,42 @@ function sum() {
   document.getElementById("winBet1").value=winBet;
   document.getElementById("lostBet1").value=lostBet;
   if (winTime>lostTime) {
-    document.getElementById("TimeDiff1").style.color = "red";
-    document.getElementById("TimeDiff1").value=winTime-lostTime;
+    document.getElementById("timeDiff1").style.color = "red";
+	document.getElementById("timeDiff1Text").style.color = "red";
+    document.getElementById("timeDiff1").value=winTime-lostTime;
   } else if (winTime<=lostTime) {
-    document.getElementById("TimeDiff1").style.color = "black";
-    document.getElementById("TimeDiff1").value=lostTime-winTime;
+    document.getElementById("timeDiff1").style.color = "black";
+	document.getElementById("timeDiff1Text").style.color = "black";
+    document.getElementById("timeDiff1").value=lostTime-winTime;
   }
   if (winBet>lostBet) {
     document.getElementById("betDiff1").style.color = "red";
-	document.getElementById("betDiff1").style.color = "red";
+	document.getElementById("betDiff1Text").style.color = "red";
     document.getElementById("betDiff1").value=winBet-lostBet;
 	document.getElementById("percent1").value=(winBet-lostBet)*0.025;
 	document.getElementById("benefit1").value=(winBet-lostBet)*0.975;
   } else if (winBet<=lostBet) {
     document.getElementById("betDiff1").style.color = "black";
-	document.getElementById("betDiff1").style.color = "black";
+	document.getElementById("betDiff1Text").style.color = "black";
     document.getElementById("betDiff1").value=lostBet-winBet;
 	document.getElementById("percent1").value=(lostBet-winBet)*0.025;
 	document.getElementById("benefit1").value=(lostBet-winBet)*0.975;
   }
   
-  winTime=0,lostTime=0,winBet=0,lostBet=0;
+  winTime=0.0,lostTime=0.0,winBet=0.0,lostBet=0.0;
   for (j=4;j<=6;j++){
     tableObj=document.getElementById("table"+j);    //找到相应表
     rowObj =tableObj.rows[5];   //找到相应行
     for (i=1;i<tableObj.rows[0].cells.length;i++) {
 	  cellObj=rowObj.cells[i];
 	  inputObj=cellObj.firstChild;
-	  if (inputObj.value != null) {
-	    if (inputObj.style.color == "red") {
+	  if (inputObj.value != "") {
+	    if (inputObj.className=="fontred") {
           winTime++;
-          winBet+=inputObj.value;
-		} else if (inputObj.style.color =="black") {
+          winBet+=parseFloat(inputObj.value);
+		} else if (inputObj.className=="fontblack") {
           lostTime++;
-		  lostBet+=inputObj.value;
+		  lostBet+=parseFloat(inputObj.value);
 		}
 	  }
     }
@@ -229,22 +264,51 @@ function sum() {
   document.getElementById("lostTime2").value=lostTime;
   document.getElementById("winBet2").value=winBet;
   document.getElementById("lostBet2").value=lostBet;
+  if (winTime>lostTime) {
+    document.getElementById("timeDiff2").style.color = "red";
+	document.getElementById("timeDiff2Text").style.color = "red";
+    document.getElementById("timeDiff2").value=winTime-lostTime;
+  } else if (winTime<=lostTime) {
+    document.getElementById("timeDiff2").style.color = "black";
+	document.getElementById("timeDiff2Text").style.color = "black";
+    document.getElementById("timeDiff2").value=lostTime-winTime;
+  }
+  if (winBet>lostBet) {
+    document.getElementById("betDiff2").style.color = "red";
+	document.getElementById("betDiff2Text").style.color = "red";
+    document.getElementById("betDiff2").value=winBet-lostBet;
+	document.getElementById("percent2").value=(winBet-lostBet)*0.025;
+	document.getElementById("benefit2").value=(winBet-lostBet)*0.975;
+  } else if (winBet<=lostBet) {
+    document.getElementById("betDiff2").style.color = "black";
+	document.getElementById("betDiff2Text").style.color = "black";
+    document.getElementById("betDiff2").value=lostBet-winBet;
+	document.getElementById("percent2").value=(lostBet-winBet)*0.025;
+	document.getElementById("benefit2").value=(lostBet-winBet)*0.975;
+  }
 }
-
+function save(){    
+	var strHTML =document.documentElement.outerHTML;
+	var   winSave   =   window.open(); 
+	winSave.document.open("text/html","utf-8");   
+    winSave.document.write(strHTML);   
+    winSave.document.execCommand("SaveAs",true,"f:\\四路统计.html");   
+    winSave.close();   
+}
 </script>
 </head>
 
 <body onmousedown="rclick(event)" onkeydown="changeColor(event)" onload="init()">
 
 	<div class=top >
-		<input type=text style="width:400px;height:30px" /><button type="button" onclick="sum()">统计</button>
+		<input type=text style="width:400px;height:30px" /><button type="button" onclick="sum()">统计</button><button type="button" onclick="save()">保存</button>
 	</div>
 	<div class=topxia>
-		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input id="percent1" type=text />&emsp;纯利:<input id="benefit1" type=text />&emsp;累计:<input id="benefitSum1" type=text style="width:50px"/>
+		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input id="percent1" type=text /><span class=titleRed>&emsp;纯利:</span><input id="benefit1" type=text />&emsp;累计:<input id="benefitSum1" type=text style="width:50px"/>
 	</div>
 	<div class=topxia2>
-		<font color=red>赢口</font>:<input id="winTime1" type=text />&emsp;输口:<input id="lostTime1" type=text />&emsp;差:<input id="TimeDiff1" type=text />&emsp;累计:<input id="winLostSum1" type=text style="width:50px"/>
-		&emsp;&emsp;<font color=red>赢</font>:<input id="winBet1" type=text />&emsp;输:<input id="lostBet1" type=text />&emsp;&emsp;差:<input id="betDiff1" type=text />&emsp;累计:<input id="BetSum1" type=text style="width:50px"/>
+		<span class=titleRed>赢口:</span><input id="winTime1" class=titleRed type=text />&emsp;输口:<input id="lostTime1" type=text /><span id="timeDiff1Text">&emsp;差:</span><input id="timeDiff1" type=text />&emsp;累计:<input id="winLostSum1" type=text style="width:50px"/>
+		&emsp;&emsp;<span class=titleRed>赢:</span><input id="winBet1" class=titleRed type=text />&emsp;输:<input id="lostBet1" type=text />&emsp;&emsp;<span id="betDiff1Text">差:</span><input id="betDiff1" type=text />&emsp;累计:<input id="betSum1" type=text style="width:50px"/>
 	</div>
 	<div class=zhu>
 		<table id="table1" cellspacing="0"   cellpadding="0"   border="1 black">
@@ -254,7 +318,7 @@ function sum() {
 				<td>24</td><td>25</td><td>26</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px" ><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px" ><span class=titleRed>大路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -264,7 +328,7 @@ function sum() {
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>二路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -288,7 +352,7 @@ function sum() {
 				<td>46</td><td>47</td><td>48</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>大路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -298,7 +362,7 @@ function sum() {
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>二路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -324,7 +388,7 @@ function sum() {
 				<td>68</td><td>69</td><td>70</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>大路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -334,7 +398,7 @@ function sum() {
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>二路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -353,11 +417,11 @@ function sum() {
 		<input type=text style="width:400px;height:30px" /><input id="changecolor" class="penblack" type="text" disabled=disabled />
 	</div>
 	<div class=topxia>
-		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input id="percent2" type=text />&emsp;纯利:<input id="benefit2" type=text />&emsp;累计:<input id="benefitSum2" type=text style="width:50px"/>
+		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;抽水:<input id="percent2" type=text /><span class=titleRed>&emsp;纯利:</span><input id="benefit2" type=text />&emsp;累计:<input id="benefitSum2" type=text style="width:50px"/>
 	</div>
 	<div class=topxia2>
-		<font color=red>赢口</font>:<input id="winTime2" type=text />&emsp;输口:<input id="lostTime2" type=text />&emsp;差:<input id="TimeDiff2" type=text />&emsp;累计:<input id="winLostSum2" type=text style="width:50px"/>
-		&emsp;&emsp;<font color=red>赢</font>:<input id="winBet2" type=text />&emsp;输:<input id="lostBet2" type=text />&emsp;&emsp;差:<input id="betDiff2" type=text />&emsp;累计:<input id="BetSum2" type=text style="width:50px"/>
+		<span class=titleRed>赢口:</span><input id="winTime2" class=titleRed type=text />&emsp;输口:<input id="lostTime2" type=text /><span id="timeDiff2Text">&emsp;差:</span><input id="timeDiff2" type=text />&emsp;累计:<input id="winLostSum2" type=text style="width:50px"/>
+		&emsp;&emsp;<span class=titleRed>赢</span>:<input id="winBet2" class=titleRed type=text />&emsp;输:<input id="lostBet2" type=text /><span id="betDiff2Text">&emsp;&emsp;差:</span><input id="betDiff2" type=text />&emsp;累计:<input id="betSum2" type=text style="width:50px"/>
 	</div>
 	<div class=zhu>
 		<table id="table4" cellspacing="0"   cellpadding="0"   border="1 black">
@@ -367,7 +431,7 @@ function sum() {
 				<td>24</td><td>25</td><td>26</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px" ><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px" ><span class=titleRed>大路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -377,7 +441,7 @@ function sum() {
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>二路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -401,7 +465,7 @@ function sum() {
 				<td>46</td><td>47</td><td>48</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>大路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -411,7 +475,7 @@ function sum() {
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>二路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -433,7 +497,7 @@ function sum() {
 				<td>68</td><td>69</td><td>70</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>大路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>大路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
@@ -443,7 +507,7 @@ function sum() {
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><font color=red>二路</font></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>二路</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
