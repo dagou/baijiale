@@ -96,8 +96,8 @@ function sum() {
   }
   document.getElementById("winTime1").value=winTime;
   document.getElementById("lostTime1").value=lostTime;
-  document.getElementById("winBet1").value=winBet;
-  document.getElementById("lostBet1").value=lostBet;
+  document.getElementById("winBet1").value=formatFloat(winBet,2);
+  document.getElementById("lostBet1").value=formatFloat(lostBet,2);
   if (winTime>lostTime) {
     document.getElementById("timeDiff1").style.color = "red";
 	document.getElementById("timeDiff1Text").style.color = "red";
@@ -110,17 +110,19 @@ function sum() {
   if (winBet>lostBet) {
     document.getElementById("betDiff1").style.color = "red";
 	document.getElementById("betDiff1Text").style.color = "red";
-	document.getElementById("benefit2").style.color = "red";
-    document.getElementById("betDiff1").value=winBet-lostBet;
-	document.getElementById("percent1").value=winBet*0.025;
-	document.getElementById("benefit1").value=winBet-lostBet-winBet*0.025;
+	document.getElementById("benefit1").style.color = "red";
+	document.getElementById("benefit1Text").style.color = "red";
+    document.getElementById("betDiff1").value=formatFloat(winBet-lostBet,2);;
+	document.getElementById("percent1").value=formatFloat(winBet*0.025,2);
+	document.getElementById("benefit1").value=formatFloat(winBet-lostBet-winBet*0.025,2);
   } else if (winBet<=lostBet) {
     document.getElementById("betDiff1").style.color = "black";
 	document.getElementById("betDiff1Text").style.color = "black";
-	document.getElementById("benefit2").style.color = "black";
-    document.getElementById("betDiff1").value=lostBet-winBet;
-	document.getElementById("percent1").value=winBet*0.025;
-	document.getElementById("benefit1").value=lostBet-winBet+winBet*0.025;
+	document.getElementById("benefit1").style.color = "black";
+	document.getElementById("benefit1Text").style.color = "black";
+    document.getElementById("betDiff1").value=formatFloat(lostBet-winBet,2);
+	document.getElementById("percent1").value=formatFloat(winBet*0.025,2);
+	document.getElementById("benefit1").value=formatFloat(lostBet-winBet+winBet*0.025,2);
   }
   
   winTime=0.0,lostTime=0.0,winBet=0.0,lostBet=0.0;
@@ -143,8 +145,8 @@ function sum() {
   }
   document.getElementById("winTime2").value=winTime;
   document.getElementById("lostTime2").value=lostTime;
-  document.getElementById("winBet2").value=winBet;
-  document.getElementById("lostBet2").value=lostBet;
+  document.getElementById("winBet2").value=formatFloat(winBet,2);
+  document.getElementById("lostBet2").value=formatFloat(lostBet,2);
   if (winTime>lostTime) {
     document.getElementById("timeDiff2").style.color = "red";
 	document.getElementById("timeDiff2Text").style.color = "red";
@@ -158,16 +160,18 @@ function sum() {
     document.getElementById("betDiff2").style.color = "red";
 	document.getElementById("betDiff2Text").style.color = "red";
 	document.getElementById("benefit2").style.color = "red";
-    document.getElementById("betDiff2").value=winBet-lostBet;
-	document.getElementById("percent2").value=winBet*0.025;
-	document.getElementById("benefit2").value=winBet-lostBet-winBet*0.025;
+	document.getElementById("benefit2Text").style.color = "red";
+    document.getElementById("betDiff2").value=formatFloat(winBet-lostBet,2);
+	document.getElementById("percent2").value=formatFloat(winBet*0.025,2);
+	document.getElementById("benefit2").value=formatFloat(winBet-lostBet-winBet*0.025,2);
   } else if (winBet<=lostBet) {
     document.getElementById("betDiff2").style.color = "black";
 	document.getElementById("betDiff2Text").style.color = "black";
 	document.getElementById("benefit2").style.color = "black";
-    document.getElementById("betDiff2").value=lostBet-winBet;
-	document.getElementById("percent2").value=winBet*0.025;
-	document.getElementById("benefit2").value=lostBet-winBet+winBet*0.025;
+	document.getElementById("benefit2Text").style.color = "black";
+    document.getElementById("betDiff2").value=formatFloat(lostBet-winBet,2);
+	document.getElementById("percent2").value=formatFloat(winBet*0.025,2);
+	document.getElementById("benefit2").value=formatFloat(lostBet-winBet+winBet*0.025,2);
   }
 }
 function save(){    
@@ -177,4 +181,8 @@ function save(){
     winSave.document.write(strHTML);   
     winSave.document.execCommand("SaveAs",true,"f:\\四路统计.html");   
     winSave.close();   
+}
+function formatFloat(src, pos)
+{
+    return Math.round(src*Math.pow(10, pos))/Math.pow(10, pos);
 }
