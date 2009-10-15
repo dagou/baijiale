@@ -1,0 +1,69 @@
+﻿<html>
+<head>
+<title>四路反跳统计</title>
+
+<style type="text/css">
+body {
+    width:800px;
+	margin:10px;
+    white-space: nowrap;
+}
+.topTable tr{
+    width:500px;
+	align:left;
+}
+.topTable td{
+    width:100px;
+}
+input {
+  width:40px;
+}
+.downTable td{
+  height:30px;
+  width:100px;
+}
+.downTable tr{
+  height:30px;
+}
+.downTable table {
+  width:800px;
+  
+}
+</style>
+<SCRIPT type=text/JavaScript>
+var f,content;
+var   fso,   f1,   ts,   s;   
+var path = window.document.location.href;
+var fffend = path.indexOf("count");
+var diskpath = path.substring(8,fffend);
+function ReadFile(filespec){ //传入的参数是文件所在路径 
+    var fso  = new ActiveXObject("Scripting.FileSystemObject"); 
+    var file = fso.OpenTextFile(filespec); 
+    var text = file.ReadLine(); 
+    file.Close(); 
+    alert("Text content:"+text); 
+} 
+var testString="<html><head></head><h1 id='h1Test'>Hello world!</h1><body></body></html>"
+</SCRIPT>
+</head>
+<body>
+  <div class="topTable"><table>
+    <tr>
+      <td>统计从：</td>
+	  <td><input id="startGame">局 到 </td>
+	  <td><input id="endGame">局</td>
+	  <td><button id="win" onClick="count()">统计</button></td>
+    </tr>
+  </table>
+  </div>
+  <div  class="downTable"><table>
+    <tr>
+      <td>局数</td>
+	  <td>输赢口</td>
+      <td>输赢钱</td>
+      <td>庄抽水</td>
+      <td>纯利</td>
+    <tr>
+  </table></div>
+</body>
+</html>
