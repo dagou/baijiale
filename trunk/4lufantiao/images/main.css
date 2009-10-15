@@ -1,0 +1,115 @@
+h2 {
+}
+.top{
+	width:100%;
+	height:30px;
+	background-color:white;
+	font-size:15;
+	padding:2 0 5 200;
+	margin:0 0 0 0;
+	color:black;
+}
+.topxia{
+	width:100%;
+	height:30px;
+	background-color:white;
+	font-size:15;
+	padding:0 0 5 58;
+	margin:0 0 0 0;
+	color:black;
+}
+.titleRed{
+    color:red;
+}
+.titleBlack{
+    color:black;
+}
+.topxia2{
+	width:100%;
+	height:30px;
+	background-color:white;
+	font-size:15;
+	padding:0 0 0 25;
+	margin:0 0 0 0;
+	color:black;
+}
+.zhu{
+	width:100%;
+	height:30px;
+	background-color:white;
+	font-size:3;
+	padding:5 0 0 10;
+	margin:0 0 0 0;
+	color:black;
+}
+.zhu input{
+	width:30px;
+	border:none;
+	text-align:center;
+}
+input{
+	width:40px;
+}
+.tdimgred{
+	width:30px;
+	align:center;
+	margin:0 auto;
+	background-image:url(red.png);
+	background-position: center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
+.tdimgblack{
+    width:30px;
+	align:center;
+	margin:0 auto;
+	background-image:url(black.png);
+	background-position: center center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
+td{
+	width:30px;
+}
+tr{
+	height:24px;
+}
+button{
+	margin:3 0 3 5;
+	width:50px;
+	height:24px;
+}
+.penblack{
+	width:20px;
+	height:14px;
+	border-style:double;
+	border-color:black;
+	border-width:4px;
+	margin:6 10 6 30;
+}
+.penred{
+	width:20px;
+	height:14px;
+	border-style:double;
+	border-color:red;
+	border-width:4px;
+	margin:6 10 6 30;	
+}
+.fontblack{
+	color:black;
+	align:center;
+	width:35px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*Í¸Ã÷±³¾°*/
+}
+.fontred{
+	color:red;
+	align:center;
+	width:35px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*Í¸Ã÷±³¾°*/
+}
