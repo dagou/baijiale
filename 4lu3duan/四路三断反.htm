@@ -1,7 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+ï»¿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title>°Ù¼ÒÀÖ</title>
+<title>ç™¾å®¶ä¹</title>
 <link rel="stylesheet" type="text/css" href="images/main.css" />
 <script src="images/main.js"></script>
 
@@ -11,14 +11,14 @@
 <body onmousedown="rclick(event)" onkeydown="changeColor(event)" onload="init()">
 
 	<div class=top >
-		<input id="topTitle" class="topTitle" type=text  /><button type="button" onclick="sum()">Í³¼Æ</button><button type="button" onclick="save()">±£´æ</button>
+		<input id="topTitle" class="topTitle" type=text  /><button type="button" onclick="sum()">ç»Ÿè®¡</button><button type="button" onclick="save()">ä¿å­˜</button>
 	</div>
 	<div class=topxia>
-		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;³éË®:<input id="percent1" type=text /><span id="benefit1Text" >&emsp;´¿Àû:</span><input id="benefit1" type=text />&emsp;ÀÛ¼Æ:<input id="benefitSum1" type=text style="width:50px"/>
+		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;æŠ½æ°´:<input id="percent1" type=text /><span id="benefit1Text" >&emsp;çº¯åˆ©:</span><input id="benefit1" type=text />&emsp;ç´¯è®¡:<input id="benefitSum1" type=text style="width:50px"/>
 	</div>
 	<div class=topxia2>
-		<span class=titleRed>Ó®¿Ú:</span><input id="winTime1" class=titleRed type=text />&emsp;Êä¿Ú:<input id="lostTime1" type=text /><span id="timeDiff1Text">&emsp;²î:</span><input id="timeDiff1" type=text />&emsp;ÀÛ¼Æ:<input id="winLostSum1" type=text style="width:50px"/>
-		&emsp;&emsp;<span class=titleRed>Ó®:</span><input id="winBet1" class=titleRed type=text />&emsp;Êä:<input id="lostBet1" type=text />&emsp;&emsp;<span id="betDiff1Text">²î:</span><input id="betDiff1" type=text />&emsp;ÀÛ¼Æ:<input id="betSum1" type=text style="width:50px"/>
+		<span class=titleRed>èµ¢å£:</span><input id="winTime1" class=titleRed type=text />&emsp;è¾“å£:<input id="lostTime1" type=text /><span id="timeDiff1Text">&emsp;å·®:</span><input id="timeDiff1" type=text />&emsp;ç´¯è®¡:<input id="winLostSum1" type=text style="width:50px"/>
+		&emsp;&emsp;<span class=titleRed>èµ¢:</span><input id="winBet1" class=titleRed type=text />&emsp;è¾“:<input id="lostBet1" type=text />&emsp;&emsp;<span id="betDiff1Text">å·®:</span><input id="betDiff1" type=text />&emsp;ç´¯è®¡:<input id="betSum1" type=text style="width:50px"/>
 	</div>
 	<div class=zhu>
 		<table id="table1" cellspacing="0"   cellpadding="0"   border="1 black">
@@ -28,27 +28,27 @@
 				<td>24</td><td>25</td><td>26</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px" ><span class=titleRed>´óÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px" ><span class=titleRed>å¤§è·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">Ò»Â·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸€è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopBlue" align=center>
-				<td style="width:40px"><span class=titleRed>¶şÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>äºŒè·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">ÈıÂ·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸‰è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopDoubleBlack" align=center>
-				<td style="width:40px"><strong>ÏÂ×¢</strong></td>
+				<td style="width:40px"><strong>ä¸‹æ³¨</strong></td>
 			</tr>
 		</table>
 		<br />
@@ -62,27 +62,27 @@
 				<td>46</td><td>47</td><td>48</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><span class=titleRed>´óÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>å¤§è·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">Ò»Â·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸€è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopBlue" align=center>
-				<td style="width:40px"><span class=titleRed>¶şÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>äºŒè·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">ÈıÂ·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸‰è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopDoubleBlack" align=center>
-				<td style="width:40px"><strong>ÏÂ×¢</strong></td>
+				<td style="width:40px"><strong>ä¸‹æ³¨</strong></td>
 			</tr>
 		</table>
 		<br />
@@ -98,27 +98,27 @@
 				<td>68</td><td>69</td><td>70</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><span class=titleRed>´óÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>å¤§è·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">Ò»Â·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸€è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopBlue" align=center>
-				<td style="width:40px"><span class=titleRed>¶şÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>äºŒè·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">ÈıÂ·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸‰è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopDoubleBlack" align=center>
-				<td style="width:40px"><strong>ÏÂ×¢</strong></td>
+				<td style="width:40px"><strong>ä¸‹æ³¨</strong></td>
 			</tr>
 		</table>
 	</div>
@@ -127,11 +127,11 @@
 		<input class="topTitle" type=text  /><input id="changecolor" class="penblack" type="text" disabled=disabled />
 	</div>
 	<div class=topxia>
-		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;³éË®:<input id="percent2" type=text /><span id="benefit2Text" >&emsp;´¿Àû:</span><input id="benefit2" type=text />&emsp;ÀÛ¼Æ:<input id="benefitSum2" type=text style="width:50px"/>
+		<input type=text style="width:320px" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;æŠ½æ°´:<input id="percent2" type=text /><span id="benefit2Text" >&emsp;çº¯åˆ©:</span><input id="benefit2" type=text />&emsp;ç´¯è®¡:<input id="benefitSum2" type=text style="width:50px"/>
 	</div>
 	<div class=topxia2>
-		<span class=titleRed>Ó®¿Ú:</span><input id="winTime2" class=titleRed type=text />&emsp;Êä¿Ú:<input id="lostTime2" type=text /><span id="timeDiff2Text">&emsp;²î:</span><input id="timeDiff2" type=text />&emsp;ÀÛ¼Æ:<input id="winLostSum2" type=text style="width:50px"/>
-		&emsp;&emsp;<span class=titleRed>Ó®</span>:<input id="winBet2" class=titleRed type=text />&emsp;Êä:<input id="lostBet2" type=text /><span id="betDiff2Text">&emsp;&emsp;²î:</span><input id="betDiff2" type=text />&emsp;ÀÛ¼Æ:<input id="betSum2" type=text style="width:50px"/>
+		<span class=titleRed>èµ¢å£:</span><input id="winTime2" class=titleRed type=text />&emsp;è¾“å£:<input id="lostTime2" type=text /><span id="timeDiff2Text">&emsp;å·®:</span><input id="timeDiff2" type=text />&emsp;ç´¯è®¡:<input id="winLostSum2" type=text style="width:50px"/>
+		&emsp;&emsp;<span class=titleRed>èµ¢</span>:<input id="winBet2" class=titleRed type=text />&emsp;è¾“:<input id="lostBet2" type=text /><span id="betDiff2Text">&emsp;&emsp;å·®:</span><input id="betDiff2" type=text />&emsp;ç´¯è®¡:<input id="betSum2" type=text style="width:50px"/>
 	</div>
 	<div class=zhu>
 		<table id="table4" cellspacing="0"   cellpadding="0"   border="1 black">
@@ -141,27 +141,27 @@
 				<td>24</td><td>25</td><td>26</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px" ><span class=titleRed>´óÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px" ><span class=titleRed>å¤§è·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">Ò»Â·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸€è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopBlue" align=center>
-				<td style="width:40px"><span class=titleRed>¶şÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>äºŒè·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">ÈıÂ·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸‰è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopDoubleBlack" align=center>
-				<td style="width:40px"><strong>ÏÂ×¢</strong></td>
+				<td style="width:40px"><strong>ä¸‹æ³¨</strong></td>
 			</tr>
 		</table>
 		<br />
@@ -175,27 +175,27 @@
 				<td>46</td><td>47</td><td>48</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><span class=titleRed>´óÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>å¤§è·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">Ò»Â·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸€è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopBlue" align=center>
-				<td style="width:40px"><span class=titleRed>¶şÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>äºŒè·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">ÈıÂ·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸‰è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopDoubleBlack" align=center>
-				<td style="width:40px"><strong>ÏÂ×¢</strong></td>
+				<td style="width:40px"><strong>ä¸‹æ³¨</strong></td>
 			</tr>
 		</table>
 		<br />
@@ -207,27 +207,27 @@
 				<td>68</td><td>69</td><td>70</td>
 			</tr>
 			<tr align=center>
-				<td style="width:40px"><span class=titleRed>´óÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>å¤§è·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">Ò»Â·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸€è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopBlue" align=center>
-				<td style="width:40px"><span class=titleRed>¶şÂ·</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px"><span class=titleRed>äºŒè·¯</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopRed" align=center>
-				<td style="width:40px">ÈıÂ·</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+				<td style="width:40px">ä¸‰è·¯</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class="trTopDoubleBlack" align=center>
-				<td style="width:40px"><strong>ÏÂ×¢</strong></td>
+				<td style="width:40px"><strong>ä¸‹æ³¨</strong></td>
 			</tr>
 		</table>
 	</div>
