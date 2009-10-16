@@ -81,6 +81,7 @@ td{
 
 tr{
 	height:24px;
+	font-size:15;
 }
 button{
 	margin:3 0 3 5;
@@ -110,7 +111,7 @@ button{
 	height:20px;
 	border:0 solid teal;
 	text-align:center;
-	background:transparent;/*Í¸Ã÷±³¾°*/
+	background:transparent;/*Í¸*/
 }
 .fontred{
 	color:red;
@@ -119,7 +120,7 @@ button{
 	height:20px;
 	border:0 solid teal;
 	text-align:center;
-	background:transparent;/*Í¸Ã÷±³¾°*/
+	background:transparent;/*Í¸*/
 }
 .trTopBlue td{
     border-top-color:blue;
