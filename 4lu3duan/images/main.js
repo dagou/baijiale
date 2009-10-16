@@ -21,7 +21,13 @@ function rclick(e){
       targ.className="fontblack";
     } else if (pencolor==2) {
       targ.className="fontred";
-    }	
+    }
+  }else if (targ.tagName=="INPUT" && targ.id =="topTitle") {
+    if (pencolor==1||pencolor==""||pencolor==null) {
+      targ.style.color="black";
+    } else if (pencolor==2) {
+      targ.style.color="red";
+    }
   }
 }
 function findTarget(e) {

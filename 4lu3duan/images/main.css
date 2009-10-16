@@ -45,7 +45,7 @@ h2 {
 	height:30px;
 	background-color:white;
 	font-size:3;
-	padding:0 0 0 10;
+	padding:0 0 0 5;
 	margin:0 0 0 0;
 	color:black;
 }
@@ -78,6 +78,7 @@ input{
 td{
 	width:30px;
 }
+
 tr{
 	height:24px;
 }
@@ -119,4 +120,16 @@ button{
 	border:0 solid teal;
 	text-align:center;
 	background:transparent;/*Í¸Ã÷±³¾°*/
+}
+.trTopBlue td{
+    border-top-color:blue;
+	border-top-style:dotted;
+}
+.trTopRed td{
+    border-top-color:red;
+	border-top-style:dotted;
+}
+.trTopDoubleBlack td{
+    border-top-color:black;
+	border-top-width:2px;
 }
