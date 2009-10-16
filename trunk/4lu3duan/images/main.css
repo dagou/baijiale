@@ -59,7 +59,6 @@ input{
 }
 .tdimgred{
 	width:30px;
-	align:center;
 	margin:0 auto;
 	background-image:url(red.png);
 	background-position: center; 
@@ -68,7 +67,6 @@ input{
 }
 .tdimgblack{
     width:30px;
-	align:center;
 	margin:0 auto;
 	background-image:url(black.png);
 	background-position: center center; 
@@ -106,7 +104,7 @@ button{
 }
 .fontblack{
 	color:black;
-	align:center;
+	text-align:center;
 	width:35px;
 	height:20px;
 	border:0 solid teal;
@@ -115,7 +113,7 @@ button{
 }
 .fontred{
 	color:red;
-	align:center;
+	text-align:center;
 	width:35px;
 	height:20px;
 	border:0 solid teal;
