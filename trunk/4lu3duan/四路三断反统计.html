@@ -10,7 +10,7 @@ body {
 }
 .topTable tr{
     width:500px;
-	align:left;
+	text-align:left;
 }
 .topTable td{
     width:100px;
@@ -31,19 +31,51 @@ input {
 }
 </style>
 <SCRIPT type=text/JavaScript>
-var f,content;
+
 var   fso,   f1,   ts,   s;   
-var path = window.document.location.href;
-var fffend = path.indexOf("count");
+var path=window.document.location.href;
+var fffend = path.indexOf("四路三断反统计");
 var diskpath = path.substring(8,fffend);
-function ReadFile(filespec){ //传入的参数是文件所在路径 
-    var fso  = new ActiveXObject("Scripting.FileSystemObject"); 
-    var file = fso.OpenTextFile(filespec); 
-    var text = file.ReadLine(); 
-    file.Close(); 
-    alert("Text content:"+text); 
-} 
-var testString="<html><head></head><h1 id='h1Test'>Hello world!</h1><body></body></html>"
+function checkFile(){
+  var startGame = document.getElementById('startGame').value;
+  var endGame = document.getElementById('endGame').value;
+  var i;   
+   fso   =   new   ActiveXObject("Scripting.FileSystemObject"); 
+  for ( i = startGame;i<=endGame;i++){
+    var fname = "四路三断反"+i+".htm";
+    filepath=diskpath+fname;
+    if (!fso.fileexists(filepath)){
+      alert(fname+" 不存在!");
+      break;
+    } else {
+	  var f,content;
+	  var count,winLostDiff,betDiff,benefitSum;
+      f=fso.OpenTextFile(filepath,1,false,-1); 
+      content = f.readAll();
+	  f.Close();
+      var filter = /<INPUT id=winTime1 class=titleRed value=\d/g;
+      alert(filter.testcontent));
+	}
+  }
+
+}
+function getWord2(str,startKey,endKey){
+var startIdx = str.indexOf(startKey);
+var strT = "";
+if(startIdx!=-1){
+strT=str.substring(startIdx,str.length);
+}
+var end = strT.indexOf(endKey);
+end = startIdx+end;
+var temp = null;
+if(startIdx!=-1&&end!=-1){
+temp =  str.substring(startIdx+startKey.length,end);
+}
+//根据此应用的特殊情况做出调整
+end = temp.lastIndexOf("value=")+6;
+temp= temp.substring(end,temp.length);
+return temp;
+}
 </SCRIPT>
 </head>
 <body>
@@ -52,7 +84,7 @@ var testString="<html><head></head><h1 id='h1Test'>Hello world!</h1><body></body
       <td>统计从：</td>
 	  <td><input id="startGame">局 到 </td>
 	  <td><input id="endGame">局</td>
-	  <td><button id="win" onClick="count()">统计</button></td>
+	  <td><button id="win" onClick="checkFile()">统计</button></td>
     </tr>
   </table>
   </div>

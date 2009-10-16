@@ -1,6 +1,6 @@
 
 var pencolor=1;
-function document.oncontextmenu(){ //ÆÁ±ÎÏµÍ³ÓÒ¼ü¹¦ÄÜ 
+function document.oncontextmenu(){ //å±è”½ç³»ç»Ÿå³é”®åŠŸèƒ½ 
   return false; 
 }
 
@@ -8,21 +8,21 @@ function rclick(e){
   var targ = findTarget(e);
   //alert("You clicked on a " + targ.tagName + " element.")
   var rowObj = targ.parentNode;
-  if (targ.tagName=="TD" && rowObj.rowIndex<=4 && rowObj.rowIndex>=1) {	//ÏŞÖÆµã»÷ÔªËØÇøÓò
-    if(event.button == 1){//×ó¼ü
+  if (targ.tagName=="TD" && rowObj.rowIndex<=4 && rowObj.rowIndex>=1) {	//é™åˆ¶ç‚¹å‡»å…ƒç´ åŒºåŸŸ
+    if(event.button == 1){//å·¦é”®
      targ.className="tdimgred"
-    }else if(event.button == 2){ //µã»÷Êó±êÓÒ¼ü
+    }else if(event.button == 2){ //ç‚¹å‡»é¼ æ ‡å³é”®
      targ.className="tdimgblack"
-    }else if(event.button == 4){ //ÖĞ¼ä°´¼ü
+    }else if(event.button == 4){ //ä¸­é—´æŒ‰é”®
       targ.background="";
     }
-  } else if (targ.tagName=="INPUT" && rowObj.parentNode.rowIndex==5) { //Ñº×¢ĞĞ´¦Àí
+  } else if (targ.tagName=="INPUT" && rowObj.parentNode.rowIndex==5) { //æŠ¼æ³¨è¡Œå¤„ç†
     if (pencolor==1||pencolor==""||pencolor==null) {
       targ.className="fontblack";
     } else if (pencolor==2) {
       targ.className="fontred";
     }
-  }else if (targ.tagName=="INPUT" && targ.id =="topTitle") {
+  }else if (targ.tagName=="INPUT" && targ.className =="topTitle") {
     if (pencolor==1||pencolor==""||pencolor==null) {
       targ.style.color="black";
     } else if (pencolor==2) {
@@ -46,8 +46,8 @@ function findTarget(e) {
   return targ;
 }
 
-function changeColor(e){//ÉèÖÃ×ÖÌåÑÕÉ«
-  if(event.keyCode==16){//ÉèÖÃ»­±ÊÑÕÉ«
+function changeColor(e){//è®¾ç½®å­—ä½“é¢œè‰²
+  if(event.keyCode==16){//è®¾ç½®ç”»ç¬”é¢œè‰²
     if(pencolor==1){
       pencolor=2;
 	  document.getElementById("changecolor").className="penred";
@@ -56,10 +56,10 @@ function changeColor(e){//ÉèÖÃ×ÖÌåÑÕÉ«
       document.getElementById("changecolor").className="penblack";
     }
   }
-  if(event.keyCode==27){//É¾³ı¼ÇÂ¼
+  if(event.keyCode==27){//åˆ é™¤è®°å½•
     var targ = findTarget(e);
 	var rowObj = targ.parentNode;
-	if (targ.tagName=="TD" && rowObj.rowIndex<=4 && rowObj.rowIndex>=1) {	//ÏŞÖÆµã»÷ÔªËØÇøÓò
+	if (targ.tagName=="TD" && rowObj.rowIndex<=4 && rowObj.rowIndex>=1) {	//é™åˆ¶ç‚¹å‡»å…ƒç´ åŒºåŸŸ
         targ.className="";
 	}
   }
@@ -70,9 +70,9 @@ function init(){
 function addLastRow(){
   var i,j,rowObj,newCol,tableObj;
   for (j=1;j<=6;j++){
-    tableObj=document.getElementById("table"+j);    //ÕÒµ½ÏàÓ¦±í
-    rowObj =tableObj.rows[5];   //ÕÒµ½ÏàÓ¦ĞĞ
-    if (rowObj.cells.length==1) {     //È·¶¨ÏÂ×¢ĞĞÃ»ÓĞÉèÖÃ
+    tableObj=document.getElementById("table"+j);    //æ‰¾åˆ°ç›¸åº”è¡¨
+    rowObj =tableObj.rows[5];   //æ‰¾åˆ°ç›¸åº”è¡Œ
+    if (rowObj.cells.length==1) {     //ç¡®å®šä¸‹æ³¨è¡Œæ²¡æœ‰è®¾ç½®
       for (i=1;i<tableObj.rows[0].cells.length;i++) {
         newCol=rowObj.insertCell(rowObj.cells.length);
 	    newCol.innerHTML="<input class='fontblack' type=text/>";
@@ -84,8 +84,8 @@ function sum() {
   var i,j,tableObj,rowObj,cellObj,inputObj;
   var winTime=0.0,lostTime=0.0,winBet=0.0,lostBet=0.0;
   for (j=1;j<=3;j++){
-    tableObj=document.getElementById("table"+j);    //ÕÒµ½ÏàÓ¦±í
-    rowObj =tableObj.rows[5];   //ÕÒµ½ÏàÓ¦ĞĞ
+    tableObj=document.getElementById("table"+j);    //æ‰¾åˆ°ç›¸åº”è¡¨
+    rowObj =tableObj.rows[5];   //æ‰¾åˆ°ç›¸åº”è¡Œ
     for (i=1;i<tableObj.rows[0].cells.length;i++) {
 	  cellObj=rowObj.cells[i];
 	  inputObj=cellObj.firstChild;
@@ -133,8 +133,8 @@ function sum() {
   
   winTime=0.0,lostTime=0.0,winBet=0.0,lostBet=0.0;
   for (j=4;j<=6;j++){
-    tableObj=document.getElementById("table"+j);    //ÕÒµ½ÏàÓ¦±í
-    rowObj =tableObj.rows[5];   //ÕÒµ½ÏàÓ¦ĞĞ
+    tableObj=document.getElementById("table"+j);    //æ‰¾åˆ°ç›¸åº”è¡¨
+    rowObj =tableObj.rows[5];   //æ‰¾åˆ°ç›¸åº”è¡Œ
     for (i=1;i<tableObj.rows[0].cells.length;i++) {
 	  cellObj=rowObj.cells[i];
 	  inputObj=cellObj.firstChild;
@@ -185,7 +185,7 @@ function save(){
 	var   winSave   =   window.open(); 
 	winSave.document.open("text/html","utf-8");   
     winSave.document.write(strHTML);   
-    winSave.document.execCommand("SaveAs",true,"f:\\ËÄÂ·Í³¼Æ.html");   
+    winSave.document.execCommand("SaveAs",true,"f:\\å››è·¯ä¸‰æ–­å.html");   
     winSave.close();   
 }
 function formatFloat(src, pos)
