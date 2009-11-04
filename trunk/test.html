@@ -1,18 +1,170 @@
 ﻿<html>
-<head><title></title>
-<SCRIPT type=text/JavaScript>
-var test1,firstname
-function test(){
-firstname="George";
-document.write(firstname);
-document.write("<br />");
+<head>
+<title>
+</title>
+<style type=text/css>
+body {
+	margin: 0px;
+	font-size: 12 "宋体";
+	text-decoration: none;
 }
-</SCRIPT>
+.tdbig{
+	height:20px;
+	text-align:center;
+	font-size:25;
+	color:red;
+	font-weight:bold;
+}
+table {
+	width:100%;
+}
+.main table{
+	width:100%;
+	height:100%; 
+}
+.main tr{
+	height:35px;
+}
+.main td{
+	width:35px;
+	text-align:center;
+}
+input {
+	width:35px;
+}
+.title1 {
+  text-align:center;
+  width:100%;
+  height:38px; 
+  color:black;
+  font-size:25;
+  font-weight: bold;
+}
+.title2 {
+  text-align:left;
+  width:100%;
+  height:25px; 
+  color:black;
+}
+.ib40 {
+  width:40px;
+  height:21px; 
+}
+.ib30 {
+  width:30px;
+  height:21px; 
+}
+</style>
 </head>
-<body onload="test()">
+<body>
+<div>
+<table>
+ <tr><td colspan="9"><input class="title1"></td></tr>
+ <tr>
+    <td width=50%><input class="title2"></td>
+    <td width=10%>
+      <p>输赢钱:</p></td>
+    <td width=5%><input class="ib30"></td>
+    <td width=5%><input class="ib30"></td>
+    <td width=5%><input></td>
+	<td width=5%>
+      <p>抽水:</p></td>
+    <td width=5%><input></td>
+    <td width=5%>
+      <p>码佣:</p></td>
+    <td width=5%><input></td></tr>
+  <tr>
+    <td width=50%><input class="title2"></td>
+    <td width=10%>
+      <p>累计:</p></td>
+    <td width=5%><input class="ib30"></td>
+    <td width=5%><input class="ib30"></td>
+    <td width=5%><input></td>
+    <td width=8%>
+      <p>累计:</p></td>
+    <td width=7%><input></td>
+    <td width=8%>
+      <p>累计:</p></td>
+    <td width=7%><input></td></tr>
+</table>
 
+<table>
+  <tr>
+    <td width=7%>
+      <p>连跳差：</p></td>
+    <td width=3%><input></td>
+    <td width=3%><input></td>
+    <td width=3%><input></td>
+    <td width=7%>
+      <p>三 跳 ：</p></td>
+    <td width=3%><input></td>
+	<td width=7%>
+      <p>四 连 ：</p></td>
+    <td width=3%><input></td>
+    <td width=8%>
+      <p> 输赢口：</p></td>
+    <td width=3%><input></td>
+    <td width=3%><input></td>
+    <td width=5%><input></td>
 
+    <td width=7%>
+      <p>净利：</p></td>
+    <td width=4%><input></td>
+    <td width=7%>
+      <p>总利：</p></td>
+    <td width=4%><input></td></tr>
+  <tr>
+    <td width=7%>
+      <p>累计：</p></td>
+    <td width=3%></td>
+    <td width=3%></td>
+    <td width=3%><input></td>
+    <td width=7%>
+      <p>累计：</p></td>
+    <td width=3%><input></td>
+	<td width=7%>
+      <p>累计：</p></td>
+    <td width=3%><input></td>
+    <td width=8%>
+      <p> 累计：</p></td>
+    <td width=3%><input></td>
+    <td width=3%><input></td>
+    <td width=5%><input></td>
 
+    <td width=7%>
+      <p>累计：</p></td>
+    <td width=4%><input></td>
+    <td width=7%>
+      <p>累计：</p></td>
+    <td width=4%><input></td></tr>
+</table>
+</div>
+<div>
+<table>
+
+	<tr><td>
+		<table id="tb1" class="main" border="1">
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		</table>
+	</td></tr>
+	<tr><td>
+		<table id="tb2" class="main" border="1">
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		</table>
+	</td></tr>
+</table>
+</div>
 </body>
+
 
 </html>
