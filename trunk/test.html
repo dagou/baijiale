@@ -55,16 +55,174 @@ p
   	font-family: "宋体",sans-serif;
 	font-size: 80%;	
 }
+.tdimgred{
+	align:center;
+	margin:0 auto;
+	background-image:url(images\red.gif);
+	background-position: center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
+.tdimgblack{
+	align:center;
+	margin:0 auto;
+	background-image:url(images\black.gif);
+	background-position: center center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
+
+.penblack{
+	width:50px;
+	height:20px;
+	background-color:black;
+	border:0 solid red;
+}
+.penred{
+	width:50px;
+	height:20px;
+	background-color:red;
+	border:0 solid red;
+}
+.fontblack{
+	color:black;
+	align:center;
+	width:35px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*透明背景*/
+}
+.fontred{
+	color:red;
+	align:center;
+	width:35px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*透明背景*/
+}
+
 </style>
 <script type="text/javascript" src="images/main.js" /></script>
+<script type="text/javascript">
+var pencolor=1;//画笔颜色变量(1为黑色,2为红色,默认为黑色)
+document.onkeydown=kclick2;
+function document.oncontextmenu(){ //屏蔽系统右键功能 
+  return false; 
+}
+function kclick2(){
+	if(event.keyCode==16){//设置画笔颜色
+		if(pencolor==1){
+			pencolor=2;
+			document.getElementById("changecolor").className="penred";
+		}else{
+			pencolor=1;
+			document.getElementById("changecolor").className="penblack";
+		}
+	}
+}
+function rclick(obj){
+	
+	if(event.button == 1){//左键
+		objpoint(obj,"tdimgred");
+	}else if(event.button == 2){ //点击鼠标右键
+		objpoint(obj,"tdimgblack");
+	}
+}
+function kclick(obj){//键盘事件
+	if(event.keyCode==27){//删除记录
+		if(confirm("确认删除吗?")){
+			obj.className="";
+			obj.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+		}
+	}
+}
+
+function changecolor(obj){//设置字体颜色
+	if(event.keyCode!=27){
+		if(pencolor==1||pencolor==""||pencolor==null){
+			obj.className="fontblack";
+		}else if(pencolor==2){
+			obj.className="fontred";
+		}
+	}
+	
+}
+var kc=function(obj){//键盘事件
+	return function(){
+		kclick(obj);
+	}
+}
+var rc=function(obj){//鼠标事件
+	return function(){
+		rclick(obj);
+	}
+}
+function init(){	
+	var table=document.getElementById("tb1");
+	for(var i=0;i<6;i++){
+		for(var j=0;j<21;j++){
+			var tdd=table.rows[i].cells[j];
+			addEventHandler(tdd,"keydown",kc(tdd));
+			addEventHandler(tdd,"mousedown",rc(tdd));
+			tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+		}
+	}
+	var table=document.getElementById("tb2");
+	for(var i=0;i<6;i++){
+		for(var j=0;j<21;j++){
+			var tdd=table.rows[i].cells[j];
+			addEventHandler(tdd,"keydown",kc(tdd));
+			addEventHandler(tdd,"mousedown",rc(tdd));
+			tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+		}
+	}
+	var table=document.getElementById("tb3");
+	for(var i=0;i<6;i++){
+		for(var j=0;j<21;j++){
+			var tdd=table.rows[i].cells[j];
+			addEventHandler(tdd,"keydown",kc(tdd));
+			addEventHandler(tdd,"mousedown",rc(tdd));
+			tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+		}
+	}
+	var table=document.getElementById("tb4");
+	for(var i=0;i<6;i++){
+		for(var j=0;j<21;j++){
+			var tdd=table.rows[i].cells[j];
+			addEventHandler(tdd,"keydown",kc(tdd));
+			addEventHandler(tdd,"mousedown",rc(tdd));
+			tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+		}
+	}
+}
+function addEventHandler(oTarget, sEventType, fnHandler){//动态为组件添加事件兼容不兼容的浏览器   
+    if (oTarget.addEventListener) { //Mozilla, Netscape, Firefox
+    	oTarget.addEventListener(sEventType, fnHandler, false);   
+    } else if (oTarget.attachEvent) {   //IE 
+    	oTarget.attachEvent("on" + sEventType, fnHandler);   
+    } else {   
+    	oTarget["on" + sEventType] = fnHandler;
+    }   
+}
+
+function objpoint(obj,str){//每次添加一个圈
+	var table=obj.parentNode.parentNode.parentNode;
+	var i=obj.parentNode.rowIndex;
+	var j=obj.cellIndex;
+	table.rows[i].cells[j].className=str;
+}
+</script>
 </head>
-<body onmousedown="rclick(event)" onkeydown="changeColor(event)" >
+<body onLoad="init()">
 <div>
-<table>
+<table border=0>
  <tr>
-
 	<td colspan="7"><input class="title1"></td>
-
+	<td><font size=2>画笔:</font>
+	<input id="changecolor" class="penblack" type="text" disabled=disabled /></td>
+	<td width=10><input type="button" value="统计" onclick=""/></td>
  </tr>
  <tr>
     <td width=35%><input class="title2"></td>
@@ -94,7 +252,7 @@ p
     <td width=10%><input class="ib70"></td></tr>
 </table>
 
-<table>
+<table border=0>
   <tr>
     <td width=10%>
       <p>连跳差：</p></td>
@@ -145,7 +303,7 @@ p
 </table>
 </div>
 <div>
-<table>
+<table >
 
 	<tr><td>
 		<table id="tb1" class="main" border="1">
@@ -255,7 +413,7 @@ p
 <table>
 
 	<tr><td>
-		<table id="tb1" class="main" border="1">
+		<table id="tb3" class="main" border="1">
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
@@ -265,7 +423,7 @@ p
 		</table>
 	</td></tr>
 	<tr><td>
-		<table id="tb2" class="main" border="1">
+		<table id="tb4" class="main" border="1">
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
