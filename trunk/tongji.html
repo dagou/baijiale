@@ -420,35 +420,42 @@ else{
 //循环第二次
 row =tb2.rows;
 for (var i=0;i<cellLeg;i++) { 
-for (var j=0;j<rowLeg;j++){
-var temp = row[j].cells[i].firstChild.value;
-if(temp==""){
-if(j==1&&row[0].cells[i].firstChild.value!=""){
-dongcount = yunsuan(dongcount,"+",1)}
-
-continue;
-}
-else{
-if(row[j].cells[i].firstChild.style.color=="red"){
-wintotal = yunsuan(temp,"+",wintotal);
-wincount = yunsuan(1,"+",wincount);
-if(row[j].cells[i].firstChild.parentElement.background=="images/red.gif"){
-var tempC=yunsuan(temp,"*",0.05);
-zhuangchou=yunsuan(zhuangchou,"+",tempC);
-//alert(zhuangchou);
-}
-}
-else if(row[j].cells[i].firstChild.style.color=="black"){
-losetotal = yunsuan(losetotal,"+",temp);
-losecount = yunsuan(1,"+",losecount);
-}
-else
+for (var j=0;j<rowLeg;j++)
 {
-if(temp!=0){
-alert("下表第"+(i+1)+"行第"+(j+1)+"列数据错误！请重新统计！");
-break;
-}
-}
+var temp = row[j].cells[i].firstChild.value;
+	if(temp=="")
+	{
+		if(j==1&&row[0].cells[i].firstChild.value!="")
+		{
+			dongcount = yunsuan(dongcount,"+",1)
+		}
+		continue;
+	}
+	else
+	{
+		if(row[j].cells[i].firstChild.style.color=="red")
+		{
+			wintotal = yunsuan(temp,"+",wintotal);
+			wincount = yunsuan(1,"+",wincount);
+			if(row[j].cells[i].firstChild.parentElement.background=="images/red.gif")
+			{
+			var tempC=yunsuan(temp,"*",0.05);
+			zhuangchou=yunsuan(zhuangchou,"+",tempC);
+			//alert(zhuangchou);
+			}
+		}
+		else if(row[j].cells[i].firstChild.style.color=="black")
+		{
+			losetotal = yunsuan(losetotal,"+",temp);
+			losecount = yunsuan(1,"+",losecount);
+		}
+		else
+		{
+			if(temp!=0){
+			alert("下表第"+(i+1)+"行第"+(j+1)+"列数据错误！请重新统计！");
+			break;
+		}
+	}
 }
 if(j>1){
 morecount = yunsuan(morecount,"+",1);
@@ -534,48 +541,7 @@ morecount2 = yunsuan(morecount2,"+",1);
 }
 //计算上表
 dongcount=yunsuan(dongcount,"-",1);
-/*
-var liantiaochaT=yunsuan(morecount,"-",dongcount);
-document.getElementById('dong').value=dongcount;
-document.getElementById('more').value=morecount;
 
-document.getElementById('liantiaocha').value=liantiaochaT;
-//alert(liantiaochaT +" "+liantiaochaT.toString().indexOf("-"));
-if(liantiaochaT.toString().indexOf("-")!=0){
-document.getElementById('liantiaocha').style.color="red";
-document.getElementById('liantiaochaT').style.color="red";
-}
-else{
-document.getElementById('liantiaocha').style.color="black";
-document.getElementById('liantiaochaT').style.color="black";
-}
-document.getElementById('liantiaochaT').value=liantiaochaT;
-document.getElementById('sanweitiao').value=0;
-document.getElementById('sanliantiao').value = checkliantiao(1);
-document.getElementById('sanliantiaoT').value = 0;
-document.getElementById('silianlian').value = checksilian(1);
-document.getElementById('silianlianT').value = 0;
-document.getElementById('siweilian').value = checksiwei(1);
-document.getElementById('siweilianT').value = 0;
-
-var shuyingkouT=yunsuan(wincount,"-",losecount);
-document.getElementById('loseP').value=losecount;
-document.getElementById('winP').value=wincount;
-document.getElementById('shuyingkouHT').value=losecount;
-document.getElementById('shuyingkouRT').value=wincount;
-document.getElementById('shuyingkou').value=shuyingkouT;
-//alert(shuyingkouT +" "+shuyingkouT.toString().indexOf("-"));
-if(shuyingkouT.toString().indexOf("-")!=0){
-document.getElementById('shuyingkou').style.color="red";
-document.getElementById('shuyingkouT').style.color="red";
-
-} else{
-document.getElementById('shuyingkou').style.color="black";
-document.getElementById('shuyingkouT').style.color="black";
-}
-
-document.getElementById('shuyingkouT').value=shuyingkouT;
-*/
 var shuyingqianT=yunsuan(wintotal,"-",losetotal);
 shuyingqianT=FormatAfterDotNumber(shuyingqianT,2);
 wintotal=FormatAfterDotNumber(wintotal,2);
@@ -1124,6 +1090,7 @@ function Save(){
 	<tr>
 		<td rowspan="2"><input  type="text" class="size17" color="black" onClick="editText(this)"></td>
 		<td><input  type="text" class="size15" onClick="editText(this)"></td>
+		
 	</tr>
 	<tr>
 		<td><input  type="text" class="size15" onClick="editText(this)"></td>

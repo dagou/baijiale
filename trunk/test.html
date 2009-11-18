@@ -26,7 +26,7 @@ input {
 }
 .title1 {
   text-align:center;
-  width:100%;
+  width:700;
   height:30px; 
   color:black;
   font-size:25px;
@@ -106,13 +106,13 @@ p
 </style>
 <script type="text/javascript" src="images/main.js" /></script>
 <script type="text/javascript">
-var pencolor=1;//画笔颜色变量(1为黑色,2为红色,默认为黑色)
+var pencolor=1;
 document.onkeydown=kclick2;
-function document.oncontextmenu(){ //屏蔽系统右键功能 
+function document.oncontextmenu(){ 
   return false; 
 }
 function kclick2(){
-	if(event.keyCode==16){//设置画笔颜色
+	if(event.keyCode==16){
 		if(pencolor==1){
 			pencolor=2;
 			document.getElementById("changecolor").className="penred";
@@ -124,14 +124,14 @@ function kclick2(){
 }
 function rclick(obj){
 	
-	if(event.button == 1){//左键
+	if(event.button == 1){
 		objpoint(obj,"tdimgred");
-	}else if(event.button == 2){ //点击鼠标右键
+	}else if(event.button == 2){ 
 		objpoint(obj,"tdimgblack");
 	}
 }
-function kclick(obj){//键盘事件
-	if(event.keyCode==27){//删除记录
+function kclick(obj){
+	if(event.keyCode==27){
 		if(confirm("确认删除吗?")){
 			obj.className="";
 			obj.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
@@ -139,7 +139,7 @@ function kclick(obj){//键盘事件
 	}
 }
 
-function changecolor(obj){//设置字体颜色
+function changecolor(obj){
 	if(event.keyCode!=27){
 		if(pencolor==1||pencolor==""||pencolor==null){
 			obj.className="fontblack";
@@ -149,12 +149,12 @@ function changecolor(obj){//设置字体颜色
 	}
 	
 }
-var kc=function(obj){//键盘事件
+var kc=function(obj){
 	return function(){
 		kclick(obj);
 	}
 }
-var rc=function(obj){//鼠标事件
+var rc=function(obj){
 	return function(){
 		rclick(obj);
 	}
@@ -166,7 +166,10 @@ function init(){
 			var tdd=table.rows[i].cells[j];
 			addEventHandler(tdd,"keydown",kc(tdd));
 			addEventHandler(tdd,"mousedown",rc(tdd));
-			tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			if(tdd.innerHTML=="&nbsp;")
+			{
+				tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			}
 		}
 	}
 	var table=document.getElementById("tb2");
@@ -175,7 +178,10 @@ function init(){
 			var tdd=table.rows[i].cells[j];
 			addEventHandler(tdd,"keydown",kc(tdd));
 			addEventHandler(tdd,"mousedown",rc(tdd));
-			tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			if(tdd.innerHTML=="&nbsp;")
+			{
+				tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			}
 		}
 	}
 	var table=document.getElementById("tb3");
@@ -184,7 +190,10 @@ function init(){
 			var tdd=table.rows[i].cells[j];
 			addEventHandler(tdd,"keydown",kc(tdd));
 			addEventHandler(tdd,"mousedown",rc(tdd));
-			tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			if(tdd.innerHTML=="&nbsp;")
+			{
+				tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			}
 		}
 	}
 	var table=document.getElementById("tb4");
@@ -193,11 +202,14 @@ function init(){
 			var tdd=table.rows[i].cells[j];
 			addEventHandler(tdd,"keydown",kc(tdd));
 			addEventHandler(tdd,"mousedown",rc(tdd));
-			tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			if(tdd.innerHTML=="&nbsp;")
+			{
+				tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			}
 		}
 	}
 }
-function addEventHandler(oTarget, sEventType, fnHandler){//动态为组件添加事件兼容不兼容的浏览器   
+function addEventHandler(oTarget, sEventType, fnHandler){
     if (oTarget.addEventListener) { //Mozilla, Netscape, Firefox
     	oTarget.addEventListener(sEventType, fnHandler, false);   
     } else if (oTarget.attachEvent) {   //IE 
@@ -207,99 +219,899 @@ function addEventHandler(oTarget, sEventType, fnHandler){//动态为组件添加
     }   
 }
 
-function objpoint(obj,str){//每次添加一个圈
+function objpoint(obj,str){
 	var table=obj.parentNode.parentNode.parentNode;
 	var i=obj.parentNode.rowIndex;
 	var j=obj.cellIndex;
 	table.rows[i].cells[j].className=str;
+}
+function count()  
+{
+	tabcount("up");//根据上边两个小表tb1和tb2生成一个中间表maintab
+	checkMain();
+	
+	tabcount("down");//根据下边两个小表tb3和tb4生成一个中间表maintab
+	checkMain2();
+}
+
+var formercolor="";
+var addcell=0; 
+var addrow=0; 
+
+function checkMain()
+{	
+	var winM=0;
+	var loseM=0;
+	var bankerV=0;
+	
+	var winc=0;
+	var losec=0;
+	
+	var thjump=0;
+	var forlink=0;
+	
+	var linkc=0;
+	var jumpc=0;
+	
+		
+	var maintab=document.getElementById("maintab");
+	for(var i=0;i<42;i++)
+	{
+		for(var j=0;j<36;j++)
+		{
+			var temp=maintab.rows[j].cells[i].innerHTML;
+			if(temp!=""&&temp!=null)
+			{
+				var arr=temp.split(",");
+				
+				if(arr[1]=="fontblack"&&arr[2]!=""&&arr[2]!=null)
+				{
+					loseM+=parseFloat(arr[2]);
+					losec++; 
+				}
+				else if(arr[1]=="fontred"&&arr[2]!=""&&arr[2]!=null)
+				{
+					winM+=parseFloat(arr[2]);
+					winc++;
+				}
+				
+				if(arr[0]==1&&arr[1]=="fontred")
+				{
+					bankerV+=parseFloat(arr[2])*0.05;
+				}
+			}
+			
+		}
+	}
+	
+	document.getElementById("winMoney").value=winM+"万";
+	document.getElementById("loseMoney").value=loseM+"万";
+		var rm=Math.round((winM-loseM)*100)/100;
+		if(rm>0){resultMoney.style.color="red";}else{resultMoney.style.color="black";}
+	document.getElementById("resultMoney").value=rm+"万";
+	document.getElementById("winMoney2").value=winM+"万";
+	document.getElementById("loseMoney2").value=loseM+"万";
+	resultMoney2.style.color=resultMoney.style.color;
+	document.getElementById("resultMoney2").value=rm+"万";
+	
+	winCount.value=winc;
+	loseCount.value=losec;
+	resultCount.value=winc-losec;
+	winCount2.value=winc;
+	loseCount2.value=losec;
+	resultCount2.value=winc-losec;
+	
+	pumpV.value=Math.round(bankerV*100)/100+"万";
+	resultPu.value=pumpV.value;
+	
+	payV.value=Math.round((winM<loseM?winM:loseM)*0.008*100)/100+"万";
+	resultPa.value=payV.value;
+	
+	rm2=Math.round((winM-loseM-Math.round(bankerV*100)/100)*100)/100
+	if(rm2>0){netV.style.color="red";}else{netV.style.color="black";}
+	netV.value=rm2+"万";
+	resultN.style.color=netV.style.color;
+	resultN.value=rm2+"万";
+	
+	rm3=Math.round((winM-loseM-Math.round(bankerV*100)/100+(winM<loseM?winM:loseM)*0.008)*100)/100;
+	if(rm3>0){allV.style.color="red";}else{allV.style.color="black";}
+	allV.value=rm3+"万";
+	resultA.style.color=allV.style.color;
+	resultA.value=rm3+"万";
+	
+	for(var i=0;i<41;i++)  
+	{
+		var temp0=maintab.rows[0].cells[i].innerHTML;
+		var temp1=maintab.rows[1].cells[i].innerHTML;
+		var temp2=maintab.rows[2].cells[i].innerHTML;
+		var temp3=maintab.rows[3].cells[i].innerHTML;
+		var temp4=maintab.rows[4].cells[i].innerHTML;
+		var tempr=maintab.rows[0].cells[i+1].innerHTML;
+		
+		if(temp0!=""&&tempr!="")
+		{
+			if(temp0.split(",")[0]==temp1.split(",")[0]&&temp0.split(",")[0]==temp2.split(",")[0]&&temp0.split(",")[0]==temp3.split(",")[0])
+			{
+				if(temp4=="")
+				{
+					forlink++;
+				}
+			}
+		}
+	}
+	forL.value=forlink;
+	refor.value=forlink;
+	
+	for(var i=0;i<39;i++)
+	{
+		if(i==0)
+		{	
+			var temp0=maintab.rows[0].cells[0].innerHTML;  
+			var temp00=maintab.rows[1].cells[0].innerHTML;
+			if(temp0!=""&&temp0!=null&&temp00=="")
+			{
+				var temp1=maintab.rows[0].cells[1].innerHTML; 
+				var temp11=maintab.rows[1].cells[1].innerHTML; 
+				if(temp1!=""&&temp1!=null&&temp11=="") 
+				{
+					var temp2=maintab.rows[0].cells[2].innerHTML; 
+					var temp22=maintab.rows[1].cells[2].innerHTML;
+					if(temp2!=""&&temp2!=null&&temp=="")
+					{
+						var temp3=maintab.rows[0].cells[3].innerHTML; 
+						var temp33=maintab.rows[1].cells[3].innerHTML;
+						if(temp3!=""&&temp3!=null&&temp33!="")
+						{
+							thjump++;
+						}
+					}
+				}
+			}
+			
+		}
+		else
+		{
+			var temp0=maintab.rows[0].cells[i].innerHTML;  
+			var temp00=maintab.rows[1].cells[i].innerHTML;
+			var temp000=maintab.rows[1].cells[i-1].innerHTML;
+			if(temp0!=""&&temp0!=null&&temp00==""&&temp000!="")
+			{
+				
+				var temp1=maintab.rows[0].cells[i+1].innerHTML; 
+				var temp11=maintab.rows[1].cells[i+1].innerHTML; 
+				if(temp1!=""&&temp1!=null&&temp11=="") 
+				{
+					var temp2=maintab.rows[0].cells[i+2].innerHTML; 
+					var temp22=maintab.rows[1].cells[i+2].innerHTML;
+					if(temp2!=""&&temp2!=null&&temp=="")
+					{
+						var temp3=maintab.rows[0].cells[i+3].innerHTML; 
+						var temp33=maintab.rows[1].cells[i+3].innerHTML;
+						if(temp3!=""&&temp3!=null&&temp33!="")
+						{
+							thjump++;
+						}
+					}
+				}
+			}
+		}
+	}
+	thV.value=thjump;
+	reth.value=thjump;
+	
+	for(var i=0;i<41;i++)
+	{
+		var temp=maintab.rows[0].cells[i].innerHTML;
+		var temp1=maintab.rows[1].cells[i].innerHTML;
+		var temp2=maintab.rows[0].cells[i+1].innerHTML;
+		if(temp!=""&&temp1==""&&temp2!="")
+		{
+			jumpc++;
+		}
+		else if(temp!=""&&temp1!=""&&temp2!="")
+		{
+			linkc++;
+		}
+	}
+	linkV.value=linkc;
+	jumpV.value=jumpc;
+	resultMis.value=linkc-jumpc;
+	resultLJ.value=linkc-jumpc;
+	
+	
+}
+
+function checkMain2()
+{	
+	var winM=0;
+	var loseM=0;
+	var bankerV=0;
+	
+	var winc=0;
+	var losec=0;
+	
+	var thjump=0;
+	var forlink=0;
+	
+	var linkc=0;
+	var jumpc=0;
+	
+		
+	var maintab=document.getElementById("maintab");
+	for(var i=0;i<42;i++)
+	{
+		for(var j=0;j<36;j++)
+		{
+			var temp=maintab.rows[j].cells[i].innerHTML;
+			if(temp!=""&&temp!=null)
+			{
+				var arr=temp.split(",");
+				
+				if(arr[1]=="fontblack"&&arr[2]!=""&&arr[2]!=null)
+				{
+					loseM+=parseFloat(arr[2]);
+					losec++; 
+				}
+				else if(arr[1]=="fontred"&&arr[2]!=""&&arr[2]!=null)
+				{
+					winM+=parseFloat(arr[2]);
+					winc++;
+				}
+				
+				if(arr[0]==1&&arr[1]=="fontred")
+				{
+					bankerV+=parseFloat(arr[2])*0.05;
+				}
+			}
+			
+		}
+	}
+	
+	document.getElementById("dwinMoney").value=winM+"万";
+	document.getElementById("dloseMoney").value=loseM+"万";
+	var rm=Math.round((winM-loseM)*100)/100;
+	if(rm>0){dresultMoney.style.color="red";}else{dresultMoney.style.color="black";}
+	document.getElementById("dresultMoney").value=rm+"万";
+	document.getElementById("dwinMoney2").value=winM+"万";
+	document.getElementById("dloseMoney2").value=loseM+"万";
+	dresultMoney2.style.color=dresultMoney.style.color;
+	document.getElementById("dresultMoney2").value=rm+"万";
+	
+	dwinCount.value=winc;
+	dloseCount.value=losec;
+	dresultCount.value=winc-losec;
+	dwinCount2.value=winc;
+	dloseCount2.value=losec;
+	dresultCount2.value=winc-losec;
+	
+	dpumpV.value=Math.round(bankerV*100)/100+"万";
+	dresultPu.value=dpumpV.value;
+	
+	dpayV.value=Math.round((winM<loseM?winM:loseM)*0.008*100)/100+"万";
+	dresultPa.value=dpayV.value;
+	
+	rm2=Math.round((winM-loseM-Math.round(bankerV*100)/100)*100)/100
+	if(rm2>0){dnetV.style.color="red";}else{dnetV.style.color="black";}
+	dnetV.value=rm2+"万";
+	dresultN.style.color=dnetV.style.color;
+	dresultN.value=rm2+"万";
+	
+	rm3=Math.round((winM-loseM-Math.round(bankerV*100)/100+(winM<loseM?winM:loseM)*0.008)*100)/100;
+	if(rm3>0){dallV.style.color="red";}else{dallV.style.color="black";}
+	dallV.value=rm3+"万";
+	dresultA.style.color=dallV.style.color;
+	dresultA.value=rm3+"万";
+	
+	for(var i=0;i<41;i++)  
+	{
+		var temp0=maintab.rows[0].cells[i].innerHTML;
+		var temp1=maintab.rows[1].cells[i].innerHTML;
+		var temp2=maintab.rows[2].cells[i].innerHTML;
+		var temp3=maintab.rows[3].cells[i].innerHTML;
+		var temp4=maintab.rows[4].cells[i].innerHTML;
+		var tempr=maintab.rows[0].cells[i+1].innerHTML;
+		
+		if(temp0!=""&&tempr!="")
+		{
+			if(temp0.split(",")[0]==temp1.split(",")[0]&&temp0.split(",")[0]==temp2.split(",")[0]&&temp0.split(",")[0]==temp3.split(",")[0])
+			{
+				if(temp4=="")
+				{
+					forlink++;
+				}
+			}
+		}
+	}
+	dforL.value=forlink;
+	drefor.value=forlink;
+	
+	for(var i=0;i<39;i++)
+	{
+		if(i==0)
+		{	
+			var temp0=maintab.rows[0].cells[0].innerHTML;  //1
+			var temp00=maintab.rows[1].cells[0].innerHTML;
+			if(temp0!=""&&temp0!=null&&temp00=="")
+			{
+				var temp1=maintab.rows[0].cells[1].innerHTML; //2
+				var temp11=maintab.rows[1].cells[1].innerHTML; 
+				if(temp1!=""&&temp1!=null&&temp11=="") 
+				{
+					var temp2=maintab.rows[0].cells[2].innerHTML; //3
+					var temp22=maintab.rows[1].cells[2].innerHTML;
+					if(temp2!=""&&temp2!=null&&temp=="")
+					{
+						var temp3=maintab.rows[0].cells[3].innerHTML; //4
+						var temp33=maintab.rows[1].cells[3].innerHTML;
+						if(temp3!=""&&temp3!=null&&temp33!="")
+						{
+							thjump++;
+						}
+					}
+				}
+			}
+			
+		}
+		else
+		{
+			var temp0=maintab.rows[0].cells[i].innerHTML;  //1
+			var temp00=maintab.rows[1].cells[i].innerHTML;
+			var temp000=maintab.rows[1].cells[i-1].innerHTML;
+			if(temp0!=""&&temp0!=null&&temp00==""&&temp000!="")
+			{
+				
+				var temp1=maintab.rows[0].cells[i+1].innerHTML; //2
+				var temp11=maintab.rows[1].cells[i+1].innerHTML; 
+				if(temp1!=""&&temp1!=null&&temp11=="") 
+				{
+					var temp2=maintab.rows[0].cells[i+2].innerHTML; //3
+					var temp22=maintab.rows[1].cells[i+2].innerHTML;
+					if(temp2!=""&&temp2!=null&&temp=="")
+					{
+						var temp3=maintab.rows[0].cells[i+3].innerHTML; //4
+						var temp33=maintab.rows[1].cells[i+3].innerHTML;
+						if(temp3!=""&&temp3!=null&&temp33!="")
+						{
+							thjump++;
+						}
+					}
+				}
+			}
+		}
+	}
+	dthV.value=thjump;
+	dreth.value=thjump;
+	
+	for(var i=0;i<41;i++)
+	{
+		var temp=maintab.rows[0].cells[i].innerHTML;
+		var temp1=maintab.rows[1].cells[i].innerHTML;
+		var temp2=maintab.rows[0].cells[i+1].innerHTML;
+		if(temp!=""&&temp1==""&&temp2!="")
+		{
+			jumpc++;
+		}
+		else if(temp!=""&&temp1!=""&&temp2!="")
+		{
+			linkc++;
+		}
+	}
+	dlinkV.value=linkc;
+	djumpV.value=jumpc;
+	dresultMis.value=linkc-jumpc;
+	dresultLJ.value=linkc-jumpc;
+	
+	
+}
+
+function tabcount(flag)
+{	 formercolor="";
+	 addcell=0; 
+	 addrow=0;
+	 maintabclear();
+	 
+	var tablemainup;
+	var tablemaindown;
+	var fc="";
+	var val="";
+	if(flag=="up")
+	{
+		tablemainup=document.getElementById("tb1");
+		tablemaindown=document.getElementById("tb2");
+	}
+	else if(flag=="down")
+	{
+		tablemainup=document.getElementById("tb3");
+		tablemaindown=document.getElementById("tb4");
+	}
+	
+	for(var i=0;i<21;i++)
+	{
+		Loop: for(var j=0;j<6;j++)
+		{
+			if(j<5)
+			{
+				var self=tablemainup.rows[j].cells[i].className;
+				fc=tablemainup.rows[j].cells[i].firstChild.className;
+				val=tablemainup.rows[j].cells[i].firstChild.value;
+				var compare=tablemainup.rows[j+1].cells[i].className;
+				if(self==compare&&compare!=""&&self!="")
+				{
+					addmaintab(self,fc,val);
+				}
+				else if(self!=compare&&self!="")
+				{	
+					var right;
+					if(i<20)
+					{
+						right=tablemainup.rows[j].cells[i+1].className;
+						if(self==right)
+						{
+							for(var a=i;a<41;a++)
+							{	
+								var compare1;
+								if(a<20)
+								{
+									compare1=tablemainup.rows[j].cells[a+1].className;
+									fc=tablemainup.rows[j].cells[a].firstChild.className;
+									val=tablemainup.rows[j].cells[a].firstChild.value;
+								}
+								else if(a==20)
+								{
+									compare1=tablemaindown.rows[j].cells[0].className;
+									fc=tablemainup.rows[j].cells[20].firstChild.className;
+									val=tablemainup.rows[j].cells[20].firstChild.value;
+								}
+								else if(a>20&&a<41)
+								{
+									compare1=tablemaindown.rows[j].cells[a-21+1].className;
+									fc=tablemaindown.rows[j].cells[a-21].firstChild.className;
+									val=tablemaindown.rows[j].cells[a-21].firstChild.value;
+								}
+								if(self==compare1&&a<40)
+								{
+									addmaintab(self,fc,val);
+								}
+								else if(self==compare1&&a==40)
+								{
+									addmaintab(self,fc,val);
+									fc=tablemaindown.rows[j].cells[20].firstChild.className;
+									val=tablemaindown.rows[j].cells[20].firstChild.value;
+									addmaintab(compare1,fc,val);
+									break Loop;
+								}
+								else if(self!=compare1)
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+							}
+						}
+						else if(self!=right)
+						{
+							addmaintab(self,fc,val);
+							break Loop;
+						}
+					}
+					else if(i==20)
+					{
+						right=tablemaindown.rows[j].cells[0].className;
+						fc=tablemainup.rows[j].cells[20].firstChild.className;
+						val=tablemainup.rows[j].cells[20].firstChild.value;
+						if(self!=right&&self!="")
+						{
+							addmaintab(self,fc,val);
+							break Loop;
+						}
+						else if(self==right&&self!="")
+						{
+							addmaintab(self,fc,val);
+							for(var a=0;a<20;a++)
+							{
+								
+								var compare1=tablemaindown.rows[j].cells[a+1].className;
+								fc=tablemaindown.rows[j].cells[a].firstChild.className;
+								val=tablemaindown.rows[j].cells[a].firstChild.value;
+								if(self==compare1&&a<19)
+								{
+									addmaintab(self,fc,val);
+								}
+								else if(self==compare1&&a==19)
+								{
+									addmaintab(self,fc,val);
+									fc=tablemaindown.rows[j].cells[20].firstChild.className;
+								    val=tablemaindown.rows[j].cells[20].firstChild.value;
+									addmaintab(compare1,fc,val);
+									break Loop; 
+								}
+								else if(self!=compare1)
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+							}
+						}
+					}
+					
+				}
+				else if(self==""&&compare=="")
+				{
+					return;
+				}
+			}
+			else if(j==5)
+			{
+				if(i<20)
+				{	
+					var self=tablemainup.rows[j].cells[i].className;
+					fc=tablemainup.rows[j].cells[i].firstChild.className;
+					val=tablemainup.rows[j].cells[i].firstChild.value;
+					var compare=tablemainup.rows[5].cells[i+1].className;
+					if(self!=compare)
+					{
+						addmaintab(self,fc,val);
+						break Loop;
+					}
+					else if(self==compare&&self!="")
+					{
+						 for(var a=i;a<41;a++)
+						{
+							var compare1;
+								if(a<20)
+								{
+									compare1=tablemainup.rows[j].cells[a+1].className;
+									fc=tablemainup.rows[j].cells[a].firstChild.className;
+									val=tablemainup.rows[j].cells[a].firstChild.value;
+								}
+								else if(a==20)
+								{
+									compare1=tablemaindown.rows[j].cells[0].className;
+									fc=tablemainup.rows[j].cells[20].firstChild.className;
+									val=tablemainup.rows[j].cells[20].firstChild.value;
+								}
+								else if(a>20&&a<41)
+								{
+									compare1=tablemaindown.rows[j].cells[a-21+1].className;
+									fc=tablemaindown.rows[j].cells[a-21].firstChild.className;
+									val=tablemaindown.rows[j].cells[a-21].firstChild.value;
+								}
+								
+								if(self==compare1&&a<40)
+								{
+									addmaintab(self,fc,val);
+								}
+								else if(self==compare1&&a==40)
+								{
+									addmaintab(self,fc,val);
+									fc=tablemaindown.rows[j].cells[20].firstChild.className;
+									val=tablemaindown.rows[j].cells[20].firstChild.value;
+									addmaintab(compare1,fc,val);
+								}
+								else if(self!=compare1)
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+						}
+					}
+				}
+				else if(i==20)
+				{
+					compare=tablemaindown.rows[5].cells[0].className;
+					fc=tablemainup.rows[j].cells[20].firstChild.className;
+					val=tablemainup.rows[j].cells[20].firstChild.value;
+					if(self!=compare)
+					{
+						addmaintab(self,fc,val);
+					}
+					else if(self==compare&&self!="")
+					{
+							addmaintab(self,fc,val);
+							for(var a=0;a<20;a++)
+							{
+								var compare1=tablemaindown.rows[j].cells[a+1].className;
+								fc=tablemaindown.rows[j].cells[a].firstChild.className;
+								val=tablemaindown.rows[j].cells[a].firstChild.value;
+								if(self==compare1&&a<19)
+								{
+									addmaintab(self,fc,val);
+								}
+								else if(self==compare1&&a==19)
+								{
+									addmaintab(self,fc,val);
+									fc=tablemaindown.rows[j].cells[20].firstChild.className;
+								    val=tablemaindown.rows[j].cells[20].firstChild.value;
+									addmaintab(compare1,fc,val);
+									//break Loop;
+								}
+								else if(self!=compare1)
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+							}
+					}
+				}else{alert("遍历主表格最后列错误");}
+			}
+		}
+	}
+	for(var i=0;i<21;i++)
+	{
+		Loop: for(var j=0;j<6;j++)
+		{
+			//
+			if(j<5)
+			{
+				var self=tablemaindown.rows[j].cells[i].className;
+				var compare=tablemaindown.rows[j+1].cells[i].className;
+				fc=tablemaindown.rows[j].cells[i].firstChild.className;
+				val=tablemaindown.rows[j].cells[i].firstChild.value;
+				if(self==compare&&compare!=""&&self!="")
+				{
+					addmaintab(self,fc,val);
+				}
+				else if(self!=compare&&self!="")
+				{	
+					var right;
+					if(i<20)
+					{
+						right=tablemaindown.rows[j].cells[i+1].className
+						
+						if(self==right&&self!="")
+						{
+							for(var a=i;a<20;a++)
+							{
+								var self1=tablemaindown.rows[j].cells[a].className;
+								var compare1=tablemaindown.rows[j].cells[a+1].className;
+								fc=tablemaindown.rows[j].cells[a].firstChild.className;
+								val=tablemaindown.rows[j].cells[a].firstChild.value;
+								if(self1==compare1&&a<19)
+								{
+									addmaintab(self1,fc,val);
+								}
+								else if(self1==compare1&&a==19)
+								{
+									addmaintab(self1,fc,val);
+									fc=tablemaindown.rows[j].cells[20].firstChild.className;
+									val=tablemaindown.rows[j].cells[20].firstChild.value;
+									addmaintab(compare1,fc,val);
+									break Loop;
+								}
+								else if(self1!=compare1)
+								{
+									addmaintab(self1,fc,val);
+									break Loop;
+								}
+							}
+						}
+						else if(self!=right)
+						{
+							addmaintab(self,fc,val);
+							break Loop;
+						}
+					}
+					else if(i==20)
+					{
+						addmaintab(self,fc,val);
+						break Loop;
+					}
+					
+				}
+				else if(self==""&&compare=="")
+				{
+					return;
+				}
+			}
+			else if(j==5)
+			{
+				if(i<20)
+				{	
+					var self=tablemaindown.rows[j].cells[i].className;
+					var compare=tablemaindown.rows[5].cells[i+1].className;
+					fc=tablemaindown.rows[j].cells[i].firstChild.className;
+					val=tablemaindown.rows[j].cells[i].firstChild.value;
+					if(self!=compare)
+					{
+						addmaintab(self,fc,val);
+						break Loop;
+					}
+					else if(self==compare&&self!="")
+					{
+						 for(var a=i;a<20;a++)
+						{
+							var self2=tablemaindown.rows[5].cells[a].className;
+							var compare2=tablemaindown.rows[5].cells[a+1].className;
+							fc=tablemaindown.rows[j].cells[a].firstChild.className;
+							val=tablemaindown.rows[j].cells[a].firstChild.value;
+							if(self2==compare2&&a<19)
+							{
+								addmaintab(self2,fc,val);
+							}
+							else if(self2==compare2&&a==19)
+							{
+								addmaintab(self2,fc,val);
+								fc=tablemaindown.rows[j].cells[20].firstChild.className;
+								val=tablemaindown.rows[j].cells[20].firstChild.value;
+								addmaintab(compare2,fc,val);
+							}
+							else if(self2!=compare2)
+							{
+								addmaintab(self2,fc,val);
+								break Loop;
+							}
+						}
+					}
+				}
+				else if(i==20)
+				{
+					addmaintab(self,fc,val);
+				}else{alert("遍历主表格最后列错误");}
+			}
+		}
+	}
+	
+}
+
+function addmaintab(self,fc,val)
+{	
+	var maintab=document.getElementById("maintab");
+	var count=0;
+	if(self=="tdimgred")
+	{
+		count=1;
+	}
+	else if(self=="tdimgblack")
+	{
+		count=2;
+	}
+	else{alert("转化中间表错误!");}
+	
+	if(addcell==0&&addrow==0)
+	{
+		maintab.rows[0].cells[0].innerHTML=count+","+fc+","+val;
+		formercolor=self;
+		addrow++;
+	}
+	else
+	{
+		if(formercolor==self)
+		{
+			maintab.rows[addrow].cells[addcell].innerHTML=count+","+fc+","+val;
+			addrow++;
+		}
+		else
+		{
+			maintab.rows[0].cells[addcell+1].innerHTML=count+","+fc+","+val;
+			formercolor=self;
+			addrow=1;
+			addcell++;
+		}
+	}
+}
+function maintabclear()
+{
+	for(var i=0;i<42;i++)
+	{
+		for(var j=0;j<36;j++)
+		{
+			maintab.rows[j].cells[i].innerHTML="";
+		}
+	}
+}
+function save(){    
+      
+	date1.innerHTML=nameV.value+","+nameV2.value+","+nameV3.value+","+winMoney.value.replace("万","")+","+
+					loseMoney.value.replace("万","")+","+resultMoney.value.replace("万","")+","+
+					pumpV.value.replace("万","")+","+payV.value.replace("万","")+","+
+					resultMis.value.replace("万","")+","+thV.value.replace("万","")+","+
+					forL.value.replace("万","")+","+winCount.value.replace("万","")+","+
+					loseCount.value.replace("万","")+","+resultCount.value.replace("万","")+","+
+					netV.value.replace("万","")+","+allV.value.replace("万","");
+	
+	date2.innerHTML=dnameV2.value+","+dnameV3.value+","+dwinMoney.value.replace("万","")+","+
+					dloseMoney.value.replace("万","")+","+dresultMoney.value.replace("万","")+","+
+					dpumpV.value.replace("万","")+","+dpayV.value.replace("万","")+","+
+					dresultMis.value.replace("万","")+","+dthV.value.replace("万","")+","+
+					dforL.value.replace("万","")+","+dwinCount.value.replace("万","")+","+
+					dloseCount.value.replace("万","")+","+dresultCount.value.replace("万","")+","+
+					dnetV.value.replace("万","")+","+dallV.value.replace("万","");
+	  
+	var strHTML =document.documentElement.outerHTML;
+	var   winSave   =   window.open(); 
+	winSave.document.open("text/html","utf-8");   
+    winSave.document.write(strHTML);   
+    winSave.document.execCommand("SaveAs",true,"f:\\统计.html");   
+    winSave.close();   
 }
 </script>
 </head>
 <body onLoad="init()">
 <div>
 <table border=0>
- <tr>
-	<td colspan="7"><input class="title1"></td>
-	<td><font size=2>画笔:</font>
-	<input id="changecolor" class="penblack" type="text" disabled=disabled /></td>
-	<td width=10><input type="button" value="统计" onclick=""/></td>
+ <tr colspan=10>
+	<td colspan="7"><input id="nameV" class="title1">&nbsp;&nbsp;<font size=2>画笔:</font>
+	<input id="changecolor" class="penblack" type="text" disabled=disabled />
+	</td>
+	<td width=10><input type="button" value="统计" onclick="count()" style="height:25;width:70;"/></td>
+	<td width=10><input type="button" value="保存" onclick="save()" style="height:25;width:70;"/></td>
+	
  </tr>
  <tr>
-    <td width=35%><input class="title2"></td>
+    <td width=35%><input id="nameV2" class="title2"></td>
     <td width=10%>
       <p>输赢钱:</p></td>
-    <td width=5%><input class="ib60"></td>
-    <td width=5%><input class="ib60"></td>
-    <td width=5%><input class="ib70"></td>
+    <td width=5%><input id="winMoney" style="color:red;" class="ib60"></td>
+    <td width=5%><input id="loseMoney" style="color:black;" class="ib60"></td>
+    <td width=5%><input id="resultMoney" class="ib70"></td>
 	<td width=10%>
       <p>抽水:</p></td>
-    <td width=10%><input class="ib70"></td>
+    <td width=10%><input id="pumpV" class="ib70" ></td>
     <td width=10%>
       <p>码佣:</p></td>
-    <td width=10%><input class="ib70"></td></tr>
+    <td width=10%><input id="payV" style="color:red;" class="ib70"></td></tr>
   <tr>
-    <td width=35%><input class="title2"></td>
+    <td width=35%><input id="nameV3" class="title2"></td>
     <td width=10%>
       <p>累计:</p></td>
-    <td width=5%><input class="ib60"></td>
-    <td width=5%><input class="ib60"></td>
-    <td width=5%><input class="ib70"></td>
+    <td width=5%><input id="winMoney2" style="color:red;" class="ib60"></td>
+    <td width=5%><input id="loseMoney2" style="color:black;" class="ib60"></td>
+    <td width=5%><input id="resultMoney2" class="ib70"></td>
     <td width=10%>
       <p>累计:</p></td>
-    <td width=10%><input class="ib70"></td>
+    <td width=10%><input id="resultPu" class="ib70" ></td>
     <td width=10%>
       <p>累计:</p></td>
-    <td width=10%><input class="ib70"></td></tr>
+    <td width=10%><input id="resultPa" style="color:red;" class="ib70"></td></tr>
 </table>
 
 <table border=0>
   <tr>
     <td width=10%>
       <p>连跳差：</p></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
+    <td width=2%><input id="linkV"  class="ib30"></td>
+    <td width=2%><input id="jumpV" class="ib30"></td>
+    <td width=2%><input id="resultMis" class="ib30"></td>
     <td width=10%>
       <p>三 跳 ：</p></td>
-    <td width=2%><input class="ib30"></td>
+    <td width=2%><input id="thV" class="ib30"></td>
 	<td width=10%>
       <p>四 连 ：</p></td>
-    <td width=2%><input class="ib30"></td>
+    <td width=2%><input id="forL" class="ib30"></td>
     <td width=10%>
       <p> 输赢口：</p></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
+    <td width=2%><input id="winCount" style="color:red;"  class="ib30"></td>
+    <td width=2%><input id="loseCount" style="color:black;"  class="ib30"></td>
+    <td width=2%><input id="resultCount"  class="ib30"></td>
     <td width=10%>
       <p>净利：</p></td>
-    <td width=10%><input  class="ib70"></td>
+    <td width=10%><input id="netV" class="ib70"></td>
     <td width=10%>
       <p>总利：</p></td>
-    <td width=10%><input  class="ib70"></td></tr>
+    <td width=10%><input id="allV" class="ib70"></td></tr>
   <tr>
     <td width=10%>
       <p>累计：</p></td>
     <td width=2%></td>
     <td width=2%></td>
-    <td width=2%><input  class="ib30"></td>
+    <td width=2%><input id="resultLJ" class="ib30"></td>
     <td width=10%>
       <p>累计：</p></td>
-    <td width=2%><input class="ib30"></td>
+    <td width=2%><input id="refor" class="ib30"></td>
 	<td width=10%>
       <p>累计：</p></td>
-    <td width=2%><input class="ib30"></td>
+    <td width=2%><input id="reth" class="ib30"></td>
     <td width=10%>
       <p> 累计：</p></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
+    <td width=2%><input id="winCount2" style="color:red;"  class="ib30"></td>
+    <td width=2%><input id="loseCount2" style="color:black;"  class="ib30"></td>
+    <td width=2%><input id="resultCount2"  class="ib30"></td>
 
     <td width=10%>
       <p>累计：</p></td>
-    <td width=10%><input class="ib70"></td>
+    <td width=10%><input id="resultN" class="ib70"></td>
     <td width=10%>
       <p>累计：</p></td>
-    <td width=10%><input class="ib70"></td></tr>
+    <td width=10%><input id="resultA" class="ib70"></td></tr>
 </table>
 </div>
 <div>
@@ -332,81 +1144,81 @@ function objpoint(obj,str){//每次添加一个圈
 <div>
 <table>
  <tr>
-    <td width=35%><input class="title2"></td>
+    <td width=35%><input id="dnameV2" class="title2"></td>
     <td width=10%>
       <p>输赢钱:</p></td>
-    <td width=5%><input class="ib60"></td>
-    <td width=5%><input class="ib60"></td>
-    <td width=5%><input class="ib70"></td>
+    <td width=5%><input id="dwinMoney" class="ib60" style="color:red;"></td>
+    <td width=5%><input id="dloseMoney" class="ib60" style="color:black;"></td>
+    <td width=5%><input id="dresultMoney" class="ib70"></td>
 	<td width=10%>
       <p>抽水:</p></td>
-    <td width=10%><input class="ib70"></td>
+    <td width=10%><input id="dpumpV" class="ib70"></td>
     <td width=10%>
       <p>码佣:</p></td>
-    <td width=10%><input class="ib70"></td></tr>
+    <td width=10%><input id="dpayV" class="ib70"></td></tr>
   <tr>
-    <td width=35%><input class="title2"></td>
+    <td width=35%><input id="dnameV3" class="title2"></td>
     <td width=10%>
       <p>累计:</p></td>
-    <td width=5%><input class="ib60"></td>
-    <td width=5%><input class="ib60"></td>
-    <td width=5%><input class="ib70"></td>
+    <td width=5%><input id="dwinMoney2" class="ib60" style="color:red;"></td>
+    <td width=5%><input id="dloseMoney2" class="ib60" style="color:black;"></td>
+    <td width=5%><input id="dresultMoney2" class="ib70"></td>
     <td width=10%>
       <p>累计:</p></td>
-    <td width=10%><input class="ib70"></td>
+    <td width=10%><input id="dresultPu" class="ib70"></td>
     <td width=10%>
       <p>累计:</p></td>
-    <td width=10%><input class="ib70"></td></tr>
+    <td width=10%><input id="dresultPa" class="ib70"></td></tr>
 </table>
 
 <table>
   <tr>
     <td width=10%>
       <p>连跳差：</p></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
+   <td width=2%><input id="dlinkV"  class="ib30"></td>
+    <td width=2%><input id="djumpV" class="ib30"></td>
+    <td width=2%><input id="dresultMis" class="ib30"></td>
     <td width=10%>
       <p>三 跳 ：</p></td>
-    <td width=2%><input class="ib30"></td>
+    <td width=2%><input id="dthV" class="ib30"></td>
 	<td width=10%>
       <p>四 连 ：</p></td>
-    <td width=2%><input class="ib30"></td>
+    <td width=2%><input id="dforL" class="ib30"></td>
     <td width=10%>
       <p> 输赢口：</p></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
+    <td width=2%><input id="dwinCount" style="color:red;"  class="ib30"></td>
+    <td width=2%><input id="dloseCount" style="color:black;"  class="ib30"></td>
+    <td width=2%><input id="dresultCount"  class="ib30"></td>
     <td width=10%>
       <p>净利：</p></td>
-    <td width=10%><input  class="ib70"></td>
+    <td width=10%><input id="dnetV"  class="ib70"></td>
     <td width=10%>
       <p>总利：</p></td>
-    <td width=10%><input  class="ib70"></td></tr>
+    <td width=10%><input id="dallV" class="ib70"></td></tr>
   <tr>
     <td width=10%>
       <p>累计：</p></td>
     <td width=2%></td>
     <td width=2%></td>
-    <td width=2%><input  class="ib30"></td>
+    <td width=2%><input id="dresultLJ"  class="ib30"></td>
     <td width=10%>
       <p>累计：</p></td>
-    <td width=2%><input class="ib30"></td>
+    <td width=2%><input id="drefor" class="ib30"></td>
 	<td width=10%>
       <p>累计：</p></td>
-    <td width=2%><input class="ib30"></td>
+    <td width=2%><input id="dreth" class="ib30"></td>
     <td width=10%>
       <p> 累计：</p></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
-    <td width=2%><input  class="ib30"></td>
+    <td width=2%><input id="dwinCount2" style="color:red;"  class="ib30"></td>
+    <td width=2%><input id="dloseCount2" style="color:black;"  class="ib30"></td>
+    <td width=2%><input id="dresultCount2"  class="ib30"></td>
 
     <td width=10%>
       <p>累计：</p></td>
-    <td width=10%><input class="ib70"></td>
+    <td width=10%><input id="dresultN" class="ib70"></td>
     <td width=10%>
       <p>累计：</p></td>
-    <td width=10%><input class="ib70"></td></tr>
+    <td width=10%><input id="dresultA" class="ib70"></td></tr>
 </table>
 </div>
 <div>
@@ -435,7 +1247,84 @@ function objpoint(obj,str){//每次添加一个圈
 </table>
 </div>
 
+<div id="tabdiv" style="display:none;"><!--36行42列的表格作为中间的转换表(红1黑2,用逗号分隔)-->
+    	<table id="maintab" border=1>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+			<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+			<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+ 		</table>
+    </div>
+	<!--存放数据的div-->
+	<div id="date1" style="display:none;"></div>
+	<div id="date2" style="display:none;"></div>
 </body>
-
-
 </html>
