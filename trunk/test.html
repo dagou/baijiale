@@ -230,13 +230,22 @@ function count()
 	tabcount("up");//根据上边两个小表tb1和tb2生成一个中间表maintab
 	checkMain();
 	
-	tabcount("down");//根据下边两个小表tb3和tb4生成一个中间表maintab
-	checkMain2();
 }
 
 var formercolor="";
 var addcell=0; 
 var addrow=0; 
+
+var uprm1=0;
+var uprm2=0;
+var uprm3=0;
+var uprm4=0;
+var uprm5=0;
+var downrm1=0;
+var downrm2=0;
+var downrm3=0;
+var downrm4=0;
+var downrm5=0;
 
 function checkMain()
 {	
@@ -286,20 +295,23 @@ function checkMain()
 	
 	document.getElementById("winMoney").value=winM+"万";
 	document.getElementById("loseMoney").value=loseM+"万";
-		var rm=Math.round((winM-loseM)*100)/100;
-		if(rm>0){resultMoney.style.color="red";}else{resultMoney.style.color="black";}
-	document.getElementById("resultMoney").value=rm+"万";
+	 uprm1=Math.round((winM-loseM)*100)/100;
+	if(uprm1>=0){resultMoney.style.color="red";}else{resultMoney.style.color="black";}
+	document.getElementById("resultMoney").value=Math.abs(uprm1)+"万";
 	document.getElementById("winMoney2").value=winM+"万";
 	document.getElementById("loseMoney2").value=loseM+"万";
 	resultMoney2.style.color=resultMoney.style.color;
-	document.getElementById("resultMoney2").value=rm+"万";
+	document.getElementById("resultMoney2").value=Math.abs(uprm1)+"万";
 	
 	winCount.value=winc;
 	loseCount.value=losec;
-	resultCount.value=winc-losec;
+	uprm4=winc-losec;
+	if(uprm4>=0){resultCount.style.color="red";}else{resultCount.style.color="black";}
+	resultCount.value=Math.abs(uprm4);
 	winCount2.value=winc;
 	loseCount2.value=losec;
-	resultCount2.value=winc-losec;
+	resultCount2.style.color=resultCount.style.color;
+	resultCount2.value=Math.abs(uprm4);
 	
 	pumpV.value=Math.round(bankerV*100)/100+"万";
 	resultPu.value=pumpV.value;
@@ -307,17 +319,17 @@ function checkMain()
 	payV.value=Math.round((winM<loseM?winM:loseM)*0.008*100)/100+"万";
 	resultPa.value=payV.value;
 	
-	rm2=Math.round((winM-loseM-Math.round(bankerV*100)/100)*100)/100
-	if(rm2>0){netV.style.color="red";}else{netV.style.color="black";}
-	netV.value=rm2+"万";
+	uprm2=Math.round((winM-loseM-Math.round(bankerV*100)/100)*100)/100
+	if(uprm2>=0){netV.style.color="red";}else{netV.style.color="black";}
+	netV.value=Math.abs(uprm2)+"万";
 	resultN.style.color=netV.style.color;
-	resultN.value=rm2+"万";
+	resultN.value=Math.abs(uprm2)+"万";
 	
-	rm3=Math.round((winM-loseM-Math.round(bankerV*100)/100+(winM<loseM?winM:loseM)*0.008)*100)/100;
-	if(rm3>0){allV.style.color="red";}else{allV.style.color="black";}
-	allV.value=rm3+"万";
+	uprm3=Math.round((winM-loseM-Math.round(bankerV*100)/100+(winM<loseM?winM:loseM)*0.008)*100)/100;
+	if(uprm3>=0){allV.style.color="red";}else{allV.style.color="black";}
+	allV.value=Math.abs(uprm3)+"万";
 	resultA.style.color=allV.style.color;
-	resultA.value=rm3+"万";
+	resultA.value=Math.abs(uprm3)+"万";
 	
 	for(var i=0;i<41;i++)  
 	{
@@ -415,10 +427,15 @@ function checkMain()
 	}
 	linkV.value=linkc;
 	jumpV.value=jumpc;
-	resultMis.value=linkc-jumpc;
-	resultLJ.value=linkc-jumpc;
+	var rm5=linkc-jumpc;
+	if(rm5>=0){resultMis.style.color="red";}else{resultMis.style.color="black";}
+	resultMis.value=rm5;
+	resultLJ.style.color=resultMis.style.color;
+	resultLJ.value=rm5;
 	
 	
+	tabcount("down");//根据下边两个小表tb3和tb4生成一个中间表maintab
+	checkMain2();
 }
 
 function checkMain2()
@@ -469,20 +486,23 @@ function checkMain2()
 	
 	document.getElementById("dwinMoney").value=winM+"万";
 	document.getElementById("dloseMoney").value=loseM+"万";
-	var rm=Math.round((winM-loseM)*100)/100;
-	if(rm>0){dresultMoney.style.color="red";}else{dresultMoney.style.color="black";}
-	document.getElementById("dresultMoney").value=rm+"万";
+	downrm1=Math.round((winM-loseM)*100)/100;
+	if(downrm1>=0){dresultMoney.style.color="red";}else{dresultMoney.style.color="black";}
+	document.getElementById("dresultMoney").value=Math.abs(downrm1)+"万";
 	document.getElementById("dwinMoney2").value=winM+"万";
 	document.getElementById("dloseMoney2").value=loseM+"万";
 	dresultMoney2.style.color=dresultMoney.style.color;
-	document.getElementById("dresultMoney2").value=rm+"万";
+	document.getElementById("dresultMoney2").value=Math.abs(downrm1)+"万";
 	
 	dwinCount.value=winc;
 	dloseCount.value=losec;
-	dresultCount.value=winc-losec;
+	downrm4=winc-losec;
+	if(downrm4>=0){dresultCount.style.color="red";}else{dresultCount.style.color="black";}
+	dresultCount.value=Math.abs(downrm4);
 	dwinCount2.value=winc;
 	dloseCount2.value=losec;
-	dresultCount2.value=winc-losec;
+	dresultCount2.style.color=dresultCount.style.color;
+	dresultCount2.value=Math.abs(downrm4);
 	
 	dpumpV.value=Math.round(bankerV*100)/100+"万";
 	dresultPu.value=dpumpV.value;
@@ -490,17 +510,17 @@ function checkMain2()
 	dpayV.value=Math.round((winM<loseM?winM:loseM)*0.008*100)/100+"万";
 	dresultPa.value=dpayV.value;
 	
-	rm2=Math.round((winM-loseM-Math.round(bankerV*100)/100)*100)/100
-	if(rm2>0){dnetV.style.color="red";}else{dnetV.style.color="black";}
-	dnetV.value=rm2+"万";
+	downrm2=Math.round((winM-loseM-Math.round(bankerV*100)/100)*100)/100
+	if(downrm2>=0){dnetV.style.color="red";}else{dnetV.style.color="black";}
+	dnetV.value=Math.abs(downrm2)+"万";
 	dresultN.style.color=dnetV.style.color;
-	dresultN.value=rm2+"万";
+	dresultN.value=Math.abs(downrm2)+"万";
 	
-	rm3=Math.round((winM-loseM-Math.round(bankerV*100)/100+(winM<loseM?winM:loseM)*0.008)*100)/100;
-	if(rm3>0){dallV.style.color="red";}else{dallV.style.color="black";}
-	dallV.value=rm3+"万";
+	downrm3=Math.round((winM-loseM-Math.round(bankerV*100)/100+(winM<loseM?winM:loseM)*0.008)*100)/100;
+	if(downrm3>=0){dallV.style.color="red";}else{dallV.style.color="black";}
+	dallV.value=Math.abs(downrm3)+"万";
 	dresultA.style.color=dallV.style.color;
-	dresultA.value=rm3+"万";
+	dresultA.value=Math.abs(downrm3)+"万";
 	
 	for(var i=0;i<41;i++)  
 	{
@@ -598,8 +618,11 @@ function checkMain2()
 	}
 	dlinkV.value=linkc;
 	djumpV.value=jumpc;
-	dresultMis.value=linkc-jumpc;
-	dresultLJ.value=linkc-jumpc;
+	downrm5=linkc-jumpc;
+	if(downrm5>=0){dresultMis.style.color="red";}else{dresultMis.style.color="black";}
+	dresultMis.value=Math.abs(downrm5);
+	dresultLJ.style.color=dresultMis.style.color;
+	dresultLJ.value=Math.abs(downrm5);
 	
 	
 }
@@ -999,22 +1022,21 @@ function maintabclear()
 	}
 }
 function save(){    
-      
-	date1.innerHTML=nameV.value+","+nameV2.value+","+nameV3.value+","+winMoney.value.replace("万","")+","+
-					loseMoney.value.replace("万","")+","+resultMoney.value.replace("万","")+","+
+    date1.innerHTML=nameV.value+","+nameV2.value+","+nameV3.value+","+winMoney.value.replace("万","")+","+
+					loseMoney.value.replace("万","")+","+uprm1+","+
 					pumpV.value.replace("万","")+","+payV.value.replace("万","")+","+
-					resultMis.value.replace("万","")+","+thV.value.replace("万","")+","+
+					uprm5+","+thV.value.replace("万","")+","+
 					forL.value.replace("万","")+","+winCount.value.replace("万","")+","+
-					loseCount.value.replace("万","")+","+resultCount.value.replace("万","")+","+
-					netV.value.replace("万","")+","+allV.value.replace("万","");
+					loseCount.value.replace("万","")+","+uprm4+","+
+					uprm2+","+uprm3;
 	
 	date2.innerHTML=dnameV2.value+","+dnameV3.value+","+dwinMoney.value.replace("万","")+","+
-					dloseMoney.value.replace("万","")+","+dresultMoney.value.replace("万","")+","+
+					dloseMoney.value.replace("万","")+","+downrm1+","+
 					dpumpV.value.replace("万","")+","+dpayV.value.replace("万","")+","+
-					dresultMis.value.replace("万","")+","+dthV.value.replace("万","")+","+
+					downrm5+","+dthV.value.replace("万","")+","+
 					dforL.value.replace("万","")+","+dwinCount.value.replace("万","")+","+
-					dloseCount.value.replace("万","")+","+dresultCount.value.replace("万","")+","+
-					dnetV.value.replace("万","")+","+dallV.value.replace("万","");
+					dloseCount.value.replace("万","")+","+downrm4+","+
+					downrm2+","+downrm3;
 	  
 	var strHTML =document.documentElement.outerHTML;
 	var   winSave   =   window.open(); 
@@ -1045,7 +1067,7 @@ function save(){
     <td width=5%><input id="resultMoney" class="ib70"></td>
 	<td width=10%>
       <p>抽水:</p></td>
-    <td width=10%><input id="pumpV" class="ib70" ></td>
+    <td width=10%><input id="pumpV" style="color:red;" class="ib70" ></td>
     <td width=10%>
       <p>码佣:</p></td>
     <td width=10%><input id="payV" style="color:red;" class="ib70"></td></tr>
@@ -1058,7 +1080,7 @@ function save(){
     <td width=5%><input id="resultMoney2" class="ib70"></td>
     <td width=10%>
       <p>累计:</p></td>
-    <td width=10%><input id="resultPu" class="ib70" ></td>
+    <td width=10%><input id="resultPu" style="color:red;" class="ib70" ></td>
     <td width=10%>
       <p>累计:</p></td>
     <td width=10%><input id="resultPa" style="color:red;" class="ib70"></td></tr>
@@ -1068,15 +1090,15 @@ function save(){
   <tr>
     <td width=10%>
       <p>连跳差：</p></td>
-    <td width=2%><input id="linkV"  class="ib30"></td>
+    <td width=2%><input id="linkV" style="color:red;" class="ib30"></td>
     <td width=2%><input id="jumpV" class="ib30"></td>
     <td width=2%><input id="resultMis" class="ib30"></td>
     <td width=10%>
       <p>三 跳 ：</p></td>
-    <td width=2%><input id="thV" class="ib30"></td>
+    <td width=2%><input id="thV" style="color:red;" class="ib30"></td>
 	<td width=10%>
       <p>四 连 ：</p></td>
-    <td width=2%><input id="forL" class="ib30"></td>
+    <td width=2%><input id="forL" style="color:red;" class="ib30"></td>
     <td width=10%>
       <p> 输赢口：</p></td>
     <td width=2%><input id="winCount" style="color:red;"  class="ib30"></td>
@@ -1096,10 +1118,10 @@ function save(){
     <td width=2%><input id="resultLJ" class="ib30"></td>
     <td width=10%>
       <p>累计：</p></td>
-    <td width=2%><input id="refor" class="ib30"></td>
+    <td width=2%><input id="refor" style="color:red;" class="ib30"></td>
 	<td width=10%>
       <p>累计：</p></td>
-    <td width=2%><input id="reth" class="ib30"></td>
+    <td width=2%><input id="reth" style="color:red;" class="ib30"></td>
     <td width=10%>
       <p> 累计：</p></td>
     <td width=2%><input id="winCount2" style="color:red;"  class="ib30"></td>
@@ -1152,10 +1174,10 @@ function save(){
     <td width=5%><input id="dresultMoney" class="ib70"></td>
 	<td width=10%>
       <p>抽水:</p></td>
-    <td width=10%><input id="dpumpV" class="ib70"></td>
+    <td width=10%><input id="dpumpV" style="color:red;" class="ib70"></td>
     <td width=10%>
       <p>码佣:</p></td>
-    <td width=10%><input id="dpayV" class="ib70"></td></tr>
+    <td width=10%><input id="dpayV" style="color:red;" class="ib70"></td></tr>
   <tr>
     <td width=35%><input id="dnameV3" class="title2"></td>
     <td width=10%>
@@ -1165,25 +1187,25 @@ function save(){
     <td width=5%><input id="dresultMoney2" class="ib70"></td>
     <td width=10%>
       <p>累计:</p></td>
-    <td width=10%><input id="dresultPu" class="ib70"></td>
+    <td width=10%><input id="dresultPu" style="color:red;" class="ib70"></td>
     <td width=10%>
       <p>累计:</p></td>
-    <td width=10%><input id="dresultPa" class="ib70"></td></tr>
+    <td width=10%><input id="dresultPa" style="color:red;" class="ib70"></td></tr>
 </table>
 
 <table>
   <tr>
     <td width=10%>
       <p>连跳差：</p></td>
-   <td width=2%><input id="dlinkV"  class="ib30"></td>
+   <td width=2%><input id="dlinkV" style="color:red;" class="ib30"></td>
     <td width=2%><input id="djumpV" class="ib30"></td>
     <td width=2%><input id="dresultMis" class="ib30"></td>
     <td width=10%>
       <p>三 跳 ：</p></td>
-    <td width=2%><input id="dthV" class="ib30"></td>
+    <td width=2%><input id="dthV" style="color:red;" class="ib30"></td>
 	<td width=10%>
       <p>四 连 ：</p></td>
-    <td width=2%><input id="dforL" class="ib30"></td>
+    <td width=2%><input id="dforL" style="color:red;" class="ib30"></td>
     <td width=10%>
       <p> 输赢口：</p></td>
     <td width=2%><input id="dwinCount" style="color:red;"  class="ib30"></td>
@@ -1203,10 +1225,10 @@ function save(){
     <td width=2%><input id="dresultLJ"  class="ib30"></td>
     <td width=10%>
       <p>累计：</p></td>
-    <td width=2%><input id="drefor" class="ib30"></td>
+    <td width=2%><input id="drefor" style="color:red;" class="ib30"></td>
 	<td width=10%>
       <p>累计：</p></td>
-    <td width=2%><input id="dreth" class="ib30"></td>
+    <td width=2%><input id="dreth" style="color:red;" class="ib30"></td>
     <td width=10%>
       <p> 累计：</p></td>
     <td width=2%><input id="dwinCount2" style="color:red;"  class="ib30"></td>
