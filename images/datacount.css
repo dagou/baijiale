@@ -1,0 +1,117 @@
+body {
+	margin: 0px;
+}
+table {
+	width:100%;
+}
+.main table{
+	width:100%;
+	height:100%; 
+	
+}
+.main tr{
+	height:40px;
+}
+.main td{
+	width:40px;
+	text-align:center;
+}
+
+.title1 {
+  text-align:center;
+  width:720;
+  height:30px; 
+  color:black;
+  font-size:25px;
+  font-weight: bold;
+}
+.title2 {
+  text-align:left;
+  width:100%;
+  height:20px; 
+  color:black;
+}
+.ib70 {
+  width:70px;
+  height:20px; 
+}
+.ib60 {
+  width:60px;
+  height:20px; 
+}
+.ib30 {
+  width:30px;
+  height:20px; 
+}
+p 
+{
+  	font-family: "ËÎÌå",sans-serif;
+	font-size: 80%;	
+}
+.tdimgred{
+	align:center;
+	margin:0 auto;
+	background-image:url(images\red.gif);
+	background-position: center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
+.tdimgblack{
+	align:center;
+	margin:0 auto;
+	background-image:url(images\black.gif);
+	background-position: center center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
+
+.penblack{
+	width:80px;
+	height:15px;
+	background-color:black;
+	border:0 solid red;
+}
+.penred{
+	width:80px;
+	height:15px;
+	background-color:red;
+	border:0 solid red;
+}
+.fontblack{
+	color:black;
+	align:center;
+	width:40px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*Í¸Ã÷±³¾°*/
+}
+.fontred{
+	color:red;
+	align:center;
+	width:40px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*Í¸Ã÷±³¾°*/
+}
+.importPage{
+	position:absolute;
+    width:400px;
+	height:150px;
+	z-index:99;
+	border:2 solid silver;
+	left:100;
+	top:100;
+	background-color:"#59A4FF";
+}
+.closeBtn{
+	border:0 solid red;
+	background-image:url("images\closebtn.png");
+	background-color:"#59A4FF";
+	background-repeat:no-repeat;
+    background-position:right;
+	height:16px;
+	width:15px;
+	cursor:hand;
+}
