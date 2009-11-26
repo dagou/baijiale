@@ -12,21 +12,19 @@ table {
 .main table{
 	width:100%;
 	height:100%; 
+	
 }
 .main tr{
-	height:30px;
+	height:40px;
 }
 .main td{
-	width:30px;
+	width:40px;
 	text-align:center;
 }
-input {
-	width:50px;
-	height:20px; 
-}
+
 .title1 {
   text-align:center;
-  width:700;
+  width:720;
   height:30px; 
   color:black;
   font-size:25px;
@@ -73,21 +71,21 @@ p
 }
 
 .penblack{
-	width:50px;
-	height:20px;
+	width:80px;
+	height:15px;
 	background-color:black;
 	border:0 solid red;
 }
 .penred{
-	width:50px;
-	height:20px;
+	width:80px;
+	height:15px;
 	background-color:red;
 	border:0 solid red;
 }
 .fontblack{
 	color:black;
 	align:center;
-	width:35px;
+	width:40px;
 	height:20px;
 	border:0 solid teal;
 	text-align:center;
@@ -96,13 +94,32 @@ p
 .fontred{
 	color:red;
 	align:center;
-	width:35px;
+	width:40px;
 	height:20px;
 	border:0 solid teal;
 	text-align:center;
 	background:transparent;/*透明背景*/
 }
-
+.importPage{
+	position:absolute;
+    width:400px;
+	height:150px;
+	z-index:99;
+	border:2 solid silver;
+	left:100;
+	top:100;
+	background-color:"#59A4FF";
+}
+.closeBtn{
+	border:0 solid red;
+	background-image:url("images\closebtn.png");
+	background-color:"#59A4FF";
+	background-repeat:no-repeat;
+    background-position:right;
+	height:16px;
+	width:15px;
+	cursor:hand;
+}
 </style>
 <script type="text/javascript" src="images/main.js" /></script>
 <script type="text/javascript">
@@ -160,6 +177,9 @@ var rc=function(obj){
 	}
 }
 function init(){	
+
+	document.getElementById("printdiv").innerHTML="<OBJECT classid=CLSID:8856F961-340A-11D0-A96B-00C04FD705A2 height=0 id='WebBrowser' width=0 height=0/>";
+	
 	var table=document.getElementById("tb1");
 	for(var i=0;i<6;i++){
 		for(var j=0;j<21;j++){
@@ -208,6 +228,8 @@ function init(){
 			}
 		}
 	}
+	
+	
 }
 function addEventHandler(oTarget, sEventType, fnHandler){
     if (oTarget.addEventListener) { //Mozilla, Netscape, Firefox
@@ -429,9 +451,9 @@ function checkMain()
 	jumpV.value=jumpc;
 	var rm5=linkc-jumpc;
 	if(rm5>=0){resultMis.style.color="red";}else{resultMis.style.color="black";}
-	resultMis.value=rm5;
+	resultMis.value=Math.abs(rm5);
 	resultLJ.style.color=resultMis.style.color;
-	resultLJ.value=rm5;
+	resultLJ.value=Math.abs(rm5);
 	
 	
 	tabcount("down");//根据下边两个小表tb3和tb4生成一个中间表maintab
@@ -1037,27 +1059,232 @@ function save(){
 					dforL.value.replace("万","")+","+dwinCount.value.replace("万","")+","+
 					dloseCount.value.replace("万","")+","+downrm4+","+
 					downrm2+","+downrm3;
-	  
+					
+	
+	 
 	var strHTML =document.documentElement.outerHTML;
 	var   winSave   =   window.open(); 
 	winSave.document.open("text/html","utf-8");   
     winSave.document.write(strHTML);   
     winSave.document.execCommand("SaveAs",true,"f:\\统计.html");   
-    winSave.close();   
+    winSave.close();  
+	
+	
+}
+function importPage(){
+ importdiv.style.top=document.body.clientHeight/2-75;
+ importdiv.style.left = document.body.clientWidth/2-200;
+ importdiv.style.display="block";
+}
+function colsebtn()
+{
+	importdiv.style.display="none";
+	selectDiv.style.display="none";
+	clearfile();
+}
+function printPage(){
+ document.getElementById("WebBrowser").ExecWB(7,1);
+
+}
+function clearfile()
+{
+	form1.reset();
+}
+
+function opendiv(obj)
+{
+	var path=document.getElementById("filesrc").value;
+	 if(path!="")
+	 {
+		 obj1 = obj.getBoundingClientRect();
+		 x=obj1.left;   
+		 y=obj1.top;
+		 selectDiv.style.left=x-2;
+		 selectDiv.style.top=y+18;
+		 selectDiv.style.display="block";
+	 }
+	 else
+	 {
+		alert("请先选择xml文件的路径!");
+	 }
+}
+function closediv()
+{
+	selectDiv.style.display="none";
+	return false;
+}
+function clicksel()
+{
+	var val=filesel.value;
+	document.getElementById("filena").value=val;
+	
+	selectDiv.style.display="none";
+}
+function changesrc()  
+{
+	var path=document.getElementById("filesrc").value;
+	var subpath = path.substring(path.length-3,path.length);
+	if(path!=null&&path!="")
+	{
+		if(subpath=="xml")
+		{
+			var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");  
+			var mode="百家乐信息存储";
+			xmlDoc.async="false";    
+			xmlDoc.load(path);
+			var rootName = xmlDoc.getElementsByTagName(mode)[0]; 
+			var maxNum = rootName.childNodes.length; 
+			if(maxNum>0)
+			{
+				clearSelect();
+				for(var i=0;i<maxNum;i++)
+				{
+					var subna=rootName.childNodes[i].nodeName;
+					var sele=document.getElementById("filesel");
+					sele.options.add(new Option(subna,subna)); 
+				}
+			}
+			else
+			{
+				alert("xml文件中无数据!");
+			}
+		}
+		else
+		{
+			alert("请选择正确的xml文件!");
+		}
+	}
+}
+function clearSelect() 
+{
+	var temp=document.getElementById("filesel");
+	var length=temp.length;
+	if(length>0)
+	{
+		for(var i=0;i<length;i++)
+		{
+			temp.remove(0);
+		}
+	}
+}
+function importXML()
+{
+	var src=document.getElementById("filesrc").value;
+	var filename=document.getElementById("filena").value;
+	if(src==""||src==null)
+	{
+		alert("xml文件路径不能为空!");
+	}
+	else if(filename==""||filename==null)
+	{
+		alert("请输入要导入的文件名称!");
+	}
+	else
+	{
+	    colsebtn();
+		clearTb();
+		var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");  
+		var mode=filename;
+		xmlDoc.async="false";    
+		xmlDoc.load(src);
+		var nodeName=xmlDoc.getElementsByTagName(mode)[0]; 
+		var subnode=nodeName.childNodes[0];  
+		
+		var tabone=subnode.childNodes[0].text;  
+		var arr1=tabone.split(";");
+		addDate(1,arr1);
+		
+		var tabtwo=subnode.childNodes[1].text;  
+		var arr2=tabtwo.split(";");
+		addDate(2,arr2);
+		
+		var tabthree=subnode.childNodes[2].text;  
+		var arr3=tabtwo.split(";");
+		addDate(3,arr3);
+		
+		var tabfour=subnode.childNodes[3].text;  
+		var arr4=tabtwo.split(";");
+		addDate(4,arr4);
+		
+		count();
+	}
+	
+	
+}
+function addDate(a,arr) 
+{
+	var tab;
+	switch(a)
+	{
+		case 1: tab=document.getElementById("tb1"); break;
+		case 2: tab=document.getElementById("tb2"); break;
+		case 3: tab=document.getElementById("tb3"); break;
+		case 4: tab=document.getElementById("tb4"); break;
+	}
+	for(var j=0;j<6;j++)   
+	{
+		for(var i=0;i<21;i++)  
+		{
+			var val=arr[j*21+i];
+			if(val!="null")  
+			{
+				var str=val.split(",");
+				if(str[0]!="null")  
+				{
+					tab.rows[j].cells[i].className=str[0];
+				}
+				if(str[1]!="null")  
+				{
+					tab.rows[j].cells[i].firstChild.className=str[1];
+				}
+				if(str[2]!="null")  
+				{
+					tab.rows[j].cells[i].firstChild.value=str[2];
+				}
+			}
+		}
+	}
+}
+function clearTb()  
+{
+	for(var i=0;i<21;i++)
+	{
+		for(var j=0;j<6;j++)
+		{
+			tb1.rows[j].cells[i].className="";
+			tb1.rows[j].cells[i].firstChild.className="fontblack";
+			tb1.rows[j].cells[i].firstChild.value="";
+			tb2.rows[j].cells[i].className="";
+			tb2.rows[j].cells[i].firstChild.className="fontblack";
+			tb2.rows[j].cells[i].firstChild.value="";
+			tb3.rows[j].cells[i].className="";
+			tb3.rows[j].cells[i].firstChild.className="fontblack";
+			tb3.rows[j].cells[i].firstChild.value="";
+			tb4.rows[j].cells[i].className="";
+			tb4.rows[j].cells[i].firstChild.className="fontblack";
+			tb4.rows[j].cells[i].firstChild.value="";
+		}
+	}
 }
 </script>
 </head>
 <body onLoad="init()">
+	<div id="printdiv" style="display:none;"></div>
+<table height=20 border=0>
+<tr><td></td>
+<td width=10><input type="button" id="bt1" value="统计" onclick="count()" style="height:25;width:70;"/></td>
+<td width=10><input type="button" id="bt2" value="保存" onclick="save()" style="height:25;width:70;"/></td>
+<td width=10><input type="button" id="bt3" value="导入" onclick="importPage()" style="height:25;width:70;"/></td>
+<td width=10><input type="button" id="bt4" value="打印" onclick="printPage()" style="height:25;width:70;"/></td>
+</tr></table>
 <div>
 <table border=0>
- <tr colspan=10>
-	<td colspan="7"><input id="nameV" class="title1">&nbsp;&nbsp;<font size=2>画笔:</font>
-	<input id="changecolor" class="penblack" type="text" disabled=disabled />
-	</td>
-	<td width=10><input type="button" value="统计" onclick="count()" style="height:25;width:70;"/></td>
-	<td width=10><input type="button" value="保存" onclick="save()" style="height:25;width:70;"/></td>
-	
+ <tr>
+	<td colspan="7" style="text-align:center;"><input id="nameV" class="title1"></td>
+	<td style="text-align:right;"><font size=2><div id="pencol" style="width:80;border:0 solid red;">画笔颜色:</div></font></td>
+	<td style="text-align:center;"><input  id="changecolor" class="penblack" type="text" disabled=disabled /></td>
  </tr>
+ <tr><td  colspan="10" height=15></td></tr>
  <tr>
     <td width=35%><input id="nameV2" class="title2"></td>
     <td width=10%>
@@ -1138,9 +1365,8 @@ function save(){
 </div>
 <div>
 <table >
-
 	<tr><td>
-		<table id="tb1" class="main" border="1">
+		<table id="tb1" class="main" border="1" cellSpacing=0>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
@@ -1149,8 +1375,9 @@ function save(){
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 		</table>
 	</td></tr>
+	<tr><td colspan=50 height=15></td></tr>
 	<tr><td>
-		<table id="tb2" class="main" border="1">
+		<table id="tb2" class="main" border="1" cellSpacing=0>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
@@ -1162,6 +1389,8 @@ function save(){
 </table>
 </div>
 
+<table height=100 border=0>
+<tr><td></td></table>
 
 <div>
 <table>
@@ -1247,7 +1476,7 @@ function save(){
 <table>
 
 	<tr><td>
-		<table id="tb3" class="main" border="1">
+		<table id="tb3" class="main" border="1" cellSpacing=0>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
@@ -1256,8 +1485,9 @@ function save(){
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 		</table>
 	</td></tr>
+	<tr><td colspan=50 height=15></td></tr>
 	<tr><td>
-		<table id="tb4" class="main" border="1">
+		<table id="tb4" class="main" border="1" cellSpacing=0>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
@@ -1271,9 +1501,9 @@ function save(){
 
 <div id="tabdiv" style="display:none;"><!--36行42列的表格作为中间的转换表(红1黑2,用逗号分隔)-->
     	<table id="maintab" border=1>
-    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<tr>2<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr>2<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
     		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -1345,8 +1575,32 @@ function save(){
     		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
  		</table>
     </div>
-	<!--存放数据的div-->
+	
 	<div id="date1" style="display:none;"></div>
 	<div id="date2" style="display:none;"></div>
+	
+	<div id="importdiv" class="importPage" style="display:none;">
+		<form name="form1">
+		<table border=0 height=100% width=100%>
+			<tr height=10 width=100%><td style="text-align:right;"><input type="button" onclick="colsebtn()"  class="closeBtn" /></td></tr>
+			<tr height=10><td></td></tr>
+			<tr width=100% height="30"><td style="text-align:center;"><font size=2>数据文件路径：</font>&nbsp;<input type="file" id="filesrc" onchange="changesrc()" style="width:260;height:20;"></td></tr>
+			<tr><td><font size=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;导入文件名称：</font>&nbsp;<input type="text" id="filena" style="width:187;height:20;"  onfocus="opendiv(this)" /></td>
+			<tr><td style="text-align:center;">
+				<input type="button" value="确定" onclick="importXML()" style="height:20;width:60;"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" value="重置" onclick="clearfile()" style="height:20;width:60;"/>
+			</td></tr>
+		</table>
+		</form>
+	</div>
+	
+	<div id="selectDiv" style="position:absolute;width:185;height:100;z-index:100;display:none;background:white;border-right:1 solid #716F64;">
+		<select id="filesel" style="width:186;border-left:0 solid red;" size=12 ondblclick="clicksel()">
+				
+		</select>
+		<div style="width:186;height:20;text-align:right;border-bottom:1 solid #716F64;border-left:1 solid #716F64;">
+		<a href="#" onclick="return closediv()" style="font-size:14;">关闭</a>&nbsp;</div>
+	</div>
+  
 </body>
 </html>
