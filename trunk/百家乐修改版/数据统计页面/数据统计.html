@@ -1,0 +1,2982 @@
+﻿<html>
+<head>
+<title>
+</title>
+<style type=text/css>
+body {
+	margin: 0px;
+}
+table {
+	width:100%;
+}
+.main table{
+	width:100%;
+	height:100%; 
+}
+.main tr{
+	height:40px;
+}
+.main td{
+	width:40px;
+	text-align:center;
+}
+
+.title1 {
+  text-align:center;
+  width:720;
+  height:30px; 
+  color:black;
+  font-size:25px;
+  font-weight: bold;
+}
+.title2 {
+  text-align:left;
+  width:100%;
+  height:20px; 
+  color:black;
+}
+.ib70 {
+  width:70px;
+  height:20px; 
+}
+.ib60 {
+  width:60px;
+  height:20px; 
+}
+.ib30 {
+  width:30px;
+  height:20px; 
+}
+p 
+{
+  	font-family: "宋体",sans-serif;
+	font-size: 80%;	
+}
+.tdimgred{
+	align:center;
+	margin:0 auto;
+	background-image:url(images\red.gif);
+	background-position: center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
+.tdimgblack{
+	align:center;
+	margin:0 auto;
+	background-image:url(images\black.gif);
+	background-position: center center; 
+	background-repeat:no-repeat;
+	text-align:center;
+}
+
+.penblack{
+	width:80px;
+	height:15px;
+	background-color:black;
+	border:0 solid red;
+}
+.penred{
+	width:80px;
+	height:15px;
+	background-color:red;
+	border:0 solid red;
+}
+.fontblack{
+	color:black;
+	align:center;
+	width:40px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*透明背景*/
+}
+.fontred{
+	color:red;
+	align:center;
+	width:40px;
+	height:20px;
+	border:0 solid teal;
+	text-align:center;
+	background:transparent;/*透明背景*/
+}
+.importPage{
+	position:absolute;
+    width:400px;
+	height:150px;
+	z-index:99;
+	border:2 solid silver;
+	left:100;
+	top:100;
+	background-color:"#59A4FF";
+}
+.closeBtn{
+	border:0 solid red;
+	background-image:url("images\closebtn.png");
+	background-color:"#59A4FF";
+	background-repeat:no-repeat;
+    background-position:right;
+	height:16px;
+	width:15px;
+	cursor:hand;
+}
+</style>
+
+<script type="text/javascript">
+/*
+	输赢钱(和红圈或黑圈没关系)：赢的钱(红字)、输的钱(黑字)、赢钱-输钱。
+	输赢口(和红圈或黑圈没关系): 赢的次数(红字)、输的次数(黑字)、赢次数-输次数。
+	三跳(和红圈或黑圈没关系)：三列连续地只有一行为一个三跳,最开始的三跳计算在内,最后的三跳不计算在内。
+	四连(红圈或黑圈的四连都计算在内)：如果此列正好有四行为一个四连,最开始的四连计算在内,最后的四连不计算在内。
+	连跳差：如果此列第三行不是空,则从第三行开始,有几个球则连数累加几,最后的一列也计算在内。
+			如果此列只有一行则为一个跳,最开始的跳计算在内,最后的跳不计算在内。
+	抽水：每当是红色圈红字时,庄抽水数值的0.05
+	码佣：从赢的钱和输的钱里面选一个小的值,乘以0.008
+	净利：净利=赢钱-输钱-庄抽水
+	总利：总利=净利+码佣
+*/
+var pencolor=1;
+document.onkeydown=kclick2;
+function document.oncontextmenu(){ //屏蔽系统右键功能 
+  return false; 
+}
+function kclick2(){
+	if(event.keyCode==16){//设置画笔颜色
+		if(pencolor==1){
+			pencolor=2;
+			document.getElementById("changecolor").className="penred";
+		}else{
+			pencolor=1;
+			document.getElementById("changecolor").className="penblack";
+		}
+	}
+}
+function rclick(obj){
+	if(event.button == 1){//左键
+		objpoint(obj,"tdimgred");
+	}else if(event.button == 2){ //点击鼠标右键
+		objpoint(obj,"tdimgblack");
+	}
+}
+function kclick(obj){//键盘事件
+	if(event.keyCode==27){//删除记录
+		if(confirm("确认删除吗?")){
+			obj.className="";
+			obj.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+		}
+	}
+}
+
+function changecolor(obj){//设置字体颜色
+	if(event.keyCode!=27){
+		if(pencolor==1||pencolor==""||pencolor==null){
+			obj.className="fontblack";
+		}else if(pencolor==2){
+			obj.className="fontred";
+		}
+	}
+	
+}
+var kc=function(obj){//键盘事件
+	return function(){
+		kclick(obj);
+	}
+}
+var rc=function(obj){//鼠标事件
+	return function(){
+		rclick(obj);
+	}
+}
+function init(){	
+	
+	//将打印的object对象添加到页面里面,防止保存后出现打印问题
+	document.getElementById("printdiv").innerHTML="<OBJECT classid=CLSID:8856F961-340A-11D0-A96B-00C04FD705A2 height=0 id='WebBrowser' width=0 height=0/>";
+	
+	var table=document.getElementById("tb1");
+	for(var i=0;i<6;i++){
+		for(var j=0;j<21;j++){
+			var tdd=table.rows[i].cells[j];
+			addEventHandler(tdd,"keydown",kc(tdd));
+			addEventHandler(tdd,"mousedown",rc(tdd));
+			if(tdd.innerHTML=="&nbsp;")
+			{
+				tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			}
+		}
+	}
+	var table=document.getElementById("tb2");
+	for(var i=0;i<6;i++){
+		for(var j=0;j<21;j++){
+			var tdd=table.rows[i].cells[j];
+			addEventHandler(tdd,"keydown",kc(tdd));
+			addEventHandler(tdd,"mousedown",rc(tdd));
+			if(tdd.innerHTML=="&nbsp;")
+			{
+				tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			}
+		}
+	}
+	var table=document.getElementById("tb3");
+	for(var i=0;i<6;i++){
+		for(var j=0;j<21;j++){
+			var tdd=table.rows[i].cells[j];
+			addEventHandler(tdd,"keydown",kc(tdd));
+			addEventHandler(tdd,"mousedown",rc(tdd));
+			if(tdd.innerHTML=="&nbsp;")
+			{
+				tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			}
+		}
+	}
+	var table=document.getElementById("tb4");
+	for(var i=0;i<6;i++){
+		for(var j=0;j<21;j++){
+			var tdd=table.rows[i].cells[j];
+			addEventHandler(tdd,"keydown",kc(tdd));
+			addEventHandler(tdd,"mousedown",rc(tdd));
+			if(tdd.innerHTML=="&nbsp;")
+			{
+				tdd.innerHTML="<input type='text' value='' class='fontblack'  onKeyDown='changecolor(this)'/>";
+			}
+		}
+	}
+}
+function addEventHandler(oTarget, sEventType, fnHandler){//动态为组件添加事件兼容不兼容的浏览器   
+    if (oTarget.addEventListener) { //Mozilla, Netscape, Firefox
+    	oTarget.addEventListener(sEventType, fnHandler, false);   
+    } else if (oTarget.attachEvent) {   //IE 
+    	oTarget.attachEvent("on" + sEventType, fnHandler);   
+    } else {   
+    	oTarget["on" + sEventType] = fnHandler;
+    }   
+}
+
+function objpoint(obj,str){//每次添加一个圈
+	var table=obj.parentNode.parentNode.parentNode;
+	var i=obj.parentNode.rowIndex;
+	var j=obj.cellIndex;
+	table.rows[i].cells[j].className=str;
+}
+function count()  //统计的函数
+{
+	tabcount("up");//根据上边两个小表tb1和tb2生成一个中间表maintab
+	checkMain();
+	
+	//tabcount("down"),计算下边两个小表格tb1和tb2生成中间表的代码在checkMain()函数最后
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//中间表的全局变量
+var formercolor="";//记录同列上一个td的颜色
+var addcell=0; //记录当前要添加到的列数
+var addrow=0; //记录当前要添加到的行数
+//为了在本页显示时把负号去掉(保存到div的时候需要带负号)，需要为上边和下边的表分别创建5个全局变量
+var uprm1=0;//输赢钱(赢钱-输钱)
+var uprm2=0;//净利
+var uprm3=0;//总利
+var uprm4=0;//输赢口(赢的次数-输的次数)
+var uprm5=0;//连跳差(连次数-跳次数)
+var downrm1=0;
+var downrm2=0;
+var downrm3=0;
+var downrm4=0;
+var downrm5=0;
+
+function checkMain()//遍历主表格计算数值
+{	
+	var winM=0;//赢的钱
+	var loseM=0;//输的钱
+	var bankerV=0;//庄抽水
+	
+	var winc=0;//赢的次数
+	var losec=0;//输的次数
+	
+	var thjump=0;//三跳的次数
+	var forlink=0;//四连的次数
+	
+	var linkc=0;//连跳差,连的次数(大于一个圈的列就是连)
+	var jumpc=0;//连跳差,跳的次数(这列只有一个圈就是跳)
+	
+		
+	var maintab=document.getElementById("maintab");
+	for(var i=0;i<42;i++)
+	{
+		for(var j=0;j<36;j++)
+		{
+			var temp=maintab.rows[j].cells[i].innerHTML;
+			if(temp!=""&&temp!=null)
+			{
+				var arr=temp.split(",");
+				//输赢钱,输赢口计算
+				if(arr[1]=="fontblack"&&arr[2]!=""&&arr[2]!=null)//黑字代表输
+				{
+					loseM+=parseFloat(arr[2]);//输的钱
+					losec++; //输的次数
+				}
+				else if(arr[1]=="fontred"&&arr[2]!=""&&arr[2]!=null)//红字代表赢
+				{
+					winM+=parseFloat(arr[2]);
+					winc++;
+				}
+				//庄抽水计算
+				if(arr[0]==1&&arr[1]=="fontred")//红色圈红字庄才抽水
+				{
+					bankerV+=parseFloat(arr[2])*0.05;
+				}
+			}
+			
+		}
+	}
+	//输赢钱
+	document.getElementById("winMoney").value=winM+"万";
+	document.getElementById("loseMoney").value=loseM+"万";
+	 uprm1=Math.round((winM-loseM)*100)/100;
+	if(uprm1>=0){resultMoney.style.color="red";}else{resultMoney.style.color="black";}
+	document.getElementById("resultMoney").value=Math.abs(uprm1)+"万";
+	document.getElementById("winMoney2").value=winM+"万";
+	document.getElementById("loseMoney2").value=loseM+"万";
+	resultMoney2.style.color=resultMoney.style.color;
+	document.getElementById("resultMoney2").value=Math.abs(uprm1)+"万";
+	//输赢口
+	winCount.value=winc;
+	loseCount.value=losec;
+	uprm4=winc-losec;
+	if(uprm4>=0){resultCount.style.color="red";}else{resultCount.style.color="black";}
+	resultCount.value=Math.abs(uprm4);
+	winCount2.value=winc;
+	loseCount2.value=losec;
+	resultCount2.style.color=resultCount.style.color;
+	resultCount2.value=Math.abs(uprm4);
+	//庄抽水
+	pumpV.value=Math.round(bankerV*100)/100+"万";
+	resultPu.value=pumpV.value;
+	//码佣
+	payV.value=Math.round((winM<loseM?winM:loseM)*0.008*100)/100+"万";
+	resultPa.value=payV.value;
+	//净利=赢钱-输钱-庄抽水
+	uprm2=Math.round((winM-loseM-Math.round(bankerV*100)/100)*100)/100
+	if(uprm2>=0){netV.style.color="red";}else{netV.style.color="black";}
+	netV.value=Math.abs(uprm2)+"万";
+	resultN.style.color=netV.style.color;
+	resultN.value=Math.abs(uprm2)+"万";
+	//总利=净利+码佣
+	uprm3=Math.round((winM-loseM-Math.round(bankerV*100)/100+(winM<loseM?winM:loseM)*0.008)*100)/100;
+	if(uprm3>=0){allV.style.color="red";}else{allV.style.color="black";}
+	allV.value=Math.abs(uprm3)+"万";
+	resultA.style.color=allV.style.color;
+	resultA.value=Math.abs(uprm3)+"万";
+		
+	for(var i=0;i<41;i++)  //计算四连的遍历法(只遍历到40,41不遍历)
+	{
+		var temp0=maintab.rows[0].cells[i].innerHTML;
+		var temp1=maintab.rows[1].cells[i].innerHTML;
+		var temp2=maintab.rows[2].cells[i].innerHTML;
+		var temp3=maintab.rows[3].cells[i].innerHTML;
+		var temp4=maintab.rows[4].cells[i].innerHTML;
+		var tempr=maintab.rows[0].cells[i+1].innerHTML;
+		
+		if(temp0!=""&&tempr!="")
+		{
+			if(temp0.split(",")[0]==temp1.split(",")[0]&&temp0.split(",")[0]==temp2.split(",")[0]&&temp0.split(",")[0]==temp3.split(",")[0])
+			{
+				if(temp4=="")
+				{
+					forlink++;
+				}
+			}
+		}
+	}
+	forL.value=forlink;
+	refor.value=forlink;
+	
+	for(var i=0;i<39;i++)//三跳的计算方法(只遍历到38,)
+	{
+		if(i==0)
+		{	
+			var temp0=maintab.rows[0].cells[0].innerHTML;  //1
+			var temp00=maintab.rows[1].cells[0].innerHTML;
+			if(temp0!=""&&temp0!=null&&temp00=="")
+			{
+				var temp1=maintab.rows[0].cells[1].innerHTML; //2
+				var temp11=maintab.rows[1].cells[1].innerHTML; 
+				if(temp1!=""&&temp1!=null&&temp11=="") 
+				{
+					var temp2=maintab.rows[0].cells[2].innerHTML; //3
+					var temp22=maintab.rows[1].cells[2].innerHTML;
+					if(temp2!=""&&temp2!=null&&temp=="")
+					{
+						var temp3=maintab.rows[0].cells[3].innerHTML; //4
+						var temp33=maintab.rows[1].cells[3].innerHTML;
+						if(temp3!=""&&temp3!=null&&temp33!="")
+						{
+							thjump++;
+						}
+					}
+				}
+			}
+			
+		}
+		else
+		{
+			var temp0=maintab.rows[0].cells[i].innerHTML;  //1
+			var temp00=maintab.rows[1].cells[i].innerHTML;
+			var temp000=maintab.rows[1].cells[i-1].innerHTML;
+			if(temp0!=""&&temp0!=null&&temp00==""&&temp000!="")
+			{
+				
+				var temp1=maintab.rows[0].cells[i+1].innerHTML; //2
+				var temp11=maintab.rows[1].cells[i+1].innerHTML; 
+				if(temp1!=""&&temp1!=null&&temp11=="") 
+				{
+					var temp2=maintab.rows[0].cells[i+2].innerHTML; //3
+					var temp22=maintab.rows[1].cells[i+2].innerHTML;
+					if(temp2!=""&&temp2!=null&&temp=="")
+					{
+						var temp3=maintab.rows[0].cells[i+3].innerHTML; //4
+						var temp33=maintab.rows[1].cells[i+3].innerHTML;
+						if(temp3!=""&&temp3!=null&&temp33!="")
+						{
+							thjump++;
+						}
+					}
+				}
+			}
+		}
+	}
+	thV.value=thjump;
+	reth.value=thjump;
+	
+	for(var i=0;i<42;i++)//计算连跳差
+	{
+		var temp=maintab.rows[0].cells[i].innerHTML;
+		var temp1=maintab.rows[1].cells[i].innerHTML;
+		var temp3=maintab.rows[2].cells[i].innerHTML;
+		if(i<41)
+		{
+			var temp2=maintab.rows[0].cells[i+1].innerHTML;
+			if(temp!=""&&temp1==""&&temp2!="")
+			{
+				jumpc++;
+			}
+		}
+		if(temp!=""&&temp3!="") //有连发生
+		{
+			for(var j=2;j<36;j++)
+			{
+				if(maintab.rows[j].cells[i].innerHTML!="")
+				{
+					linkc++;
+				}
+			}
+		}
+	}
+	linkV.value=linkc;
+	jumpV.value=jumpc;
+	uprm5=linkc-jumpc;
+	if(uprm5>=0){resultMis.style.color="red";}else{resultMis.style.color="black";}
+	resultMis.value=Math.abs(uprm5);
+	resultLJ.style.color=resultMis.style.color;
+	resultLJ.value=Math.abs(uprm5);
+	
+	
+	tabcount("down");//根据下边两个小表tb3和tb4生成一个中间表maintab
+	checkMain2();
+}
+
+function checkMain2()//遍历主表格计算数值(下边的数值)
+{	
+	var winM=0;//赢的钱
+	var loseM=0;//输的钱
+	var bankerV=0;//庄抽水
+	
+	var winc=0;//赢的次数
+	var losec=0;//输的次数
+	
+	var thjump=0;//三跳的次数
+	var forlink=0;//四连的次数
+	
+	var linkc=0;//连跳差,连的次数(大于一个圈的列就是连)
+	var jumpc=0;//连跳差,跳的次数(这列只有一个圈就是跳)
+	
+		
+	var maintab=document.getElementById("maintab");
+	for(var i=0;i<42;i++)
+	{
+		for(var j=0;j<36;j++)
+		{
+			var temp=maintab.rows[j].cells[i].innerHTML;
+			if(temp!=""&&temp!=null)
+			{
+				var arr=temp.split(",");
+				//输赢钱,输赢口计算
+				if(arr[1]=="fontblack"&&arr[2]!=""&&arr[2]!=null)//黑字代表输
+				{
+					loseM+=parseFloat(arr[2]);//输的钱
+					losec++; //输的次数
+				}
+				else if(arr[1]=="fontred"&&arr[2]!=""&&arr[2]!=null)//红字代表赢
+				{
+					winM+=parseFloat(arr[2]);
+					winc++;
+				}
+				//庄抽水计算
+				if(arr[0]==1&&arr[1]=="fontred")//红色圈红字庄才抽水
+				{
+					bankerV+=parseFloat(arr[2])*0.05;
+				}
+			}
+			
+		}
+	}
+	//输赢钱
+	document.getElementById("dwinMoney").value=winM+"万";
+	document.getElementById("dloseMoney").value=loseM+"万";
+	downrm1=Math.round((winM-loseM)*100)/100;
+	if(downrm1>=0){dresultMoney.style.color="red";}else{dresultMoney.style.color="black";}
+	document.getElementById("dresultMoney").value=Math.abs(downrm1)+"万";
+	document.getElementById("dwinMoney2").value=winM+"万";
+	document.getElementById("dloseMoney2").value=loseM+"万";
+	dresultMoney2.style.color=dresultMoney.style.color;
+	document.getElementById("dresultMoney2").value=Math.abs(downrm1)+"万";
+	//输赢口
+	dwinCount.value=winc;
+	dloseCount.value=losec;
+	downrm4=winc-losec;
+	if(downrm4>=0){dresultCount.style.color="red";}else{dresultCount.style.color="black";}
+	dresultCount.value=Math.abs(downrm4);
+	dwinCount2.value=winc;
+	dloseCount2.value=losec;
+	dresultCount2.style.color=dresultCount.style.color;
+	dresultCount2.value=Math.abs(downrm4);
+	//庄抽水
+	dpumpV.value=Math.round(bankerV*100)/100+"万";
+	dresultPu.value=dpumpV.value;
+	//码佣
+	dpayV.value=Math.round((winM<loseM?winM:loseM)*0.008*100)/100+"万";
+	dresultPa.value=dpayV.value;
+	//净利=赢钱-输钱-庄抽水
+	downrm2=Math.round((winM-loseM-Math.round(bankerV*100)/100)*100)/100
+	if(downrm2>=0){dnetV.style.color="red";}else{dnetV.style.color="black";}
+	dnetV.value=Math.abs(downrm2)+"万";
+	dresultN.style.color=dnetV.style.color;
+	dresultN.value=Math.abs(downrm2)+"万";
+	//总利=净利+码佣
+	downrm3=Math.round((winM-loseM-Math.round(bankerV*100)/100+(winM<loseM?winM:loseM)*0.008)*100)/100;
+	if(downrm3>=0){dallV.style.color="red";}else{dallV.style.color="black";}
+	dallV.value=Math.abs(downrm3)+"万";
+	dresultA.style.color=dallV.style.color;
+	dresultA.value=Math.abs(downrm3)+"万";
+	
+	for(var i=0;i<41;i++)  //计算四连的遍历法(只遍历到40,41不遍历)
+	{
+		var temp0=maintab.rows[0].cells[i].innerHTML;
+		var temp1=maintab.rows[1].cells[i].innerHTML;
+		var temp2=maintab.rows[2].cells[i].innerHTML;
+		var temp3=maintab.rows[3].cells[i].innerHTML;
+		var temp4=maintab.rows[4].cells[i].innerHTML;
+		var tempr=maintab.rows[0].cells[i+1].innerHTML;
+		
+		if(temp0!=""&&tempr!="")
+		{
+			if(temp0.split(",")[0]==temp1.split(",")[0]&&temp0.split(",")[0]==temp2.split(",")[0]&&temp0.split(",")[0]==temp3.split(",")[0])
+			{
+				if(temp4=="")
+				{
+					forlink++;
+				}
+			}
+		}
+	}
+	dforL.value=forlink;
+	drefor.value=forlink;
+	
+	for(var i=0;i<39;i++)//三断的计算方法(只遍历到38,)
+	{
+		if(i==0)
+		{	
+			var temp0=maintab.rows[0].cells[0].innerHTML;  //1
+			var temp00=maintab.rows[1].cells[0].innerHTML;
+			if(temp0!=""&&temp0!=null&&temp00=="")
+			{
+				var temp1=maintab.rows[0].cells[1].innerHTML; //2
+				var temp11=maintab.rows[1].cells[1].innerHTML; 
+				if(temp1!=""&&temp1!=null&&temp11=="") 
+				{
+					var temp2=maintab.rows[0].cells[2].innerHTML; //3
+					var temp22=maintab.rows[1].cells[2].innerHTML;
+					if(temp2!=""&&temp2!=null&&temp=="")
+					{
+						var temp3=maintab.rows[0].cells[3].innerHTML; //4
+						var temp33=maintab.rows[1].cells[3].innerHTML;
+						if(temp3!=""&&temp3!=null&&temp33!="")
+						{
+							thjump++;
+						}
+					}
+				}
+			}
+			
+		}
+		else
+		{
+			var temp0=maintab.rows[0].cells[i].innerHTML;  //1
+			var temp00=maintab.rows[1].cells[i].innerHTML;
+			var temp000=maintab.rows[1].cells[i-1].innerHTML;
+			if(temp0!=""&&temp0!=null&&temp00==""&&temp000!="")
+			{
+				
+				var temp1=maintab.rows[0].cells[i+1].innerHTML; //2
+				var temp11=maintab.rows[1].cells[i+1].innerHTML; 
+				if(temp1!=""&&temp1!=null&&temp11=="") 
+				{
+					var temp2=maintab.rows[0].cells[i+2].innerHTML; //3
+					var temp22=maintab.rows[1].cells[i+2].innerHTML;
+					if(temp2!=""&&temp2!=null&&temp=="")
+					{
+						var temp3=maintab.rows[0].cells[i+3].innerHTML; //4
+						var temp33=maintab.rows[1].cells[i+3].innerHTML;
+						if(temp3!=""&&temp3!=null&&temp33!="")
+						{
+							thjump++;
+						}
+					}
+				}
+			}
+		}
+	}
+	dthV.value=thjump;
+	dreth.value=thjump;
+	
+	for(var i=0;i<42;i++)//计算连跳差
+	{
+		var temp=maintab.rows[0].cells[i].innerHTML;
+		var temp1=maintab.rows[1].cells[i].innerHTML;
+		var temp3=maintab.rows[2].cells[i].innerHTML;  //用来计算连的
+		if(i<41)
+		{
+			var temp2=maintab.rows[0].cells[i+1].innerHTML;
+			if(temp!=""&&temp1==""&&temp2!="")
+			{
+				jumpc++;
+			}
+		}
+		if(temp!=""&&temp3!="") //有连发生了
+		{
+			for(var j=2;j<36;j++)
+			{
+				if(maintab.rows[j].cells[i].innerHTML!="")
+				{
+					linkc++;
+				}
+			}
+			
+		}
+	}
+	dlinkV.value=linkc;
+	djumpV.value=jumpc;
+	downrm5=linkc-jumpc;
+	if(downrm5>=0){dresultMis.style.color="red";}else{dresultMis.style.color="black";}
+	dresultMis.value=Math.abs(downrm5);
+	dresultLJ.style.color=dresultMis.style.color;
+	dresultLJ.value=Math.abs(downrm5);
+	
+	
+}
+
+function tabcount(flag)//遍历两个主表生成一个中间表(红1黑2)的生成中间表的方法
+{	 formercolor="";//初始化中间表的全局变量
+	 addcell=0; 
+	 addrow=0;
+	 maintabclear();//清空以前的记录
+	 
+	var tablemainup;
+	var tablemaindown;
+	var fc="";
+	var val="";
+	if(flag=="up")
+	{
+		tablemainup=document.getElementById("tb1");
+		tablemaindown=document.getElementById("tb2");
+	}
+	else if(flag=="down")
+	{
+		tablemainup=document.getElementById("tb3");
+		tablemaindown=document.getElementById("tb4");
+	}
+	
+	for(var i=0;i<21;i++)
+	{
+		Loop: for(var j=0;j<6;j++)
+		{
+			if(j<5)
+			{
+				var self=tablemainup.rows[j].cells[i].className;//红圈或者黑圈(黑色tdimgblack,红色tdimgred)
+				fc=tablemainup.rows[j].cells[i].firstChild.className;//字体颜色(黑色fontblack,红色fontred)
+				val=tablemainup.rows[j].cells[i].firstChild.value;//td里面的数值
+				var compare=tablemainup.rows[j+1].cells[i].className;
+				if(self==compare&&compare!=""&&self!="")
+				{
+					addmaintab(self,fc,val);
+				}
+				else if(self!=compare&&self!="")//上边和下边颜色不一样,需要判断self有没有发生拐弯
+				{	
+					var right;
+					if(i<20)
+					{
+						right=tablemainup.rows[j].cells[i+1].className;//判断右边的td是否和其相等
+						if(self==right)//发生拐弯了
+						{
+							for(var a=i;a<41;a++)//从当前列,遍历到最多41列。(这里遍历到41列为的是可以取到第42列的圈颜色进行比较)
+							{	
+								var compare1;
+								if(a<20)
+								{
+									compare1=tablemainup.rows[j].cells[a+1].className;
+									fc=tablemainup.rows[j].cells[a].firstChild.className;
+									val=tablemainup.rows[j].cells[a].firstChild.value;
+								}
+								else if(a==20)
+								{
+									compare1=tablemaindown.rows[j].cells[0].className;
+									fc=tablemainup.rows[j].cells[20].firstChild.className;
+									val=tablemainup.rows[j].cells[20].firstChild.value;
+								}
+								else if(a>20&&a<41)
+								{
+									compare1=tablemaindown.rows[j].cells[a-21+1].className;
+									fc=tablemaindown.rows[j].cells[a-21].firstChild.className;
+									val=tablemaindown.rows[j].cells[a-21].firstChild.value;
+								}
+								
+								if(self==compare1&&a<40)
+								{
+									addmaintab(self,fc,val);
+								}
+								else if(self==compare1&&a==40) //这里到了最后一列,不能继续向右了,须判断是否向上拐弯。。。。2-3
+								{
+									addmaintab(self,fc,val);
+									//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[20].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[20].className;
+														fc=tablemaindown.rows[m].cells[20].firstChild.className;
+														val=tablemaindown.rows[m].cells[20].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[20].firstChild.className;
+															val=tablemaindown.rows[0].cells[20].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemaindown.rows[j].cells[20].firstChild.className;
+													val=tablemaindown.rows[j].cells[20].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemaindown.rows[0].cells[20].firstChild.className;
+												val=tablemaindown.rows[0].cells[20].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2	
+								}
+								else if(self!=compare1)   //这里和右边的不相等了,须判断是否向上边拐弯了。。。。。。。。2-2
+								{
+									//alert("上了");
+									//2
+									var b;
+									var tbmain;
+									if(a<=20)
+									{
+										b=a;
+										tbmain=tablemainup;
+									}
+									else if(a>20)
+									{
+										b=a-21;
+										tbmain=tablemaindown;
+									}
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tbmain.rows[j-1].cells[b].className;
+												if(self==upcompare)  //向上拐了
+												{
+													//alert("上了");
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tbmain.rows[m-1].cells[b].className;
+														fc=tbmain.rows[m].cells[b].firstChild.className;
+														val=tbmain.rows[m].cells[b].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tbmain.rows[0].cells[b].firstChild.className;
+															val=tbmain.rows[0].cells[b].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2	
+								}
+							}
+						}
+						else if(self!=right)  //没有向右边拐弯,需要判断是否向左边拐弯了。。。。。。。。。。。。。。1-1
+						{
+							//1
+							if(i>0)  //第一列i=0时不用判断左边但是需要判断右边
+							{
+								var leftcompare=tablemainup.rows[j].cells[i-1].className;//判断左边的td是否和其相等
+								if(self!=leftcompare)  //向左、右都没有发生拐弯的情况
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+								else if(self==leftcompare)  //发生了向左拐弯的情况
+								{
+									for(var k=i;k>0;k--)   //从当前列向左遍历到最多0列(遍历到第2列为的是可以取到第1列的值进行比较)
+									{
+										var compare1=tablemainup.rows[j].cells[k-1].className;
+										fc=tablemainup.rows[j].cells[k].firstChild.className;
+										val=tablemainup.rows[j].cells[k].firstChild.value;
+										if(self==compare1&&k>1)
+										{
+											addmaintab(self,fc,val);
+										}
+										else if(self==compare1&&k==1)//这里到了第一列,不能继续向左了,须判断是否向上拐弯。。。。2-1
+										{
+											addmaintab(self,fc,val);
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemainup.rows[j-1].cells[0].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemainup.rows[m-1].cells[0].className;
+														fc=tablemainup.rows[m].cells[0].firstChild.className;
+														val=tablemainup.rows[m].cells[0].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemainup.rows[0].cells[0].firstChild.className;
+															val=tablemainup.rows[0].cells[0].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemainup.rows[j].cells[0].firstChild.className;
+													val=tablemainup.rows[j].cells[0].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemainup.rows[0].cells[0].firstChild.className;
+												val=tablemainup.rows[0].cells[0].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2	
+										}
+										else if(self!=compare1)	//当和左边的第一个不相等的时候需判断是否发生向上拐弯。。。。。2-1
+										{
+											
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemainup.rows[j-1].cells[k].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较***************************写到了这里
+													{
+														var upc=tablemainup.rows[m-1].cells[k].className;
+														fc=tablemainup.rows[m].cells[k].firstChild.className;
+														val=tablemainup.rows[m].cells[k].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemainup.rows[0].cells[k].firstChild.className;
+															val=tablemainup.rows[0].cells[k].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										
+										}
+									}
+								}
+							}
+							else if(i==0)
+							{
+								addmaintab(self,fc,val);
+								break Loop;
+							}
+							//1
+						}
+					}
+					else if(i==20)
+					{
+						right=tablemaindown.rows[j].cells[0].className;//右边的td到了down表第一个
+						fc=tablemainup.rows[j].cells[20].firstChild.className;
+						val=tablemainup.rows[j].cells[20].firstChild.value;
+						if(self!=right&&self!="")//没有向右边拐弯,需要判断是否向左边拐弯了。。。。。。。。。。。。。。1-2
+						{
+							//1
+							var leftcompare=tablemainup.rows[j].cells[19].className;//判断左边的td是否和其相等
+								if(self!=leftcompare)  //向左、右都没有发生拐弯的情况
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+								else if(self==leftcompare)  //发生了向左拐弯的情况
+								{
+									for(var k=20;k>0;k--)   //从当前列向左遍历到最多0列(遍历到第2列为的是可以取到第1列的值进行比较)
+									{
+										var compare1=tablemainup.rows[j].cells[k-1].className;
+										fc=tablemainup.rows[j].cells[k].firstChild.className;
+										val=tablemainup.rows[j].cells[k].firstChild.value;
+										if(self==compare1&&k>1)
+										{
+											addmaintab(self,fc,val);
+										}
+										else if(self==compare1&&k==1)//这里到了第一列,不能继续向左了,须判断是否向上拐弯。。。。2-1
+										{
+											addmaintab(self,fc,val);
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemainup.rows[j-1].cells[0].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemainup.rows[m-1].cells[0].className;
+														fc=tablemainup.rows[m].cells[0].firstChild.className;
+														val=tablemainup.rows[m].cells[0].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemainup.rows[0].cells[0].firstChild.className;
+															val=tablemainup.rows[0].cells[0].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemainup.rows[j].cells[0].firstChild.className;
+													val=tablemainup.rows[j].cells[0].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemainup.rows[0].cells[0].firstChild.className;
+												val=tablemainup.rows[0].cells[0].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										}
+										else if(self!=compare1)	//当和左边的第一个不相等的时候需判断是否发生向上拐弯。。。。。2-1
+										{
+											
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemainup.rows[j-1].cells[k].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemainup.rows[m-1].cells[k].className;
+														fc=tablemainup.rows[m].cells[k].firstChild.className;
+														val=tablemainup.rows[m].cells[k].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemainup.rows[0].cells[k].firstChild.className;
+															val=tablemainup.rows[0].cells[k].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										
+										}
+									}
+								}
+								//1
+						}
+						else if(self==right&&self!="")//发生拐弯了,而且拐弯到了down表里面
+						{
+							addmaintab(self,fc,val);
+							for(var a=0;a<20;a++)//从当前列,遍历到最多19列
+							{
+								
+								var compare1=tablemaindown.rows[j].cells[a+1].className;
+								fc=tablemaindown.rows[j].cells[a].firstChild.className;
+								val=tablemaindown.rows[j].cells[a].firstChild.value;
+								if(self==compare1&&a<19)
+								{
+									addmaintab(self,fc,val);
+								}
+								else if(self==compare1&&a==19)
+								{
+									addmaintab(self,fc,val);
+									fc=tablemaindown.rows[j].cells[20].firstChild.className;
+								    val=tablemaindown.rows[j].cells[20].firstChild.value;
+									addmaintab(compare1,fc,val);
+									break Loop;  //j==5的时候不用break,但是不等于5放入时候需要break
+								}
+								else if(self!=compare1)
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+							}
+						}
+					}
+				}
+				else if(self==""&&compare=="")
+				{
+					return;
+				}
+			}
+			else if(j==5)
+			{
+				if(i<20)
+				{	
+					var self=tablemainup.rows[j].cells[i].className;
+					fc=tablemainup.rows[j].cells[i].firstChild.className;
+					val=tablemainup.rows[j].cells[i].firstChild.value;
+					var compare=tablemainup.rows[5].cells[i+1].className;
+					if(self!=compare)	 //没有向右边拐弯,需要判断是否向左边拐弯了。。。。。。。。。。。。。。1-3
+					{
+						//1
+							if(i>0)  //第一列i=0时不用判断左边
+							{
+								var leftcompare=tablemainup.rows[j].cells[i-1].className;//判断左边的td是否和其相等
+								if(self!=leftcompare)  //向左、右都没有发生拐弯的情况
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+								else if(self==leftcompare)  //发生了向左拐弯的情况
+								{
+									for(var k=i;k>0;k--)   //从当前列向左遍历到最多0列(遍历到第2列为的是可以取到第1列的值进行比较)
+									{
+										var compare1=tablemainup.rows[j].cells[k-1].className;
+										fc=tablemainup.rows[j].cells[k].firstChild.className;
+										val=tablemainup.rows[j].cells[k].firstChild.value;
+										if(self==compare1&&k>1)
+										{
+											addmaintab(self,fc,val);
+										}
+										else if(self==compare1&&k==1)//这里到了第一列,不能继续向左了,须判断是否向上拐弯。。。。2-1
+										{
+											addmaintab(self,fc,val);
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemainup.rows[j-1].cells[0].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemainup.rows[m-1].cells[0].className;
+														fc=tablemainup.rows[m].cells[0].firstChild.className;
+														val=tablemainup.rows[m].cells[0].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemainup.rows[0].cells[0].firstChild.className;
+															val=tablemainup.rows[0].cells[0].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemainup.rows[j].cells[0].firstChild.className;
+													val=tablemainup.rows[j].cells[0].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemainup.rows[0].cells[0].firstChild.className;
+												val=tablemainup.rows[0].cells[0].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2	
+										}
+										else if(self!=compare1)	//当和左边的第一个不相等的时候需判断是否发生向上拐弯。。。。。2-1
+										{
+											
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemainup.rows[j-1].cells[k].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较***************************
+													{
+														var upc=tablemainup.rows[m-1].cells[k].className;
+														fc=tablemainup.rows[m].cells[k].firstChild.className;
+														val=tablemainup.rows[m].cells[k].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemainup.rows[0].cells[k].firstChild.className;
+															val=tablemainup.rows[0].cells[k].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										
+										}
+									}
+								}
+							}
+							else if(i==0) //这里不用判断上边,因为就是从上边判断下来的。(只在有左或右拐弯的时候才判断上边)
+							{
+								addmaintab(self,fc,val);
+								break Loop;
+							}
+							//1
+					}
+					else if(self==compare&&self!="")//如果本身和右边相等就是发生了拐弯的情况(在第6列这里拐弯的情况)
+					{
+						 for(var a=i;a<41;a++)//从当前列,遍历到最多41列
+						{
+							var compare1;
+								if(a<20)
+								{
+									compare1=tablemainup.rows[j].cells[a+1].className;
+									fc=tablemainup.rows[j].cells[a].firstChild.className;
+									val=tablemainup.rows[j].cells[a].firstChild.value;
+								}
+								else if(a==20)
+								{
+									compare1=tablemaindown.rows[j].cells[0].className;
+									fc=tablemainup.rows[j].cells[20].firstChild.className;
+									val=tablemainup.rows[j].cells[20].firstChild.value;
+								}
+								else if(a>20&&a<41)
+								{
+									compare1=tablemaindown.rows[j].cells[a-21+1].className;
+									fc=tablemaindown.rows[j].cells[a-21].firstChild.className;
+									val=tablemaindown.rows[j].cells[a-21].firstChild.value;
+								}
+								
+								if(self==compare1&&a<40)
+								{
+									addmaintab(self,fc,val);
+								}
+								else if(self==compare1&&a==40)   //2-2/////////////////////////////////////////
+								{
+									addmaintab(self,fc,val);
+									//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[20].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[20].className;
+														fc=tablemaindown.rows[m].cells[20].firstChild.className;
+														val=tablemaindown.rows[m].cells[20].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[20].firstChild.className;
+															val=tablemaindown.rows[0].cells[20].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemaindown.rows[j].cells[20].firstChild.className;
+													val=tablemaindown.rows[j].cells[20].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemaindown.rows[0].cells[20].firstChild.className;
+												val=tablemaindown.rows[0].cells[20].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2										
+									
+									
+									//addmaintab(self,fc,val);
+									//fc=tablemaindown.rows[j].cells[20].firstChild.className;
+									//val=tablemaindown.rows[j].cells[20].firstChild.value;
+									//addmaintab(compare1,fc,val);
+								}
+								else if(self!=compare1)  //2-3///////////////////////////////////////////////////
+								{
+									//2
+									var b;
+									var tbmain;
+									if(a<=20)
+									{
+										b=a;
+										tbmain=tablemainup;
+									}
+									else if(a>20)
+									{
+										b=a-21;
+										tbmain=tablemaindown;
+									}
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tbmain.rows[j-1].cells[b].className;
+												if(self==upcompare)  //向上拐了
+												{
+													//alert("上了");
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tbmain.rows[m-1].cells[b].className;
+														fc=tbmain.rows[m].cells[b].firstChild.className;
+														val=tbmain.rows[m].cells[b].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tbmain.rows[0].cells[b].firstChild.className;
+															val=tbmain.rows[0].cells[b].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2										
+									//addmaintab(self,fc,val);
+									//break Loop;
+								}
+						}
+					}
+				}
+				else if(i==20)
+				{
+					compare=tablemaindown.rows[5].cells[0].className;
+					fc=tablemainup.rows[5].cells[20].firstChild.className;
+					val=tablemainup.rows[5].cells[20].firstChild.value;
+					if(self!=compare&&self!="")  //没有向右边拐弯,需要判断是否向左边拐弯了。。。。。。。。。。。。。。1-4
+					{
+						//1
+							var leftcompare=tablemainup.rows[j].cells[19].className;//判断左边的td是否和其相等
+								if(self!=leftcompare)  //向左、右都没有发生拐弯的情况
+								{
+									addmaintab(self,fc,val);
+									
+								}
+								else if(self==leftcompare)  //发生了向左拐弯的情况
+								{
+									for(var k=20;k>0;k--)   //从当前列向左遍历到最多0列(遍历到第2列为的是可以取到第1列的值进行比较)
+									{
+										var compare1=tablemainup.rows[j].cells[k-1].className;
+										fc=tablemainup.rows[j].cells[k].firstChild.className;
+										val=tablemainup.rows[j].cells[k].firstChild.value;
+										if(self==compare1&&k>1)
+										{
+											addmaintab(self,fc,val);
+										}
+										else if(self==compare1&&k==1)//这里到了第一列,不能继续向左了,须判断是否向上拐弯。。。。2-1
+										{
+											addmaintab(self,fc,val);
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemainup.rows[j-1].cells[0].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemainup.rows[m-1].cells[0].className;
+														fc=tablemainup.rows[m].cells[0].firstChild.className;
+														val=tablemainup.rows[m].cells[0].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemainup.rows[0].cells[0].firstChild.className;
+															val=tablemainup.rows[0].cells[0].firstChild.value;
+															addmaintab(self,fc,val);
+															
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemainup.rows[j].cells[0].firstChild.className;
+													val=tablemainup.rows[j].cells[0].firstChild.value;
+													addmaintab(self,fc,val);
+													
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemainup.rows[0].cells[0].firstChild.className;
+												val=tablemainup.rows[0].cells[0].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										}
+										else if(self!=compare1)	//当和左边的第一个不相等的时候需判断是否发生向上拐弯。。。。。2-1
+										{
+											
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemainup.rows[j-1].cells[k].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemainup.rows[m-1].cells[k].className;
+														fc=tablemainup.rows[m].cells[k].firstChild.className;
+														val=tablemainup.rows[m].cells[k].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemainup.rows[0].cells[k].firstChild.className;
+															val=tablemainup.rows[0].cells[k].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										
+										}
+									}
+								}
+								//1
+					}
+					else if(self==compare&&self!="")//发生了拐弯
+					{
+							addmaintab(self,fc,val);
+							for(var a=0;a<20;a++)//从当前列,遍历到最多19列
+							{
+								var compare1=tablemaindown.rows[j].cells[a+1].className;
+								fc=tablemaindown.rows[j].cells[a].firstChild.className;
+								val=tablemaindown.rows[j].cells[a].firstChild.value;
+								if(self==compare1&&a<19)
+								{
+									addmaintab(self,fc,val);
+								}
+								else if(self==compare1&&a==19)
+								{
+									addmaintab(self,fc,val);
+									fc=tablemaindown.rows[j].cells[20].firstChild.className;
+								    val=tablemaindown.rows[j].cells[20].firstChild.value;
+									addmaintab(compare1,fc,val);
+									//break Loop;
+								}
+								else if(self!=compare1)
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+							}
+					}
+				}else{alert("遍历主表格最后列错误");}
+			}
+		}
+	}
+	for(var i=0;i<21;i++)//遍历tablemaindown表
+	{
+		Loop: for(var j=0;j<6;j++)
+		{
+			if(j<5)
+			{
+				var self=tablemaindown.rows[j].cells[i].className;
+				var compare=tablemaindown.rows[j+1].cells[i].className;
+				fc=tablemaindown.rows[j].cells[i].firstChild.className;
+				val=tablemaindown.rows[j].cells[i].firstChild.value;
+				if(self==compare&&compare!=""&&self!="")
+				{
+					addmaintab(self,fc,val);
+				}
+				else if(self!=compare&&self!="")//上边和下边颜色不一样,需要判断self有没有发生拐弯
+				{	
+					var right;
+					if(i<20)
+					{
+						right=tablemaindown.rows[j].cells[i+1].className
+						
+						if(self==right&&self!="")//发生拐弯了
+						{
+							for(var a=i;a<20;a++)//从当前列,遍历到最多19列
+							{
+								var self1=tablemaindown.rows[j].cells[a].className;
+								var compare1=tablemaindown.rows[j].cells[a+1].className;
+								fc=tablemaindown.rows[j].cells[a].firstChild.className;
+								val=tablemaindown.rows[j].cells[a].firstChild.value;
+								if(self1==compare1&&a<19)
+								{
+									addmaintab(self1,fc,val);
+								}
+								else if(self1==compare1&&a==19) //这里到了最后一列,不能继续向右了,须判断是否向上拐弯。。。。2-3
+								{
+									addmaintab(self,fc,val);
+									//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[20].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[20].className;
+														fc=tablemaindown.rows[m].cells[20].firstChild.className;
+														val=tablemaindown.rows[m].cells[20].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[20].firstChild.className;
+															val=tablemaindown.rows[0].cells[20].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemaindown.rows[j].cells[20].firstChild.className;
+													val=tablemaindown.rows[j].cells[20].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemaindown.rows[0].cells[20].firstChild.className;
+												val=tablemaindown.rows[0].cells[20].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2										
+
+								}
+								else if(self1!=compare1) //这里和右边不相等了,须判断是否向上拐弯。。。。2-3
+								{
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[a].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较***************************
+													{
+														var upc=tablemaindown.rows[m-1].cells[a].className;
+														fc=tablemaindown.rows[m].cells[a].firstChild.className;
+														val=tablemaindown.rows[m].cells[a].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[a].firstChild.className;
+															val=tablemaindown.rows[0].cells[a].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+									
+									
+								}
+							}
+						}
+						else if(self!=right)    //没有向右边拐弯,需要判断是否向左边拐弯了。。。。。。。。。。。。。。1-5
+						{
+							//1
+							if(i>0)  //第一列i=0时不用判断左边
+							{
+								var leftcompare=tablemaindown.rows[j].cells[i-1].className;//判断左边的td是否和其相等
+								if(self!=leftcompare)  //向左、右都没有发生拐弯的情况
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+								else if(self==leftcompare)  //发生了向左拐弯的情况
+								{
+									for(var k=i;k>0;k--)   //从当前列向左遍历到最多0列(遍历到第2列为的是可以取到第1列的值进行比较)
+									{
+										var compare1=tablemaindown.rows[j].cells[k-1].className;
+										fc=tablemaindown.rows[j].cells[k].firstChild.className;
+										val=tablemaindown.rows[j].cells[k].firstChild.value;
+										if(self==compare1&&k>1)
+										{
+											addmaintab(self,fc,val);
+										}
+										else if(self==compare1&&k==1)//这里到了第一列,不能继续向左了,须判断是否向上拐弯。。。。2-1
+										{
+											addmaintab(self,fc,val);
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[0].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[0].className;
+														fc=tablemaindown.rows[m].cells[0].firstChild.className;
+														val=tablemaindown.rows[m].cells[0].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[0].firstChild.className;
+															val=tablemaindown.rows[0].cells[0].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemaindown.rows[j].cells[0].firstChild.className;
+													val=tablemaindown.rows[j].cells[0].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemaindown.rows[0].cells[0].firstChild.className;
+												val=tablemaindown.rows[0].cells[0].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2	
+										}
+										else if(self!=compare1)	//当和左边的第一个不相等的时候需判断是否发生向上拐弯。。。。。2-1
+										{
+											
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[k].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较*************************
+													{
+														var upc=tablemaindown.rows[m-1].cells[k].className;
+														fc=tablemaindown.rows[m].cells[k].firstChild.className;
+														val=tablemaindown.rows[m].cells[k].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[k].firstChild.className;
+															val=tablemaindown.rows[0].cells[k].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										}
+									}
+								}
+							}
+							else if(i==0)
+							{
+								addmaintab(self,fc,val);
+								break Loop;
+							}
+							//1
+						}
+					}
+					else if(i==20)	//没有向右边拐弯,需要判断是否向左边拐弯了。。。。。。。。。。。。。。1-6
+					{
+						//1
+							var leftcompare=tablemaindown.rows[j].cells[19].className;//判断左边的td是否和其相等
+								if(self!=leftcompare)  //向左、右都没有发生拐弯的情况
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+								else if(self==leftcompare)  //发生了向左拐弯的情况
+								{
+									for(var k=20;k>0;k--)   //从当前列向左遍历到最多0列(遍历到第2列为的是可以取到第1列的值进行比较)
+									{
+										var compare1=tablemaindown.rows[j].cells[k-1].className;
+										fc=tablemaindown.rows[j].cells[k].firstChild.className;
+										val=tablemaindown.rows[j].cells[k].firstChild.value;
+										if(self==compare1&&k>1)
+										{
+											addmaintab(self,fc,val);
+										}
+										else if(self==compare1&&k==1)//这里到了第一列,不能继续向左了,须判断是否向上拐弯。。。。2-1
+										{
+											addmaintab(self,fc,val);
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[0].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[0].className;
+														fc=tablemaindown.rows[m].cells[0].firstChild.className;
+														val=tablemaindown.rows[m].cells[0].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[0].firstChild.className;
+															val=tablemaindown.rows[0].cells[0].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemaindown.rows[j].cells[0].firstChild.className;
+													val=tablemaindown.rows[j].cells[0].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemaindown.rows[0].cells[0].firstChild.className;
+												val=tablemaindown.rows[0].cells[0].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										}
+										else if(self!=compare1)	//当和左边的第一个不相等的时候需判断是否发生向上拐弯。。。。。2-1
+										{
+											
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[k].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[k].className;
+														fc=tablemaindown.rows[m].cells[k].firstChild.className;
+														val=tablemaindown.rows[m].cells[k].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[k].firstChild.className;
+															val=tablemaindown.rows[0].cells[k].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										
+										}
+									}
+								}
+								//1
+					}
+					
+				}
+				else if(self==""&&compare=="")
+				{
+					return;
+				}
+			}
+			else if(j==5)
+			{
+				if(i<20)
+				{	
+					var self=tablemaindown.rows[j].cells[i].className;
+					var compare=tablemaindown.rows[5].cells[i+1].className;
+					fc=tablemaindown.rows[j].cells[i].firstChild.className;
+					val=tablemaindown.rows[j].cells[i].firstChild.value;
+					if(self!=compare)	//没有向右边拐弯,需要判断是否向左边拐弯了。。。。。。。。。。。。。。1-7
+					{
+						//1
+							if(i>0)  //第一列i=0时不用判断左边
+							{
+								var leftcompare=tablemaindown.rows[j].cells[i-1].className;//判断左边的td是否和其相等
+								if(self!=leftcompare)  //向左、右都没有发生拐弯的情况
+								{
+									addmaintab(self,fc,val);
+									break Loop;
+								}
+								else if(self==leftcompare)  //发生了向左拐弯的情况
+								{
+									for(var k=i;k>0;k--)   //从当前列向左遍历到最多0列(遍历到第2列为的是可以取到第1列的值进行比较)
+									{
+										var compare1=tablemaindown.rows[j].cells[k-1].className;
+										fc=tablemaindown.rows[j].cells[k].firstChild.className;
+										val=tablemaindown.rows[j].cells[k].firstChild.value;
+										if(self==compare1&&k>1)
+										{
+											addmaintab(self,fc,val);
+										}
+										else if(self==compare1&&k==1)//这里到了第一列,不能继续向左了,须判断是否向上拐弯。。。。2-1
+										{
+											addmaintab(self,fc,val);
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[0].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[0].className;
+														fc=tablemaindown.rows[m].cells[0].firstChild.className;
+														val=tablemaindown.rows[m].cells[0].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[0].firstChild.className;
+															val=tablemaindown.rows[0].cells[0].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemaindown.rows[j].cells[0].firstChild.className;
+													val=tablemaindown.rows[j].cells[0].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemaindown.rows[0].cells[0].firstChild.className;
+												val=tablemaindown.rows[0].cells[0].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2	
+										}
+										else if(self!=compare1)	//当和左边的第一个不相等的时候需判断是否发生向上拐弯。。。。。2-1
+										{
+											
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[k].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较***************************
+													{
+														var upc=tablemaindown.rows[m-1].cells[k].className;
+														fc=tablemaindown.rows[m].cells[k].firstChild.className;
+														val=tablemaindown.rows[m].cells[k].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[k].firstChild.className;
+															val=tablemaindown.rows[0].cells[k].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										
+										}
+									}
+								}
+							}
+							else if(i==0) //这里不用判断上边,因为就是从上边判断下来的。(只在有左或右拐弯的时候才判断上边)
+							{
+								addmaintab(self,fc,val);
+								break Loop;
+							}
+							//1
+					}
+					else if(self==compare&&self!="")//如果本身和右边相等就是发生了拐弯的情况(在第6列这里拐弯的情况)
+					{
+						 for(var a=i;a<20;a++)//从当前列,遍历到最多19列
+						{
+							var self2=tablemaindown.rows[5].cells[a].className;
+							var compare2=tablemaindown.rows[5].cells[a+1].className;
+							fc=tablemaindown.rows[j].cells[a].firstChild.className;
+							val=tablemaindown.rows[j].cells[a].firstChild.value;
+							if(self2==compare2&&a<19)
+							{
+								addmaintab(self2,fc,val);
+							}
+							else if(self2==compare2&&a==19)   //2-2////////////////////////
+							{
+									addmaintab(self,fc,val);
+									//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[20].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[20].className;
+														fc=tablemaindown.rows[m].cells[20].firstChild.className;
+														val=tablemaindown.rows[m].cells[20].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[20].firstChild.className;
+															val=tablemaindown.rows[0].cells[20].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemaindown.rows[j].cells[20].firstChild.className;
+													val=tablemaindown.rows[j].cells[20].firstChild.value;
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemaindown.rows[0].cells[20].firstChild.className;
+												val=tablemaindown.rows[0].cells[20].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2								
+								
+								//addmaintab(self2,fc,val);
+								//fc=tablemaindown.rows[j].cells[20].firstChild.className;
+								//val=tablemaindown.rows[j].cells[20].firstChild.value;
+								//addmaintab(compare2,fc,val);
+							}
+							else if(self2!=compare2)     //2-3//////////////////////////////
+							{
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[a].className;
+												if(self==upcompare)  //向上拐了
+												{
+													//alert("上了");
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[a].className;
+														fc=tablemaindown.rows[m].cells[a].firstChild.className;
+														val=tablemaindown.rows[m].cells[a].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[a].firstChild.className;
+															val=tablemaindown.rows[0].cells[a].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2									
+								
+								//addmaintab(self2,fc,val);
+								//break Loop;
+							}
+						}
+					}
+				}
+				else if(i==20)   //没有向右边拐弯,需要判断是否向左边拐弯了。。。。。。。。。。。。。。1-8
+				{
+				//1
+							var leftcompare=tablemaindown.rows[j].cells[19].className;//判断左边的td是否和其相等
+								if(self!=leftcompare)  //向左、右都没有发生拐弯的情况
+								{
+									addmaintab(self,fc,val);
+									
+								}
+								else if(self==leftcompare)  //发生了向左拐弯的情况
+								{
+									for(var k=20;k>0;k--)   //从当前列向左遍历到最多0列(遍历到第2列为的是可以取到第1列的值进行比较)
+									{
+										var compare1=tablemaindown.rows[j].cells[k-1].className;
+										fc=tablemaindown.rows[j].cells[k].firstChild.className;
+										val=tablemaindown.rows[j].cells[k].firstChild.value;
+										if(self==compare1&&k>1)
+										{
+											addmaintab(self,fc,val);
+										}
+										else if(self==compare1&&k==1)//这里到了第一列,不能继续向左了,须判断是否向上拐弯。。。。2-1
+										{
+											addmaintab(self,fc,val);
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[0].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[0].className;
+														fc=tablemaindown.rows[m].cells[0].firstChild.className;
+														val=tablemaindown.rows[m].cells[0].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[0].firstChild.className;
+															val=tablemaindown.rows[0].cells[0].firstChild.value;
+															addmaintab(self,fc,val);
+															
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													fc=tablemaindown.rows[j].cells[0].firstChild.className;
+													val=tablemaindown.rows[j].cells[0].firstChild.value;
+													addmaintab(self,fc,val);
+													
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												fc=tablemaindown.rows[0].cells[0].firstChild.className;
+												val=tablemaindown.rows[0].cells[0].firstChild.value;
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										}
+										else if(self!=compare1)	//当和左边的第一个不相等的时候需判断是否发生向上拐弯。。。。。2-1
+										{
+											
+											//2
+											if(j>0)  //只有在不是第一行的时候才判断是否向上拐弯
+											{
+												var upcompare=tablemaindown.rows[j-1].cells[k].className;
+												if(self==upcompare)  //向上拐了
+												{
+													for(var m=j;m>0;m--)  //遍历到第2行,为的是能取到第一行的圈颜色进行比较
+													{
+														var upc=tablemaindown.rows[m-1].cells[k].className;
+														fc=tablemaindown.rows[m].cells[k].firstChild.className;
+														val=tablemaindown.rows[m].cells[k].firstChild.value;
+														if(self==upc&&m>1) 
+														{
+															addmaintab(self,fc,val);
+														}
+														else if(self==upc&&m==1)
+														{
+															addmaintab(self,fc,val);
+															fc=tablemaindown.rows[0].cells[k].firstChild.className;
+															val=tablemaindown.rows[0].cells[k].firstChild.value;
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+														else if(self!=upc)
+														{
+															addmaintab(self,fc,val);
+															break Loop;
+														}
+													}
+												}
+												else if(self!=upcompare)
+												{
+													addmaintab(self,fc,val);
+													break Loop;
+												}
+											}
+											else if(j==0)  //是第一行就不用判断向上拐弯了，直接添加本身
+											{
+												addmaintab(self,fc,val);
+												break Loop;
+											}
+											//2
+										
+										}
+									}
+								}
+								//1	
+					
+				}else{alert("遍历主表格最后列错误");}
+			}
+		}
+	}
+	
+}
+
+function addmaintab(self,fc,val)//根据上下主表的遍历情况,为中间表添加数据(参数1:圈颜色,参数2:字颜色,参数3:数值)
+{	//红1黑2
+	var maintab=document.getElementById("maintab");
+	var count=0;//记录并生成要添加的数字(红1黑2)
+	if(self=="tdimgred")
+	{
+		count=1;
+	}
+	else if(self=="tdimgblack")
+	{
+		count=2;
+	}
+	else{alert("转化中间表错误!");}
+	
+	if(addcell==0&&addrow==0)//第一个位置不用比较,直接添加
+	{
+		maintab.rows[0].cells[0].innerHTML=count+","+fc+","+val;
+		formercolor=self;
+		addrow++;
+	}
+	else
+	{
+		if(formercolor==self)
+		{
+			maintab.rows[addrow].cells[addcell].innerHTML=count+","+fc+","+val;
+			addrow++;
+		}
+		else
+		{
+			maintab.rows[0].cells[addcell+1].innerHTML=count+","+fc+","+val;
+			formercolor=self;
+			addrow=1;
+			addcell++;
+		}
+	}
+}
+function maintabclear()//清空中间表
+{
+	for(var i=0;i<42;i++)
+	{
+		for(var j=0;j<36;j++)
+		{
+			maintab.rows[j].cells[i].innerHTML="";
+		}
+	}
+}
+function save(){   
+	
+	date1.innerHTML=nameV.value+","+nameV2.value+","+nameV3.value+","+winMoney.value.replace("万","")+","+
+					loseMoney.value.replace("万","")+","+uprm1+","+
+					pumpV.value.replace("万","")+","+payV.value.replace("万","")+","+
+					uprm5+","+thV.value.replace("万","")+","+
+					forL.value.replace("万","")+","+winCount.value.replace("万","")+","+
+					loseCount.value.replace("万","")+","+uprm4+","+
+					uprm2+","+uprm3;
+	
+	date2.innerHTML=dnameV2.value+","+dnameV3.value+","+dwinMoney.value.replace("万","")+","+
+					dloseMoney.value.replace("万","")+","+downrm1+","+
+					dpumpV.value.replace("万","")+","+dpayV.value.replace("万","")+","+
+					downrm5+","+dthV.value.replace("万","")+","+
+					dforL.value.replace("万","")+","+dwinCount.value.replace("万","")+","+
+					dloseCount.value.replace("万","")+","+downrm4+","+
+					downrm2+","+downrm3;
+	
+	
+    var strHTML =document.documentElement.outerHTML;
+	var   winSave   =   window.open(); 
+	winSave.document.open("text/html","utf-8");   
+    winSave.document.write(strHTML);   
+    winSave.document.execCommand("SaveAs",true,"f:\\统计.html");   
+    winSave.close();  
+
+	
+}
+function importPage(){  //打开导入框
+ importdiv.style.top=document.body.clientHeight/2-75;
+ importdiv.style.left = document.body.clientWidth/2-200;
+ importdiv.style.display="block";
+}
+function colsebtn()  //关闭导入框
+{
+	importdiv.style.display="none";
+	selectDiv.style.display="none";
+	clearfile();
+}
+function printPage(){  //打印按钮的事件
+ document.getElementById("WebBrowser").ExecWB(7,1);//打印预览
+ //document.getElementById("WebBrowser").ExecWB(8,1);//打印设置
+ //document.getElementById("WebBrowser").ExecWB(6,1);//直接打印
+}
+function clearfile()//清空按钮的事件
+{
+	form1.reset();   //表单重置将清空表单内所有内容
+}
+
+function opendiv(obj)
+{
+	 var path=document.getElementById("filesrc").value;
+	 if(path!="")
+	 {
+		//获得obj控件的真实坐标,
+		 obj1 = obj.getBoundingClientRect();//将控件从容器中独立出来   
+		 x=obj1.left;   
+		 y=obj1.top;
+		 selectDiv.style.left=x-2;
+		 selectDiv.style.top=y+18;
+		 selectDiv.style.display="block";
+	 }
+	 else
+	 {
+		alert("请先选择xml文件的路径!");
+	 }
+}
+function closediv()
+{
+	selectDiv.style.display="none";
+	return false;
+}
+function clicksel()
+{
+	var val=filesel.value;
+	document.getElementById("filena").value=val;
+	selectDiv.style.display="none";
+}
+function changesrc()  //xml文件路径选择后先读取所有的文件名进来
+{
+	var path=document.getElementById("filesrc").value;
+	var subpath = path.substring(path.length-3,path.length);
+	if(path!=null&&path!="")
+	{
+		if(subpath=="xml")
+		{
+			var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");  //创建xmlDoc对象
+			var mode="百家乐信息存储";
+			xmlDoc.async="false";    //使用异步加载
+			xmlDoc.load(path);
+			var rootName = xmlDoc.getElementsByTagName(mode)[0]; //获得根节点
+			var maxNum = rootName.childNodes.length; //获得子元素的个数
+			if(maxNum>0)
+			{
+				clearSelect();
+				for(var i=0;i<maxNum;i++)
+				{
+					var subna=rootName.childNodes[i].nodeName;//获得所有子节点的名称,即文件名
+					var sele=document.getElementById("filesel");
+					sele.options.add(new Option(subna,subna)); //这个兼容IE与firefox
+				}
+			}
+			else
+			{
+				alert("xml文件中无数据!");
+			}
+		}
+		else
+		{
+			alert("请选择正确的xml文件!");
+		}
+	}
+}
+function clearSelect() //清空select组件里面所有的option项
+{
+	var temp=document.getElementById("filesel");
+	var length=temp.length;
+	if(length>0)
+	{
+		for(var i=0;i<length;i++)
+		{
+			temp.remove(0);
+		}
+	}
+}
+function importXML()//导入xml数据的函数(js读取xml文件)
+{
+	var src=document.getElementById("filesrc").value;
+	var filename=document.getElementById("filena").value;
+	if(src==""||src==null)
+	{
+		alert("xml文件路径不能为空!");
+	}
+	else if(filename==""||filename==null)
+	{
+		alert("请输入要导入的文件名称!");
+	}
+	else
+	{
+	    colsebtn();
+		clearTb();
+		var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");  //创建xmlDoc对象
+		var mode=filename;
+		xmlDoc.async="false";    //使用异步加载
+		xmlDoc.load(src);
+		var nodeName=xmlDoc.getElementsByTagName(mode)[0]; //获得此文件名对应的xml数据节点
+		var subnode=nodeName.childNodes[0];  //获得子节点1, 是html页面4个小表格中的数据
+		
+		var tabone=subnode.childNodes[0].text;  //表格1中的数据
+		var arr1=tabone.split(";");
+		addDate(1,arr1);
+		
+		var tabtwo=subnode.childNodes[1].text;  //表格2中的数据
+		var arr2=tabtwo.split(";");
+		addDate(2,arr2);
+		
+		var tabthree=subnode.childNodes[2].text;  //表格3中的数据
+		var arr3=tabthree.split(";");
+		addDate(3,arr3);
+		
+		var tabfour=subnode.childNodes[3].text;  //表格4中的数据
+		var arr4=tabfour.split(";");
+		addDate(4,arr4);
+		
+		count();//导入4个小表格中的数据后重新统计一下
+	}
+	
+	//var maxNum = xmlDoc.getElementsByTagName(mode).item(0).getAttribute("id");//获得属性值
+	//var maxNum = xmlDoc.getElementsByTagName(mode)[0].childNodes.length;//获得子元素的个数
+	//var maxNum = xmlDoc.getElementsByTagName(mode)[0].nodeName;//获得子元素的名称
+}
+function addDate(a,arr) //导入时,每个表格添加的方法(参数1：表格标记,参数2：数组数据)
+{
+	var tab;
+	switch(a)
+	{
+		case 1: tab=document.getElementById("tb1"); break;
+		case 2: tab=document.getElementById("tb2"); break;
+		case 3: tab=document.getElementById("tb3"); break;
+		case 4: tab=document.getElementById("tb4"); break;
+	}
+	for(var j=0;j<6;j++)   //行数
+	{
+		for(var i=0;i<21;i++)  //列数
+		{
+			var val=arr[j*21+i];
+			if(val!="null")  //td中的内容不是空值才添加
+			{
+				var str=val.split(",");
+				if(str[0]!="null")  //圈的颜色
+				{
+					tab.rows[j].cells[i].className=str[0];
+				}
+				if(str[1]!="null")  //字的颜色
+				{
+					tab.rows[j].cells[i].firstChild.className=str[1];
+				}
+				if(str[2]!="null")  //字的数值
+				{
+					tab.rows[j].cells[i].firstChild.value=str[2];
+				}
+			}
+		}
+	}
+}
+function clearTb()  //清空4个小表格
+{
+	for(var i=0;i<21;i++)
+	{
+		for(var j=0;j<6;j++)
+		{
+			tb1.rows[j].cells[i].className="";
+			tb1.rows[j].cells[i].firstChild.className="fontblack";
+			tb1.rows[j].cells[i].firstChild.value="";
+			tb2.rows[j].cells[i].className="";
+			tb2.rows[j].cells[i].firstChild.className="fontblack";
+			tb2.rows[j].cells[i].firstChild.value="";
+			tb3.rows[j].cells[i].className="";
+			tb3.rows[j].cells[i].firstChild.className="fontblack";
+			tb3.rows[j].cells[i].firstChild.value="";
+			tb4.rows[j].cells[i].className="";
+			tb4.rows[j].cells[i].firstChild.className="fontblack";
+			tb4.rows[j].cells[i].firstChild.value="";
+		}
+	}
+}
+</script>
+</head>
+<body onLoad="init()">
+		<div id="printdiv" style="display:none;"></div><!--在初始化时里面放打印object对象,防止保存页面后功能不能用-->
+<table height=20 border=0>
+<tr><td></td>
+<td width=10><input type="button" id="bt1" value="统计" onclick="count()" style="height:25;width:70;"/></td>
+<td width=10><input type="button" id="bt2" value="保存" onclick="save()" style="height:25;width:70;"/></td>
+<td width=10><input type="button" id="bt3" value="导入" onclick="importPage()" style="height:25;width:70;"/></td>
+<td width=10><input type="button" id="bt4" value="打印" onclick="printPage()" style="height:25;width:70;"/></td>
+</tr></table>
+<div>
+<table border=0>
+ <tr>
+	<td colspan="7" style="text-align:center;"><input id="nameV" class="title1"></td>
+	<td style="text-align:right;"><font size=2><div id="pencol" style="width:80;border:0 solid red;">画笔颜色:</div></font></td>
+	<td style="text-align:center;"><input  id="changecolor" class="penblack" type="text" disabled=disabled /></td>
+ </tr>
+ <tr><td  colspan="10" height=15></td></tr>
+ <tr>
+    <td width=35%><input id="nameV2" class="title2"></td>
+    <td width=10%>
+      <p>输赢钱:</p></td>
+    <td width=5%><input id="winMoney" style="color:red;" class="ib60"></td>
+    <td width=5%><input id="loseMoney" style="color:black;" class="ib60"></td>
+    <td width=5%><input id="resultMoney" class="ib70"></td>
+	<td width=10%>
+      <p>抽水:</p></td>
+    <td width=10%><input id="pumpV" style="color:red;" class="ib70" ></td>
+    <td width=10%>
+      <p>码佣:</p></td>
+    <td width=10%><input id="payV" style="color:red;" class="ib70"></td></tr>
+  <tr>
+    <td width=35%><input id="nameV3" class="title2"></td>
+    <td width=10%>
+      <p>累计:</p></td>
+    <td width=5%><input id="winMoney2" style="color:red;" class="ib60"></td>
+    <td width=5%><input id="loseMoney2" style="color:black;" class="ib60"></td>
+    <td width=5%><input id="resultMoney2" class="ib70"></td>
+    <td width=10%>
+      <p>累计:</p></td>
+    <td width=10%><input id="resultPu" style="color:red;" class="ib70" ></td>
+    <td width=10%>
+      <p>累计:</p></td>
+    <td width=10%><input id="resultPa" style="color:red;" class="ib70"></td></tr>
+</table>
+
+<table border=0>
+  <tr>
+    <td width=10%>
+      <p>连跳差：</p></td>
+    <td width=2%><input id="linkV" style="color:red;" class="ib30"></td>
+    <td width=2%><input id="jumpV" class="ib30"></td>
+    <td width=2%><input id="resultMis" class="ib30"></td>
+    <td width=10%>
+      <p>三 跳 ：</p></td>
+    <td width=2%><input id="thV" style="color:red;" class="ib30"></td>
+	<td width=10%>
+      <p>四 连 ：</p></td>
+    <td width=2%><input id="forL" style="color:red;" class="ib30"></td>
+    <td width=10%>
+      <p> 输赢口：</p></td>
+    <td width=2%><input id="winCount" style="color:red;"  class="ib30"></td>
+    <td width=2%><input id="loseCount" style="color:black;"  class="ib30"></td>
+    <td width=2%><input id="resultCount"  class="ib30"></td>
+    <td width=10%>
+      <p>净利：</p></td>
+    <td width=10%><input id="netV" class="ib70"></td>
+    <td width=10%>
+      <p>总利：</p></td>
+    <td width=10%><input id="allV" class="ib70"></td></tr>
+  <tr>
+    <td width=10%>
+      <p>累计：</p></td>
+    <td width=2%></td>
+    <td width=2%></td>
+    <td width=2%><input id="resultLJ" class="ib30"></td>
+    <td width=10%>
+      <p>累计：</p></td>
+    <td width=2%><input id="reth" style="color:red;" class="ib30"></td>
+	<td width=10%>
+      <p>累计：</p></td>
+    <td width=2%><input id="refor" style="color:red;" class="ib30"></td>
+    <td width=10%>
+      <p> 累计：</p></td>
+    <td width=2%><input id="winCount2" style="color:red;"  class="ib30"></td>
+    <td width=2%><input id="loseCount2" style="color:black;"  class="ib30"></td>
+    <td width=2%><input id="resultCount2"  class="ib30"></td>
+
+    <td width=10%>
+      <p>累计：</p></td>
+    <td width=10%><input id="resultN" class="ib70"></td>
+    <td width=10%>
+      <p>累计：</p></td>
+    <td width=10%><input id="resultA" class="ib70"></td></tr>
+</table>
+</div>
+<div>
+<table >
+	<tr><td>
+		<table id="tb1" class="main" border="1" cellSpacing=0>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		</table>
+	</td></tr>
+	<tr><td colspan=50 height=15></td></tr>
+	<tr><td>
+		<table id="tb2" class="main" border="1" cellSpacing=0>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		</table>
+	</td></tr>
+</table>
+</div>
+
+<table height=100 border=0>
+<tr><td></td></table>
+
+<div>
+<table>
+ <tr>
+    <td width=35%><input id="dnameV2" class="title2"></td>
+    <td width=10%>
+      <p>输赢钱:</p></td>
+    <td width=5%><input id="dwinMoney" class="ib60" style="color:red;"></td>
+    <td width=5%><input id="dloseMoney" class="ib60" style="color:black;"></td>
+    <td width=5%><input id="dresultMoney" class="ib70"></td>
+	<td width=10%>
+      <p>抽水:</p></td>
+    <td width=10%><input id="dpumpV" style="color:red;" class="ib70"></td>
+    <td width=10%>
+      <p>码佣:</p></td>
+    <td width=10%><input id="dpayV" style="color:red;" class="ib70"></td></tr>
+  <tr>
+    <td width=35%><input id="dnameV3" class="title2"></td>
+    <td width=10%>
+      <p>累计:</p></td>
+    <td width=5%><input id="dwinMoney2" class="ib60" style="color:red;"></td>
+    <td width=5%><input id="dloseMoney2" class="ib60" style="color:black;"></td>
+    <td width=5%><input id="dresultMoney2" class="ib70"></td>
+    <td width=10%>
+      <p>累计:</p></td>
+    <td width=10%><input id="dresultPu" style="color:red;" class="ib70"></td>
+    <td width=10%>
+      <p>累计:</p></td>
+    <td width=10%><input id="dresultPa" style="color:red;" class="ib70"></td></tr>
+</table>
+
+<table>
+  <tr>
+    <td width=10%>
+      <p>连跳差：</p></td>
+   <td width=2%><input id="dlinkV" style="color:red;" class="ib30"></td>
+    <td width=2%><input id="djumpV" class="ib30"></td>
+    <td width=2%><input id="dresultMis" class="ib30"></td>
+    <td width=10%>
+      <p>三 跳 ：</p></td>
+    <td width=2%><input id="dthV" style="color:red;" class="ib30"></td>
+	<td width=10%>
+      <p>四 连 ：</p></td>
+    <td width=2%><input id="dforL" style="color:red;" class="ib30"></td>
+    <td width=10%>
+      <p> 输赢口：</p></td>
+    <td width=2%><input id="dwinCount" style="color:red;"  class="ib30"></td>
+    <td width=2%><input id="dloseCount" style="color:black;"  class="ib30"></td>
+    <td width=2%><input id="dresultCount"  class="ib30"></td>
+    <td width=10%>
+      <p>净利：</p></td>
+    <td width=10%><input id="dnetV"  class="ib70"></td>
+    <td width=10%>
+      <p>总利：</p></td>
+    <td width=10%><input id="dallV" class="ib70"></td></tr>
+  <tr>
+    <td width=10%>
+      <p>累计：</p></td>
+    <td width=2%></td>
+    <td width=2%></td>
+    <td width=2%><input id="dresultLJ"  class="ib30"></td>
+    <td width=10%>
+      <p>累计：</p></td>
+    <td width=2%><input id="dreth" style="color:red;" class="ib30"></td>
+	<td width=10%>
+      <p>累计：</p></td>
+    <td width=2%><input id="drefor" style="color:red;" class="ib30"></td>
+    <td width=10%>
+      <p> 累计：</p></td>
+    <td width=2%><input id="dwinCount2" style="color:red;"  class="ib30"></td>
+    <td width=2%><input id="dloseCount2" style="color:black;"  class="ib30"></td>
+    <td width=2%><input id="dresultCount2"  class="ib30"></td>
+
+    <td width=10%>
+      <p>累计：</p></td>
+    <td width=10%><input id="dresultN" class="ib70"></td>
+    <td width=10%>
+      <p>累计：</p></td>
+    <td width=10%><input id="dresultA" class="ib70"></td></tr>
+</table>
+</div>
+<div>
+<table>
+
+	<tr><td>
+		<table id="tb3" class="main" border="1" cellSpacing=0>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		</table>
+	</td></tr>
+	<tr><td colspan=50 height=15></td></tr>
+	<tr><td>
+		<table id="tb4" class="main" border="1" cellSpacing=0>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		</table>
+	</td></tr>
+</table>
+</div>
+
+<div id="tabdiv" style="display:none;"><!--36行42列的表格作为中间的转换表(红1黑2,用逗号分隔)-->
+    	<table id="maintab" border=1>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+			<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+			<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    		<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+ 		</table>
+    </div>
+	<!--存放数据的div-->
+	<div id="date1" style="display:none;"></div>
+	<div id="date2" style="display:none;"></div>
+	
+	<!--导入数据对话框-->
+	<div id="importdiv" class="importPage" style="display:none;">
+		<form name="form1">
+		<table border=0 height=100% width=100%>
+			<tr height=10 width=100%><td style="text-align:right;"><input type="button" onclick="colsebtn()"  class="closeBtn" /></td></tr>
+			<tr height=10><td></td></tr>
+			<tr width=100% height="30"><td style="text-align:center;"><font size=2>数据文件路径：</font>&nbsp;<input type="file" id="filesrc" onchange="changesrc()" style="width:260;height:20;"></td></tr>
+			<tr><td><font size=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;导入文件名称：</font>&nbsp;<input type="text" id="filena" style="width:187;height:20;"  onfocus="opendiv(this)"/></td>
+			<tr><td style="text-align:center;">
+				<input type="button" value="确定" onclick="importXML()" style="height:20;width:60;"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" value="重置" onclick="clearfile()" style="height:20;width:60;"/>
+			</td></tr>
+		</table>
+		</form>
+	</div>
+	<!--div结合select做的带滚动条的select-->
+	<div id="selectDiv"  style="position:absolute;width:185;height:100;z-index:100;display:none;background:white;border-right:1 solid #716F64;">
+		<select id="filesel" style="width:186;border-left:0 solid red;" size=12 ondblclick="clicksel()">
+				
+		</select>
+		<div style="width:186;height:20;text-align:right;border-bottom:1 solid #716F64;border-left:1 solid #716F64;">
+		<a href="#" onclick="return closediv()" style="font-size:14;">关闭</a>&nbsp;</div>
+	</div>
+</body>
+</html>
